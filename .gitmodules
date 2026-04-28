@@ -1,0 +1,12 @@
+[submodule "CMTAT"]
+	path = CMTAT
+	url = https://github.com/CMTA/CMTAT
+[submodule "SnapshotEngine"]
+	path = SnapshotEngine
+	url = https://github.com/CMTA/SnapshotEngine.git
+[submodule "RuleEngine"]
+	path = RuleEngine
+	url = https://github.com/CMTA/RuleEngine.git
+[submodule "Rules"]
+	path = Rules
+	url = https://github.com/CMTA/Rules.git
