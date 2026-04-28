@@ -151,7 +151,7 @@ With the CMTAT Solidity version, when `forcedTransfer` is available, `forcedBurn
 | Standard burn on a frozen address | <strong><span style="color: #b00020;">&#x2718;</span></strong> | Requires `forcedTransfer` or `forcedBurn`. |
 | Burn tokens with `forcedTransfer` | <strong><span style="color: #1e7e34;">&#x2714;</span></strong> | See notes above. |
 
-### Self Burn
+### Self-Burn
 
 Only the issuer and authorized addresses (not the token holder) can burn a token in CMTAT Solidity, which reflects legal requirements in several jurisdictions.
 
