@@ -7,7 +7,7 @@
 ## General Note
 - The listed functionalities are the **minimal set** required for each module.
 
-## CMTAT Function Equivalency Table (Extracted from source PDF)
+## CMTAT Function Equivalency Table
 
 ### Metadata
 - Implementation language: _(to be filled)_
