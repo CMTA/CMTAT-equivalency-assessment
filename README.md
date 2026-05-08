@@ -27,6 +27,8 @@
 |---|---|---|---|---|---|
 | 1.c | Token ID attribute | `tokenId` | Optional parameter. |  |  |
 
+Note: For CMTAT implementations on other blockchains, we recommend including `tokenId`.
+
 ### Mandatory Functions
 | ID | Requirement | CMTAT Solidity corresponding feature | Notes | Present in implementation being approved (`y/n`) | Implementation details |
 |---|---|---|---|---|---|
@@ -42,6 +44,11 @@
 | 1.10 | Unfreeze | `unfreeze` or `setAddressFrozen(false)` *(inferred from extracted PDF text)* | Single-function implementations are acceptable if they clear a frozen status. |  |  |
 
 ### Optional Functions
+
+#### Core Token
+| ID | Requirement | CMTAT Solidity corresponding feature | Notes | Present in implementation being approved (`y/n`) | Implementation details |
+|---|---|---|---|---|---|
+| 1.10a | Approve | ERC20 `approve(address spender, uint256 value)` | Grants a delegate permission to transfer a specific amount of tokens from the token account. Not mandatory, but strongly recommended since secondary market capability may depend on delegated approval to automate trading and settlement for regulated entities. Issuers should consult relevant trading and settlement venues if listing is contemplated. |  |  |
 
 #### Snapshot
 | ID | Requirement | CMTAT Solidity corresponding feature | Notes | Present in implementation being approved (`y/n`) | Implementation details |
