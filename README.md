@@ -13,14 +13,19 @@
 - Implementation language: _(to be filled)_
 - Version: _(to be filled)_
 
-### Mandatory Attributes
+### Token Attributes
+#### Mandatory
 | ID | Requirement | CMTAT Solidity corresponding feature | Notes | Present in implementation being approved (`y/n`) | Implementation details |
 |---|---|---|---|---|---|
 | 1.a | Name attribute | ERC20 `name` |  |  |  |
 | 1.b | Ticker symbol attribute | ERC20 `symbol` |  |  |  |
-| 1.c | Token ID attribute | `tokenId` |  |  |  |
 | 1.d | Reference to legally required documentation | `terms` |  |  |  |
 | 1.e | No fractions | ERC20 `decimals` | Decimals must be set to zero unless governing law permits fractions. |  |  |
+
+#### Optional
+| ID | Requirement | CMTAT Solidity corresponding feature | Notes | Present in implementation being approved (`y/n`) | Implementation details |
+|---|---|---|---|---|---|
+| 1.c | Token ID attribute | `tokenId` | Optional parameter. |  |  |
 
 ### Mandatory Functions
 | ID | Requirement | CMTAT Solidity corresponding feature | Notes | Present in implementation being approved (`y/n`) | Implementation details |
@@ -88,7 +93,7 @@
 |---|---|---|---|---|---|
 | 1.f | Guarantor identifier | `debt().debtIdentifier.guarantor` (set via `setDebt`) | Debt module (`ICMTATDebt.DebtIdentifier`). |  |  |
 | 1.g | Debtholder representative identifier | `debt().debtIdentifier.debtHolder` (set via `setDebt`) | Debt module (`ICMTATDebt.DebtIdentifier`). |  |  |
-| 1.h | Unique identifier / hash | `tokenId()` and `terms().doc.documentHash` | `tokenId` is base identifier; hash is in terms document metadata. |  |  |
+| 1.h | Unique identifier / hash | `tokenId()` and `terms().doc.documentHash` | `tokenId` is optional; document hash is in `terms` metadata. |  |  |
 | 1.i | Issuance date | `debt().debtInstrument.issuanceDate` (set via `setDebt` / `setDebtInstrument`) | Debt module (`ICMTATDebt.DebtInstrument`). |  |  |
 | 1.j | Currency of payments | `debt().debtInstrument.currency` / `debt().debtInstrument.currencyContract` | Supports symbol-like string and token/asset contract address. |  |  |
 | 1.k | Par value | `debt().debtInstrument.parValue` | Debt module (`uint256`). |  |  |
@@ -142,14 +147,14 @@ With the CMTAT Solidity version, when `forcedTransfer` is available, `forcedBurn
 
 ### Implementation Details
 
-| Functionalities | CMTAT Solidity | Note |
-|---|---|---|
-| Mint while pause | <strong><span style="color: #1e7e34;">&#x2714;</span></strong> | Dedicated cross-chain mint (for example `crosschainMint`) cannot be performed while paused. |
-| Burn while pause | <strong><span style="color: #1e7e34;">&#x2714;</span></strong> | Dedicated cross-chain burn (for example `crosschainBurn`) cannot be performed while paused. |
-| Self-Burn for everyone | <strong><span style="color: #b00020;">&#x2718;</span></strong> | Token holders cannot burn their own tokens; only authorized addresses can burn. |
-| Self-Burn for authorized addresses | <strong><span style="color: #1e7e34;">&#x2714;</span></strong> |  |
-| Standard burn on a frozen address | <strong><span style="color: #b00020;">&#x2718;</span></strong> | Requires `forcedTransfer` or `forcedBurn`. |
-| Burn tokens with `forcedTransfer` | <strong><span style="color: #1e7e34;">&#x2714;</span></strong> | See notes above. |
+| Functionalities | CMTAT Solidity | Note | Your implementation |
+|---|---|---|---|
+| Mint while pause | <strong><span style="color: #1e7e34;">&#x2714;</span></strong> | Dedicated cross-chain mint (for example `crosschainMint`) cannot be performed while paused. |  |
+| Burn while pause | <strong><span style="color: #1e7e34;">&#x2714;</span></strong> | Dedicated cross-chain burn (for example `crosschainBurn`) cannot be performed while paused. |  |
+| Self-Burn for everyone | <strong><span style="color: #b00020;">&#x2718;</span></strong> | Token holders cannot burn their own tokens; only authorized addresses can burn. |  |
+| Self-Burn for authorized addresses | <strong><span style="color: #1e7e34;">&#x2714;</span></strong> |  |  |
+| Standard burn on a frozen address | <strong><span style="color: #b00020;">&#x2718;</span></strong> | Requires `forcedTransfer` or `forcedBurn`. |  |
+| Burn tokens with `forcedTransfer` | <strong><span style="color: #1e7e34;">&#x2714;</span></strong> | See notes above. |  |
 
 ### Self-Burn
 
