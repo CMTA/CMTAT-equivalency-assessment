@@ -6,6 +6,7 @@
 
 ## General Note
 - The listed functionalities are the **minimal set** required for each module.
+- The key words "MUST", "MUST NOT", "REQUIRED", "SHOULD", and "MAY" in this document are to be interpreted as described in RFC 2119 and RFC 8174.
 
 ## CMTAT Function Equivalency Table
 
@@ -27,7 +28,7 @@
 |---|---|---|---|---|---|
 | 1.c | Token ID attribute | `tokenId` | Optional parameter. |  |  |
 
-Note: For CMTAT implementations on other blockchains, we recommend including `tokenId`.
+Note: For CMTAT implementations on other blockchains, implementations SHOULD include `tokenId`.
 
 ### Mandatory Functions
 | ID | Requirement | CMTAT Solidity corresponding feature | Notes | Present in implementation being approved (`y/n`) | Implementation details |
@@ -36,7 +37,7 @@ Note: For CMTAT implementations on other blockchains, we recommend including `to
 | 1.2 | Know balance | ERC20 `balanceOf` |  |  |  |
 | 1.3 | Transfer tokens | ERC20 `transfer` |  |  |  |
 | 1.4 | Create tokens | `mint` / `batchMint` |  |  |  |
-| 1.5 | Cancel tokens | `burn` / `batchBurn` / `burnFrom` | Use a dedicated issuer/authorized burn path for forced cancellation scenarios. |  |  |
+| 1.5 | Cancel tokens | `burn` / `batchBurn` / `burnFrom` | Implementations SHOULD use a dedicated issuer/authorized burn path for forced cancellation scenarios. |  |  |
 | 1.6 | Pause tokens | `pause` | Pause must prevent all transfers until `unpause` is called. |  |  |
 | 1.7 | Unpause tokens | `unpause` |  |  |  |
 | 1.8 | Deactivate contract | `deactivateContract` | Must permanently disable the token (except in upgradeability patterns where deactivation behavior is explicitly defined). |  |  |
@@ -48,7 +49,7 @@ Note: For CMTAT implementations on other blockchains, we recommend including `to
 #### Core Token
 | ID | Requirement | CMTAT Solidity corresponding feature | Notes | Present in implementation being approved (`y/n`) | Implementation details |
 |---|---|---|---|---|---|
-| 1.10a | Approve | ERC20 `approve(address spender, uint256 value)` | Grants a delegate permission to transfer a specific amount of tokens from the token account. Not mandatory, but strongly recommended since secondary market capability may depend on delegated approval to automate trading and settlement for regulated entities. Issuers should consult relevant trading and settlement venues if listing is contemplated. |  |  |
+| 1.10a | Approve | ERC20 `approve(address spender, uint256 value)` | Grants a delegate permission to transfer a specific amount of tokens from the token account. This is optional, but implementations SHOULD include it since secondary market capability may depend on delegated approval to automate trading and settlement for regulated entities. Issuers SHOULD consult relevant trading and settlement venues if listing is contemplated. |  |  |
 
 #### Snapshot
 | ID | Requirement | CMTAT Solidity corresponding feature | Notes | Present in implementation being approved (`y/n`) | Implementation details |
@@ -100,7 +101,7 @@ Note: For CMTAT implementations on other blockchains, we recommend including `to
 |---|---|---|---|---|---|
 | 1.f | Guarantor identifier | `debt().debtIdentifier.guarantor` (set via `setDebt`) | Debt module (`ICMTATDebt.DebtIdentifier`). |  |  |
 | 1.g | Debtholder representative identifier | `debt().debtIdentifier.debtHolder` (set via `setDebt`) | Debt module (`ICMTATDebt.DebtIdentifier`). |  |  |
-| 1.h | Unique identifier / hash | `tokenId()` and `terms().doc.documentHash` | `tokenId` is optional; document hash is in `terms` metadata. |  |  |
+| 1.h | Unique identifier / hash | `tokenId()` and `terms().doc.documentHash` | `tokenId` is optional (implementations MAY omit it); document hash is in `terms` metadata. |  |  |
 | 1.i | Issuance date | `debt().debtInstrument.issuanceDate` (set via `setDebt` / `setDebtInstrument`) | Debt module (`ICMTATDebt.DebtInstrument`). |  |  |
 | 1.j | Currency of payments | `debt().debtInstrument.currency` / `debt().debtInstrument.currencyContract` | Supports symbol-like string and token/asset contract address. |  |  |
 | 1.k | Par value | `debt().debtInstrument.parValue` | Debt module (`uint256`). |  |  |
@@ -121,7 +122,7 @@ If you create a version for another blockchain, use this section to build a corr
 
 To be compatible with [ERC-3643](https://eips.ethereum.org/EIPS/eip-3643), freeze is implemented with a single function: `setAddressFrozen(targetAddress, frozenStatus)`.
 
-For non-EVM blockchains, it can be clearer to separate this into two distinct functions:
+For non-EVM blockchains, implementations MAY separate this into two distinct functions:
 
 ```solidity
 freeze(address targetAddress)
@@ -146,11 +147,11 @@ In the table below, the CMTAT framework extended features are mapped to Solidity
 
 ### Forced Burn and Forced Transfer
 
-In the standard burn function, it is not possible to burn tokens from a frozen wallet. CMTAT offers `forcedTransfer` to force a transfer or a burn.
+In the standard burn function, tokens from a frozen wallet MUST NOT be burnable. CMTAT offers `forcedTransfer` to force a transfer or a burn.
 
-If `forcedTransfer` is not available, an alternative is to implement only `forcedBurn` (as in CMTAT Light). You can also implement both. In that case, it is suggested that only `forcedBurn` burns tokens, and `forcedTransfer` does not.
+If `forcedTransfer` is not available, implementations MAY implement only `forcedBurn` (as in CMTAT Light). Implementations MAY also implement both. In that case, only `forcedBurn` SHOULD burn tokens, and `forcedTransfer` SHOULD NOT burn tokens.
 
-With the CMTAT Solidity version, when `forcedTransfer` is available, `forcedBurn` is not implemented to reduce contract code size. This limitation may not apply to other blockchains.
+With the CMTAT Solidity version, when `forcedTransfer` is available, `forcedBurn` is not implemented to reduce contract code size. This limitation MAY not apply to other blockchains.
 
 ### Implementation Details
 
@@ -169,7 +170,7 @@ Only the issuer and authorized addresses (not the token holder) can burn a token
 
 Once issued, a security can only be cancelled by its issuer, not its holder. Since the token represents the security, the same rule applies. An investor who wants to exit should transfer to the issuer, who can then cancel when legally permitted.
 
-You can still add self-burn in your version if it fits your legal or business context.
+You MAY still add self-burn in your version if it fits your legal or business context.
 
 ## Reference
 
