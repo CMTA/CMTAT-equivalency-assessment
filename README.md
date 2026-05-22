@@ -1,120 +1,221 @@
 # CMTAT Equivalency Assessment Criteria
 
+## Table of Contents
+
+- [Document Version](#document-version)
+- [How to Use This Document](#how-to-use-this-document)
+- [General Note](#general-note)
+- [Warning](#warning)
+- [CMTAT Function Equivalency Table](#cmtat-function-equivalency-table)
+  - [Metadata](#metadata)
+  - [Token Attributes](#token-attributes)
+    - [Token module](#token-module)
+  - [Pause module (mandatory)](#pause-module-mandatory)
+    - [Enforcement](#enforcement)
+    - [Transfer restriction (optional)](#transfer-restriction-optional)
+    - [Access Control](#access-control)
+    - [Snapshot (optional)](#snapshot-optional)
+    - [Dividend (optional)](#dividend-optional)
+    - [Credit Events (optional)](#credit-events-optional)
+  - [Debt (optional)](#debt-optional)
+- [Guideline for New Blockchain Implementations](#guideline-for-new-blockchain-implementations)
+  - [Freeze](#freeze)
+  - [CMTAT Extended](#cmtat-extended)
+  - [Forced Burn and Forced Transfer](#forced-burn-and-forced-transfer)
+  - [Implementation Details](#implementation-details)
+  - [Self-Burn](#self-burn)
+- [Supplementary features](#supplementary-features)
+- [Reference](#reference)
+
+## Document Version
+`v0.1.0`
+
+Note: 
+
+- versions with the `rc` suffix are draft versions.
+- version before `1.0` are also draft versions
+
 ## How to Use This Document
 - Use the **CMTAT Function Equivalency Table** as the fillable assessment checklist.
 - Use **Guideline for New Blockchain Implementations** as reference guidance when designing or mapping non-Solidity implementations.
 
 ## General Note
 - The listed functionalities are the **minimal set** required for each module.
-- The key words "MUST", "MUST NOT", "REQUIRED", "SHOULD", and "MAY" in this document are to be interpreted as described in RFC 2119 and RFC 8174.
+- The key words "MUST", "MUST NOT", "REQUIRED", "SHOULD", and "MAY" in this document are to be interpreted as described in [RFC 2119](https://www.rfc-editor.org/info/rfc2119) and [RFC 8174](https://www.rfc-editor.org/info/rfc8174).
+
+## Warning
+An implementation MAY satisfy the CMTAT standard while still failing to meet the criteria required for tokenized shares under Swiss law at the underlying-ledger level. In particular, compliance with CMTAT does not, by itself, demonstrate that decentralization-related legal criteria are satisfied.
 
 ## CMTAT Function Equivalency Table
 
 ### Metadata
 - Implementation language: _(to be filled)_
-- Version: _(to be filled)_
+- Implementation version: _(to be filled)_
 
 ### Token Attributes
 #### Mandatory
 | ID | Requirement | CMTAT Solidity corresponding feature | Access Control (CMTAT Solidity) | Notes | Present in implementation being approved (`y/n`) | Access Control (implementation being approved) | Implementation details |
 |---|---|---|---|---|---|---|---|
-| 1.a | Name attribute | ERC20 `name` | Public (`view`) |  |  |  |  |
-| 1.b | Ticker symbol attribute | ERC20 `symbol` | Public (`view`) |  |  |  |  |
-| 1.d | Reference to legally required documentation | `terms` | Public (`view`) |  |  |  |  |
-| 1.e | No fractions | ERC20 `decimals` | Public (`view`) | Decimals must be set to zero unless governing law permits fractions. |  |  |  |
+| 1 | Name attribute | ERC20 `name` | Public (`view`) |  |  |  |  |
+| 2 | Ticker symbol attribute | ERC20 `symbol` | Public (`view`) |  |  |  |  |
+| 3 | Reference to legally required documentation | `terms` | Public (`view`) |  |  |  |  |
+| 4 | No fractions | ERC20 `decimals` | Public (`view`) | - Decimals must be set to zero unless governing law permits fractions.<br />- CMTAT Solidity allows configurable decimals at deployment |  |  |  |
+
+For CMTAT reference implementations, decimals SHOULD be configurable rather than defaulting to zero, to support use cases beyond tokenized shares in Switzerland.
+
+##### Note
+
+> This subsection can be used to detail how mandatory token attributes are implemented and to document specific legal, business, or chain-specific cases.
 
 #### Optional
 | ID | Requirement | CMTAT Solidity corresponding feature | Access Control (CMTAT Solidity) | Notes | Present in implementation being approved (`y/n`) | Access Control (implementation being approved) | Implementation details |
 |---|---|---|---|---|---|---|---|
-| 1.c | Token ID attribute | `tokenId` | Public (`view`) | Optional parameter. |  |  |  |
+| 5 | Token ID attribute | `tokenId` | Public (`view`) | Optional parameter. |  |  |  |
 
-Note: For CMTAT implementations on other blockchains, implementations SHOULD include `tokenId`.
+For CMTAT reference implementations, `tokenId` SHOULD be included.
 
-### Mandatory Functions
-| ID | Requirement | CMTAT Solidity corresponding feature | Access Control (CMTAT Solidity) | Notes | Present in implementation being approved (`y/n`) | Access Control (implementation being approved) | Implementation details |
-|---|---|---|---|---|---|---|---|
-| 1.1 | Know total supply | ERC20 `totalSupply` | Public (`view`) |  |  |  |  |
-| 1.2 | Know balance | ERC20 `balanceOf` | Public (`view`) |  |  |  |  |
-| 1.3 | Transfer tokens | ERC20 `transfer` | Token holder (`msg.sender`) |  |  |  |  |
-| 1.4 | Create tokens | `mint` / `batchMint` | Role-restricted (issuer/minter authorized) |  |  |  |  |
-| 1.5 | Cancel tokens | `burn` / `batchBurn` / `burnFrom` | Role-restricted (issuer/burner authorized) | Implementations SHOULD use a dedicated issuer/authorized burn path for forced cancellation scenarios. |  |  |  |
-| 1.6 | Pause tokens | `pause` | Role-restricted (pauser/admin authorized) | Pause must prevent all transfers until `unpause` is called. |  |  |  |
-| 1.7 | Unpause tokens | `unpause` | Role-restricted (pauser/admin authorized) |  |  |  |  |
-| 1.8 | Deactivate contract | `deactivateContract` | Role-restricted (admin authorized) | Must permanently disable the token (except in upgradeability patterns where deactivation behavior is explicitly defined). |  |  |  |
-| 1.9 | Freeze | `freeze` or `setAddressFrozen(true)` *(inferred from extracted PDF text)* | Role-restricted (compliance/admin authorized) | Must block transfers to and from a given address. Single-function implementations are acceptable if they set a frozen status. |  |  |  |
-| 1.10 | Unfreeze | `unfreeze` or `setAddressFrozen(false)` *(inferred from extracted PDF text)* | Role-restricted (compliance/admin authorized) | Single-function implementations are acceptable if they clear a frozen status. |  |  |  |
+##### Note
 
-### Optional Functions
+> This subsection can be used to detail optional token attributes implemented by the target system and to explain specific cases where an optional field is omitted or represented differently.
 
-#### Core Token
-| ID | Requirement | CMTAT Solidity corresponding feature | Access Control (CMTAT Solidity) | Notes | Present in implementation being approved (`y/n`) | Access Control (implementation being approved) | Implementation details |
-|---|---|---|---|---|---|---|---|
-| 1.10a | Approve | ERC20 `approve(address spender, uint256 value)` | Token holder | Grants a delegate permission to transfer a specific amount of tokens from the token account. This is optional, but implementations SHOULD include it since secondary market capability may depend on delegated approval to automate trading and settlement for regulated entities. Issuers SHOULD consult relevant trading and settlement venues if listing is contemplated. |  |  |  |
 
-#### Snapshot
-| ID | Requirement | CMTAT Solidity corresponding feature | Access Control (CMTAT Solidity) | Notes | Present in implementation being approved (`y/n`) | Access Control (implementation being approved) | Implementation details |
-|---|---|---|---|---|---|---|---|
-| 1.11 | Schedule a snapshot | `scheduleSnapshot(uint256 time)` | Role-restricted (snapshot scheduler/admin authorized) | SnapshotEngine `ISnapshotScheduler`. |  |  |  |
-| 1.12 | Reschedule a snapshot | `rescheduleSnapshot(uint256 oldTime, uint256 newTime)` | Role-restricted (snapshot scheduler/admin authorized) | `newTime` must stay between adjacent scheduled snapshots (not before previous / not after next). |  |  |  |
-| 1.13 | Unschedule a snapshot | `unscheduleLastSnapshot(uint256 time)` / `unscheduleSnapshotNotOptimized(uint256 time)` | Role-restricted (snapshot scheduler/admin authorized) | `unscheduleLastSnapshot` is restricted to the latest scheduled snapshot; `unscheduleSnapshotNotOptimized` supports generic unscheduling. |  |  |  |
-| 1.14 | Snapshot time | `getAllSnapshots()` / `getNextSnapshots()` | Public (`view`) | Returns created snapshot times and pending scheduled times. |  |  |  |
-| 1.15 | Snapshot total supply | `snapshotTotalSupply(uint256 time)` | Public (`view`) | `ISnapshotState`. |  |  |  |
-| 1.16 | Snapshot balance | `snapshotBalanceOf(uint256 time, address tokenHolder)` | Public (`view`) | `ISnapshotState` (see also `snapshotInfo`). |  |  |  |
 
-#### Access Control
-| ID | Requirement | CMTAT Solidity corresponding feature | Access Control (CMTAT Solidity) | Notes | Present in implementation being approved (`y/n`) | Access Control (implementation being approved) | Implementation details |
-|---|---|---|---|---|---|---|---|
-| 1.17 *(Mandatory for debt)* | Conditional transfer request | `RuleConditionalTransferLight.detectTransferRestriction(from, to, value)` / `detectTransferRestrictionFrom(spender, from, to, value)` and `approvedCount(from, to, value)` | Public (`view`) | Request is represented by a transfer restricted until approval count is non-zero. |  |  |  |
-| 1.18 *(Mandatory for debt)* | Conditional transfer approval | `RuleConditionalTransferLight.approveTransfer(from, to, value)` (or `approveAndTransferIfAllowed`) | Role-restricted (compliance/approver authorized) | Approval is consumed on transfer via `transferred(...)`; cancellation via `cancelTransferApproval(...)`. |  |  |  |
-| 1.19 | Assign to whitelist | CMTAT Allowlist: `setAddressAllowlist(account, status)`, `batchSetAddressAllowlist(accounts, status)`, `isAllowlisted(account)`; Rules whitelist: `addAddress`, `removeAddress`, `addAddresses`, `removeAddresses`, `isAddressListed` | Role-restricted for setters; public (`view`) for checks | CMTAT Allowlist and Rules whitelist are alternative whitelist implementations. |  |  |  |
-| 1.20 | Grant role | `grantRole(bytes32 role, address account)` (OpenZeppelin AccessControl via CMTAT/Rules modules) | Role admin (`DEFAULT_ADMIN_ROLE` or role admin) | Used for roles such as `ALLOWLIST_ROLE`, `DEBT_ROLE`, `OPERATOR_ROLE`, `COMPLIANCE_MANAGER_ROLE`. |  |  |  |
-| 1.21 | Revoke role | `revokeRole(bytes32 role, address account)` | Role admin (`DEFAULT_ADMIN_ROLE` or role admin) | AccessControl role removal. |  |  |  |
-| 1.22 | Role attribution | `hasRole(bytes32 role, address account)` / `getRoleAdmin(bytes32 role)` | Public (`view`) | In CMTAT `AccessControlModule`, `DEFAULT_ADMIN_ROLE` is treated as having all roles in `hasRole`. |  |  |  |
+#### Token module
 
-#### Dividend
+##### Mandatory
 
 | ID | Requirement | CMTAT Solidity corresponding feature | Access Control (CMTAT Solidity) | Notes | Present in implementation being approved (`y/n`) | Access Control (implementation being approved) | Implementation details |
 |---|---|---|---|---|---|---|---|
-| 1.23 | Distribution create parameters |  |  |  |  |  |  |
-| 1.24 | Distribution set eligibility |  |  |  |  |  |  |
-| 1.25 | Distribution set deposit |  |  |  |  |  |  |
-| 1.26 | Distribution claim deposit |  |  |  |  |  |  |
-| 1.27 | Distribution schedule |  |  |  |  |  |  |
-| 1.28 | Distribution unschedule |  |  |  |  |  |  |
+| 6 | Know total supply | ERC20 `totalSupply` | Public (`view`) |  |  |  |  |
+| 7 | Know balance | ERC20 `balanceOf` | Public (`view`) |  |  |  |  |
+| 8 | Transfer tokens | ERC20 `transfer` | Token holder (`msg.sender`) |  |  |  |  |
+| 9 | Create tokens | `mint` / `batchMint` | Role-restricted (issuer/minter authorized) |  |  |  |  |
+| 10 | Cancel tokens | `burn` / `batchBurn` / `burnFrom` | Role-restricted (issuer/burner authorized) | Implementations SHOULD use a dedicated issuer/authorized burn path for forced cancellation scenarios. |  |  |  |
+#### Optional
 
-#### Credit Events
-| ID | Requirement | CMTAT Solidity corresponding feature | Access Control (CMTAT Solidity) | Notes | Present in implementation being approved (`y/n`) | Access Control (implementation being approved) | Implementation details |
+| ID   | Requirement | CMTAT Solidity corresponding feature            | Access Control (CMTAT Solidity) | Notes                                                        | Present in implementation being approved (`y/n`) | Access Control (implementation being approved) | Implementation details |
 |---|---|---|---|---|---|---|---|
-| 1.29 | Flag as default | `setCreditEvents(CreditEvents)` -> `creditEvents().flagDefault` | Role-restricted (issuer/compliance/admin authorized) | Managed in `ICMTATCreditEvents.CreditEvents`. |  |  |  |
-| 1.30 | Remove default flag | `setCreditEvents(CreditEvents)` with `flagDefault = false` | Role-restricted (issuer/compliance/admin authorized) | Same function as 1.29 with different value. |  |  |  |
-| 1.31 | Flag as redeemed | `setCreditEvents(CreditEvents)` -> `creditEvents().flagRedeemed` | Role-restricted (issuer/compliance/admin authorized) | Managed in `ICMTATCreditEvents.CreditEvents`. |  |  |  |
-| 1.32 | Set rating | `setCreditEvents(CreditEvents)` -> `creditEvents().rating` | Role-restricted (issuer/compliance/admin authorized) | Managed in `ICMTATCreditEvents.CreditEvents`. |  |  |  |
+| 11   | Approve     | ERC20 `approve(address spender, uint256 value)` | Token holder                    | Grants a delegate permission to transfer a specific amount of tokens from the token account. This is optional, but implementations SHOULD include it since secondary market capability may depend on delegated approval to automate trading and settlement for regulated entities. Issuers SHOULD consult relevant trading and settlement venues if listing is contemplated. |                                                  |                                                |                        |
+
+##### Note
+
+> This subsection can be used to detail how each mandatory function is implemented, including role model, execution flow, and specific chain-level behavior.
+
+### Pause module (mandatory)
+
+| ID   | Requirement         | CMTAT Solidity corresponding feature | Access Control (CMTAT Solidity)           | Notes                                                        | Present in implementation being approved (`y/n`) | Access Control (implementation being approved) | Implementation details |
+|---|---|---|---|---|---|---|---|
+| 12   | Pause tokens        | `pause`                              | Role-restricted (pauser/admin authorized) | Pause must prevent all transfers until `unpause` is called.  |                                                  |                                                |                        |
+| 13   | Unpause tokens      | `unpause`                            | Role-restricted (pauser/admin authorized) |                                                              |                                                  |                                                |                        |
+| 14   | Deactivate contract | `deactivateContract`                 | Role-restricted (admin authorized)        | Must permanently disable the token (except in upgradeability patterns where deactivation behavior is explicitly defined). |                                                  |                                                |                        |
 
 #### Enforcement
+
+#### Mandatory
+
+| ID   | Requirement | CMTAT Solidity corresponding feature                         | Access Control (CMTAT Solidity)               | Notes                                                        | Present in implementation being approved (`y/n`) | Access Control (implementation being approved) | Implementation details |
+|---|---|---|---|---|---|---|---|
+| 15   | Freeze      | `freeze` or `setAddressFrozen(true)` *(inferred from extracted PDF text)* | Role-restricted (compliance/admin authorized) | Must block transfers to and from a given address. Single-function implementations are acceptable if they set a frozen status. |                                                  |                                                |                        |
+| 16   | Unfreeze    | `unfreeze` or `setAddressFrozen(false)` *(inferred from extracted PDF text)* | Role-restricted (compliance/admin authorized) | Single-function implementations are acceptable if they clear a frozen status. |                                                  |                                                |                        |
+
+
+
+#### Optional
+
+| ID   | Requirement        | CMTAT Solidity corresponding feature                         | Access Control (CMTAT Solidity)                  | Notes                                                        | Present in implementation being approved (`y/n`) | Access Control (implementation being approved) | Implementation details |
+|---|---|---|---|---|---|---|---|
+| 17   | Enforce a transfer | `forcedTransfer(address from, address to, uint256 value)`    | Role-restricted (operator/compliance authorized) | Enforcement transfer is performed via `forcedTransfer`.      |                                                  |                                                |                        |
+| 18   | Partial freeze     | `freezePartialTokens(address account, uint256 value)` / `unfreezePartialTokens(address account, uint256 value)` | Role-restricted (operator/compliance authorized) | Intended only to block a sold amount to avoid double-spend during settlement. |                                                  |                                                |                        |
+
+
+
+#### Transfer restriction (optional)
+
+| ID   | Requirement                   | CMTAT Solidity corresponding feature                         | Access Control (CMTAT Solidity)                         | Notes                                                        | Present in implementation being approved (`y/n`) | Access Control (implementation being approved) | Implementation details |
+|---|---|---|---|---|---|---|---|
+| 19   | Conditional transfer request  | `RuleConditionalTransferLight.detectTransferRestriction(from, to, value)` / `detectTransferRestrictionFrom(spender, from, to, value)` and `approvedCount(from, to, value)` | Public (`view`)                                         | Request is represented by a transfer restricted until approval count is non-zero. |                                                  |                                                |                        |
+| 20   | Conditional transfer approval | `RuleConditionalTransferLight.approveTransfer(from, to, value)` (or `approveAndTransferIfAllowed`) | Role-restricted (compliance/approver authorized)        | Approval is consumed on transfer via `transferred(...)`; cancellation via `cancelTransferApproval(...)`. |                                                  |                                                |                        |
+| 21   | Assign to whitelist           | CMTAT Allowlist: `setAddressAllowlist(account, status)`, `batchSetAddressAllowlist(accounts, status)`, `isAllowlisted(account)`; Rules whitelist: `addAddress`, `removeAddress`, `addAddresses`, `removeAddresses`, `isAddressListed` | Role-restricted for setters; public (`view`) for checks | CMTAT Allowlist and Rules whitelist are alternative whitelist implementations. |                                                  |                                                |                        |
+
+##### Note
+
+> This subsection can be used to detail the different transfer restrictions available.
+
+
+
+#### Access Control
+
+| ID   | Requirement      | CMTAT Solidity corresponding feature                         | Access Control (CMTAT Solidity)                 | Notes                                                        | Present in implementation being approved (`y/n`) | Access Control (implementation being approved) | Implementation details |
+|---|---|---|---|---|---|---|---|
+| 22   | Grant role       | `grantRole(bytes32 role, address account)` (OpenZeppelin AccessControl via CMTAT/Rules modules) | Role admin (`DEFAULT_ADMIN_ROLE` or role admin) | Used for roles such as `ALLOWLIST_ROLE`, `DEBT_ROLE`, `OPERATOR_ROLE`, `COMPLIANCE_MANAGER_ROLE`. |                                                  |                                                |                        |
+| 23   | Revoke role      | `revokeRole(bytes32 role, address account)`                  | Role admin (`DEFAULT_ADMIN_ROLE` or role admin) | AccessControl role removal.                                  |                                                  |                                                |                        |
+| 24   | Role attribution | `hasRole(bytes32 role, address account)` / `getRoleAdmin(bytes32 role)` | Public (`view`)                                 | In CMTAT `AccessControlModule`, `DEFAULT_ADMIN_ROLE` is treated as having all roles in `hasRole`. |                                                  |                                                |                        |
+
+##### Note
+
+> This subsection can be used to detail the concrete authorization model (roles, admins, delegates, approvers) and implementation-specific exceptions. It MAY also be relevant to explain how access control works in the implementation being approved.
+
+#### Snapshot (optional)
 | ID | Requirement | CMTAT Solidity corresponding feature | Access Control (CMTAT Solidity) | Notes | Present in implementation being approved (`y/n`) | Access Control (implementation being approved) | Implementation details |
 |---|---|---|---|---|---|---|---|
-| 1.33 | Enforce a transfer | `forcedTransfer(address from, address to, uint256 value)` | Role-restricted (operator/compliance authorized) | Enforcement transfer is performed via `forcedTransfer`. |  |  |  |
-| 1.34 | Partial freeze | `freezePartialTokens(address account, uint256 value)` / `unfreezePartialTokens(address account, uint256 value)` | Role-restricted (operator/compliance authorized) | Intended only to block a sold amount to avoid double-spend during settlement. |  |  |  |
+| 25 | Schedule a snapshot | `scheduleSnapshot(uint256 time)` | Role-restricted (snapshot scheduler/admin authorized) | SnapshotEngine `ISnapshotScheduler`. |  |  |  |
+| 26 | Reschedule a snapshot | `rescheduleSnapshot(uint256 oldTime, uint256 newTime)` | Role-restricted (snapshot scheduler/admin authorized) | `newTime` must stay between adjacent scheduled snapshots (not before previous / not after next). |  |  |  |
+| 27 | Unschedule a snapshot | `unscheduleLastSnapshot(uint256 time)` / `unscheduleSnapshotNotOptimized(uint256 time)` | Role-restricted (snapshot scheduler/admin authorized) | `unscheduleLastSnapshot` is restricted to the latest scheduled snapshot; `unscheduleSnapshotNotOptimized` supports generic unscheduling. |  |  |  |
+| 28 | Snapshot time | `getAllSnapshots()` / `getNextSnapshots()` | Public (`view`) | Returns created snapshot times and pending scheduled times. |  |  |  |
+| 29 | Snapshot total supply | `snapshotTotalSupply(uint256 time)` | Public (`view`) | `ISnapshotState`. |  |  |  |
+| 30 | Snapshot balance | `snapshotBalanceOf(uint256 time, address tokenHolder)` | Public (`view`) | `ISnapshotState` (see also `snapshotInfo`). |  |  |  |
+##### Note
+> This subsection can be used to detail snapshot scheduling and query behavior, including timing constraints and permission specifics.
 
-### Optional Attributes
+
+
+#### Dividend (optional)
+
+| ID | Requirement | CMTAT Solidity corresponding feature | Access Control (CMTAT Solidity) | Notes | Present in implementation being approved (`y/n`) | Access Control (implementation being approved) | Implementation details |
+|---|---|---|---|---|---|---|---|
+| 31 | Distribution create parameters |  |  |  |  |  |  |
+| 32 | Distribution set eligibility |  |  |  |  |  |  |
+| 33 | Distribution set deposit |  |  |  |  |  |  |
+| 34 | Distribution claim deposit |  |  |  |  |  |  |
+| 35 | Distribution schedule |  |  |  |  |  |  |
+| 36 | Distribution unschedule |  |  |  |  |  |  |
+##### Note
+> This subsection can be used to detail dividend/distribution workflow specifics and jurisdiction- or product-specific handling rules.
+> No direct CMTAT Solidity equivalent is currently defined for these items; they are implementation-specific. However, a prototype is available on the CMTA GitHub organization: https://github.com/CMTA/IncomeVault
+
+#### Credit Events (optional)
+| ID | Requirement | CMTAT Solidity corresponding feature | Access Control (CMTAT Solidity) | Notes | Present in implementation being approved (`y/n`) | Access Control (implementation being approved) | Implementation details |
+|---|---|---|---|---|---|---|---|
+| 37 | Flag as default | `setCreditEvents(CreditEvents)` -> `creditEvents().flagDefault` | Role-restricted (issuer/compliance/admin authorized) | Managed in `ICMTATCreditEvents.CreditEvents`. |  |  |  |
+| 38 | Remove default flag | `setCreditEvents(CreditEvents)` with `flagDefault = false` | Role-restricted (issuer/compliance/admin authorized) | Same function as 1.29 with different value. |  |  |  |
+| 39 | Flag as redeemed | `setCreditEvents(CreditEvents)` -> `creditEvents().flagRedeemed` | Role-restricted (issuer/compliance/admin authorized) | Managed in `ICMTATCreditEvents.CreditEvents`. |  |  |  |
+| 40 | Set rating | `setCreditEvents(CreditEvents)` -> `creditEvents().rating` | Role-restricted (issuer/compliance/admin authorized) | Managed in `ICMTATCreditEvents.CreditEvents`. |  |  |  |
+##### Note
+> This subsection can be used to detail how credit event states are updated, governed, and audited in the implementation being approved.
+
+
+
+### Debt (optional)
 | ID | Attribute | CMTAT Solidity corresponding feature | Access Control (CMTAT Solidity) | Notes | Present in implementation being approved (`y/n`) | Access Control (implementation being approved) | Implementation details |
 |---|---|---|---|---|---|---|---|
-| 1.f | Guarantor identifier | `debt().debtIdentifier.guarantor` (set via `setDebt`) | Read: public (`view`); write: role-restricted (`setDebt`) | Debt module (`ICMTATDebt.DebtIdentifier`). |  |  |  |
-| 1.g | Debtholder representative identifier | `debt().debtIdentifier.debtHolder` (set via `setDebt`) | Read: public (`view`); write: role-restricted (`setDebt`) | Debt module (`ICMTATDebt.DebtIdentifier`). |  |  |  |
-| 1.h | Unique identifier / hash | `tokenId()` and `terms().doc.documentHash` | Public (`view`) | `tokenId` is optional (implementations MAY omit it); document hash is in `terms` metadata. |  |  |  |
-| 1.i | Issuance date | `debt().debtInstrument.issuanceDate` (set via `setDebt` / `setDebtInstrument`) | Read: public (`view`); write: role-restricted (`setDebt*`) | Debt module (`ICMTATDebt.DebtInstrument`). |  |  |  |
-| 1.j | Currency of payments | `debt().debtInstrument.currency` / `debt().debtInstrument.currencyContract` | Read: public (`view`); write: role-restricted (`setDebt*`) | Supports symbol-like string and token/asset contract address. |  |  |  |
-| 1.k | Par value | `debt().debtInstrument.parValue` | Read: public (`view`); write: role-restricted (`setDebt*`) | Debt module (`uint256`). |  |  |  |
-| 1.l | Minimum denomination | `debt().debtInstrument.minimumDenomination` | Read: public (`view`); write: role-restricted (`setDebt*`) | Debt module (`uint256`). |  |  |  |
-| 1.m | Maturity date | `debt().debtInstrument.maturityDate` | Read: public (`view`); write: role-restricted (`setDebt*`) | Debt module (`string`). |  |  |  |
-| 1.n | Interest rate | `debt().debtInstrument.interestRate` | Read: public (`view`); write: role-restricted (`setDebt*`) | Debt module (`uint256`). |  |  |  |
-| 1.o | Coupon payment frequency | `debt().debtInstrument.couponPaymentFrequency` | Read: public (`view`); write: role-restricted (`setDebt*`) | Debt module (`string`). |  |  |  |
-| 1.p | Interest schedule format: A) start date/end date/period; B) start date/end date/day of period; C) date 1/date 2/date 3 | `debt().debtInstrument.interestScheduleFormat` | Read: public (`view`); write: role-restricted (`setDebt*`) | Debt module (`string`). |  |  |  |
-| 1.q | Interest payment date: A) period; B) specific date | `debt().debtInstrument.interestPaymentDate` | Read: public (`view`); write: role-restricted (`setDebt*`) | Debt module (`string`). |  |  |  |
-| 1.r | Day count convention | `debt().debtInstrument.dayCountConvention` | Read: public (`view`); write: role-restricted (`setDebt*`) | Debt module (`string`). |  |  |  |
-| 1.s | Business day convention | `debt().debtInstrument.businessDayConvention` | Read: public (`view`); write: role-restricted (`setDebt*`) | Debt module (`string`). |  |  |  |
+| 41 | Guarantor identifier | `debt().debtIdentifier.guarantor` (set via `setDebt`) | Read: public (`view`); write: role-restricted (`setDebt`) | Debt module (`ICMTATDebt.DebtIdentifier`). |  |  |  |
+| 42 | Debtholder representative identifier | `debt().debtIdentifier.debtHolder` (set via `setDebt`) | Read: public (`view`); write: role-restricted (`setDebt`) | Debt module (`ICMTATDebt.DebtIdentifier`). |  |  |  |
+| 43 | Unique identifier / hash | `tokenId()` and `terms().doc.documentHash` | Public (`view`) | `tokenId` is optional (implementations MAY omit it); document hash is in `terms` metadata. |  |  |  |
+| 44 | Issuance date | `debt().debtInstrument.issuanceDate` (set via `setDebt` / `setDebtInstrument`) | Read: public (`view`); write: role-restricted (`setDebt*`) | Debt module (`ICMTATDebt.DebtInstrument`). |  |  |  |
+| 45 | Currency of payments | `debt().debtInstrument.currency` / `debt().debtInstrument.currencyContract` | Read: public (`view`); write: role-restricted (`setDebt*`) | Supports symbol-like string and token/asset contract address. |  |  |  |
+| 46 | Par value | `debt().debtInstrument.parValue` | Read: public (`view`); write: role-restricted (`setDebt*`) | Debt module (`uint256`). |  |  |  |
+| 47 | Minimum denomination | `debt().debtInstrument.minimumDenomination` | Read: public (`view`); write: role-restricted (`setDebt*`) | Debt module (`uint256`). |  |  |  |
+| 48 | Maturity date | `debt().debtInstrument.maturityDate` | Read: public (`view`); write: role-restricted (`setDebt*`) | Debt module (`string`). |  |  |  |
+| 49 | Interest rate | `debt().debtInstrument.interestRate` | Read: public (`view`); write: role-restricted (`setDebt*`) | Debt module (`uint256`). |  |  |  |
+| 50 | Coupon payment frequency | `debt().debtInstrument.couponPaymentFrequency` | Read: public (`view`); write: role-restricted (`setDebt*`) | Debt module (`string`). |  |  |  |
+| 51 | Interest schedule format: A) start date/end date/period; B) start date/end date/day of period; C) date 1/date 2/date 3 | `debt().debtInstrument.interestScheduleFormat` | Read: public (`view`); write: role-restricted (`setDebt*`) | Debt module (`string`). |  |  |  |
+| 52 | Interest payment date: A) period; B) specific date | `debt().debtInstrument.interestPaymentDate` | Read: public (`view`); write: role-restricted (`setDebt*`) | Debt module (`string`). |  |  |  |
+| 53 | Day count convention | `debt().debtInstrument.dayCountConvention` | Read: public (`view`); write: role-restricted (`setDebt*`) | Debt module (`string`). |  |  |  |
+| 54 | Business day convention | `debt().debtInstrument.businessDayConvention` | Read: public (`view`); write: role-restricted (`setDebt*`) | Debt module (`string`). |  |  |  |
+##### Note
+> This subsection can be used to detail supplementary attributes and to explain specific representation or governance choices made by the implementation being approved.
 
-## 
+
 
 ## Guideline for New Blockchain Implementations
 
@@ -130,6 +231,12 @@ For non-EVM blockchains, implementations MAY separate this into two distinct fun
 freeze(address targetAddress)
 unfreeze(address targetAddress)
 ```
+
+##### Note
+
+> This subsection can be used to detail the choice made by the implementation being approved.
+
+
 
 ### CMTAT Extended
 
@@ -147,6 +254,11 @@ In the table below, the CMTAT framework extended features are mapped to Solidity
 | Upgradeability | CMTAT Upgradeable version | <strong><span style="color: #1e7e34;">&#x2714;</span></strong> | <strong><span style="color: #1e7e34;">&#x2714;</span></strong> | <strong><span style="color: #1e7e34;">&#x2714;</span></strong> | <strong><span style="color: #1e7e34;">&#x2714;</span></strong> |  |  |
 | Fee payer / gasless | CMTAT with ERC-2771 module | <strong><span style="color: #1e7e34;">&#x2714;</span></strong> | <strong><span style="color: #b00020;">&#x2718;</span></strong> | <strong><span style="color: #b00020;">&#x2718;</span></strong> | <strong><span style="color: #1e7e34;">&#x2714;</span></strong> |  |  |
 
+##### Note
+
+> This section can be used to detail supplementary features implemented beyond the mandatory baseline and specific cases in the target chain.  
+> For non-EVM blockchains, it MAY be relevant to explain how gasless/gas sponsorship and upgradeability work in the particular blockchain targeted.
+
 ### Forced Burn and Forced Transfer
 
 In the standard burn function, tokens from a frozen wallet MUST NOT be burnable. CMTAT offers `forcedTransfer` to force a transfer or a burn.
@@ -154,6 +266,10 @@ In the standard burn function, tokens from a frozen wallet MUST NOT be burnable.
 If `forcedTransfer` is not available, implementations MAY implement only `forcedBurn` (as in CMTAT Light). Implementations MAY also implement both. In that case, only `forcedBurn` SHOULD burn tokens, and `forcedTransfer` SHOULD NOT burn tokens.
 
 With the CMTAT Solidity version, when `forcedTransfer` is available, `forcedBurn` is not implemented to reduce contract code size. This limitation MAY not apply to other blockchains.
+
+##### Note
+
+> This subsection can be used to detail the choice made by the implementation being approved.
 
 ### Implementation Details
 

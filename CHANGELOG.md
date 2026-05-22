@@ -1,0 +1,47 @@
+# Changelog
+
+All notable changes to this document will be recorded here.
+
+The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
+
+## [0.2.0] - 2026-05-22
+
+### Added
+
+- Table of Contents
+
+- Access Control columns (`Access Control (CMTAT Solidity)` and `Access Control (implementation being approved)`) across all function tables
+- Supplementary features section
+- Guidance on optional ERC20 `approve` function, with recommendation to include it for secondary market support
+- Recommendation to include `tokenId` in CMTAT reference implementations targeting non-Solidity blockchains
+- Reference table listing submodule versions (CMTAT v3.2.0, SnapshotEngine v0.3.0, RuleEngine v3.0.0-rc2, Rules v0.3.0)
+- Submodule configuration (`.gitmodules`) for CMTAT, SnapshotEngine, RuleEngine, and Rules
+
+### Changed
+- `tokenId` moved from mandatory to optional token attributes
+- Normative language updated to RFC 2119/8174 keywords throughout (MUST, MUST NOT, SHOULD, MAY)
+- Restructured function tables: split mandatory and optional functions into dedicated subsections (Token module, Pause, Enforcement, Transfer restriction, Access Control, Snapshot, Dividend, Credit Events, Debt)
+- Row IDs renumbered to sequential integers (previously alphanumeric identifiers such as `1.a`, `1.1`)
+- Implementation Details table extended with `Access Control (implementation being approved)` and `Present in implementation being approved` columns
+
+
+
+## [0.1.0] - 2026-04-28
+
+First release.
+
+Commit: `2d37e7d1dd5019593828d5e263bc466db36f94af`
+
+### Added
+- CMTAT Function Equivalency Table with:
+  - Mandatory Attributes: Name, Symbol, Token ID, Terms reference, Decimals (IDs `1.a`–`1.e`)
+  - Mandatory Functions: `totalSupply`, `balanceOf`, `transfer`, `mint`/`batchMint`, `burn`/`batchBurn`/`burnFrom`, `pause`, `unpause`, `deactivateContract`, freeze, unfreeze (IDs `1.1`–`1.10`)
+  - Optional Functions: Snapshot (`1.11`–`1.16`), Access Control / Transfer restriction (`1.17`–`1.22`), Dividend (`1.23`–`1.28`), Credit Events (`1.29`–`1.32`), Enforcement / forced transfer and partial freeze (`1.33`–`1.34`)
+  - Optional Attributes: Debt fields — guarantor, debtholder, unique identifier/hash, issuance date, currency, par value, minimum denomination, maturity date, interest rate, coupon frequency, interest schedule format, interest payment date, day count convention, business day convention (IDs `1.f`–`1.s`)
+- Guideline for New Blockchain Implementations section covering:
+  - Freeze: ERC-3643 compatibility and split-function alternative
+  - CMTAT Extended feature comparison table (Allowlist, Light, Debt, Standard variants)
+  - Forced Burn and Forced Transfer guidance
+  - Implementation Details table (mint/burn while paused, self-burn, frozen-address burn behaviour)
+  - Self-Burn legal rationale
+- Reference table listing submodule repositories and checked-out versions
