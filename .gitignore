@@ -1,1 +1,4 @@
 .codex
+
+# LibreOffice lock files (e.g. specification/.~lock.coverpage_CMTA.odg#)
+.~lock.*#
