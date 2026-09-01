@@ -6,6 +6,10 @@
 - [How to Use This Document](#how-to-use-this-document)
 - [General Note](#general-note)
 - [Warning](#warning)
+- [Summary](#summary)
+  - [Scope of the count](#scope-of-the-count)
+  - [Answer values](#answer-values)
+  - [Compliance table](#compliance-table)
 - [CMTAT Function Equivalency Table](#cmtat-function-equivalency-table)
   - [Metadata](#metadata)
   - [Token Attributes](#token-attributes)
@@ -26,6 +30,7 @@
   - [Self-Burn](#self-burn)
   - [Cross-Chain Bridge Support](#cross-chain-bridge-support)
 - [Supplementary features](#supplementary-features)
+- [Conclusion](#conclusion)
 - [Reference](#reference)
 
 ## Document Version
@@ -37,7 +42,10 @@ Note:
 - version before `1.0` are also draft versions
 
 ## How to Use This Document
-- Use the **CMTAT Function Equivalency Table** as the fillable assessment checklist.
+- Fill the document in this order: **CMTAT Function Equivalency Table** first, then **Summary**, then **Conclusion**.
+- Use the **CMTAT Function Equivalency Table** as the fillable assessment checklist. Each criterion MUST be answered with `y`, `partial`, or `n` in the *Present in implementation being approved* column (see [Answer values](#answer-values)).
+- Use the **Summary** to give the aggregated compliance result of the implementation being approved with the CMTAT standard.
+- Use the **Conclusion** to describe, in the broad lines, how the implementation being approved works and where it differs from CMTAT.
 - Use **Guideline for New Blockchain Implementations** as reference guidance when designing or mapping non-Solidity implementations.
 
 ## General Note
@@ -47,6 +55,66 @@ Note:
 ## Warning
 An implementation MAY satisfy the CMTAT standard while still failing to meet the criteria required for tokenized shares under Swiss law at the underlying-ledger level. In particular, compliance with CMTAT does not, by itself, demonstrate that decentralization-related legal criteria are satisfied.
 
+## Summary
+
+> This section MUST be completed **after** the [CMTAT Function Equivalency Table](#cmtat-function-equivalency-table). It summarizes, in a single view, the compliance of the implementation being approved with the CMTAT standard.
+
+### Scope of the count
+
+The equivalency table contains **54 numbered criteria**:
+
+| Category | Count | IDs |
+|---|---:|---|
+| Mandatory | 17 | 1–4, 6–10, 12–16, 22–24 |
+| Optional | 37 | 5, 11, 17–21, 25–54 |
+
+Each criterion MUST be counted exactly once. The non-numbered tables ([CMTAT Extended](#cmtat-extended), [Implementation Details](#implementation-details), [Cross-Chain Bridge Support](#cross-chain-bridge-support)) are **not** part of this count; they SHOULD be commented in the [Conclusion](#conclusion) instead.
+
+### Answer values
+
+Each criterion MUST be answered with exactly one of the following values in the *Present in implementation being approved* column:
+
+| Value | Meaning |
+|---|---|
+| `y` | **Present** — an equivalent feature exists and covers the requirement, even if the name, the signature, or the chain-level mechanism differs from CMTAT Solidity. |
+| `partial` | **Partial** — an equivalent feature exists but covers only a part of the requirement, or covers it with a restriction, a different access control model, or different semantics. |
+| `n` | **Absent** — no equivalent feature is available in the implementation being approved. |
+
+### Compliance table
+
+| Answer         | Mandatory (17) | Optional (37) |
+| -------------- | -------------: | ------------: |
+| Present (`y`)  |                |               |
+| Partial        |                |               |
+| Absent (`n`)   |                |               |
+
+Each column MUST sum to its total: 17 for mandatory criteria, 37 for optional criteria.
+
+An implementation SHOULD be considered equivalent to CMTAT only if **no mandatory criterion is answered `n`**. Any mandatory criterion answered `partial` MUST be justified in the note below.
+
+#### Note
+
+> This subsection MUST explain the figures given in the compliance table, and in particular:
+>
+> - **every `partial` answer**: which part of the requirement is covered, which part is not, and why (chain-level limitation, legal or business choice, different access control model, feature planned for a later version);
+> - **every mandatory `n` answer**: why the requirement cannot be met, and what compensating measure (if any) exists;
+> - **optional modules left out by design**: when a whole optional module (for example Dividend, Debt, or Snapshot) is answered `n`, it SHOULD be stated once here rather than criterion by criterion.
+>
+> Example of an entry:
+>
+> > *Criterion 14 (Deactivate contract) — Partial: the implementation permanently blocks all transfers and mints, but the account itself cannot be deleted from the ledger, since the chain runtime does not allow it. The deactivated state is irreversible and publicly readable.*
+
+<details>
+<summary>Example of a filled compliance table</summary>
+
+| Answer         | Mandatory (17) | Optional (37) |
+| -------------- | -------------: | ------------: |
+| Present (`y`)  |             14 |             3 |
+| Partial        |              3 |             4 |
+| Absent (`n`)   |              0 |            30 |
+
+</details>
+
 ## CMTAT Function Equivalency Table
 
 ### Metadata
@@ -55,7 +123,7 @@ An implementation MAY satisfy the CMTAT standard while still failing to meet the
 
 ### Token Attributes
 #### Mandatory
-| ID | Requirement | CMTAT Solidity corresponding feature | Access Control (CMTAT Solidity) | Notes | Present in implementation being approved (`y/n`) | Access Control (implementation being approved) | Implementation details |
+| ID | Requirement | CMTAT Solidity corresponding feature | Access Control (CMTAT Solidity) | Notes | Present in implementation being approved (`y/partial/n`) | Access Control (implementation being approved) | Implementation details |
 |---|---|---|---|---|---|---|---|
 | 1 | Name attribute | ERC20 `name` | Public (`view`) |  |  |  |  |
 | 2 | Ticker symbol attribute | ERC20 `symbol` | Public (`view`) |  |  |  |  |
@@ -69,7 +137,7 @@ For CMTAT reference implementations, decimals SHOULD be configurable rather than
 > This subsection can be used to detail how mandatory token attributes are implemented and to document specific legal, business, or chain-specific cases.
 
 #### Optional
-| ID | Requirement | CMTAT Solidity corresponding feature | Access Control (CMTAT Solidity) | Notes | Present in implementation being approved (`y/n`) | Access Control (implementation being approved) | Implementation details |
+| ID | Requirement | CMTAT Solidity corresponding feature | Access Control (CMTAT Solidity) | Notes | Present in implementation being approved (`y/partial/n`) | Access Control (implementation being approved) | Implementation details |
 |---|---|---|---|---|---|---|---|
 | 5 | Token ID attribute | `tokenId` | Public (`view`) | Optional parameter. |  |  |  |
 
@@ -85,7 +153,7 @@ For CMTAT reference implementations, `tokenId` SHOULD be included.
 
 ##### Mandatory
 
-| ID | Requirement | CMTAT Solidity corresponding feature | Access Control (CMTAT Solidity) | Notes | Present in implementation being approved (`y/n`) | Access Control (implementation being approved) | Implementation details |
+| ID | Requirement | CMTAT Solidity corresponding feature | Access Control (CMTAT Solidity) | Notes | Present in implementation being approved (`y/partial/n`) | Access Control (implementation being approved) | Implementation details |
 |---|---|---|---|---|---|---|---|
 | 6 | Know total supply | ERC20 `totalSupply` | Public (`view`) |  |  |  |  |
 | 7 | Know balance | ERC20 `balanceOf` | Public (`view`) |  |  |  |  |
@@ -94,7 +162,7 @@ For CMTAT reference implementations, `tokenId` SHOULD be included.
 | 10 | Cancel tokens | `burn` / `batchBurn` / `burnFrom` | Role-restricted (issuer/burner authorized) | Implementations SHOULD use a dedicated issuer/authorized burn path for forced cancellation scenarios. |  |  |  |
 #### Optional
 
-| ID   | Requirement | CMTAT Solidity corresponding feature            | Access Control (CMTAT Solidity) | Notes                                                        | Present in implementation being approved (`y/n`) | Access Control (implementation being approved) | Implementation details |
+| ID   | Requirement | CMTAT Solidity corresponding feature            | Access Control (CMTAT Solidity) | Notes                                                        | Present in implementation being approved (`y/partial/n`) | Access Control (implementation being approved) | Implementation details |
 |---|---|---|---|---|---|---|---|
 | 11   | Approve     | ERC20 `approve(address spender, uint256 value)` | Token holder                    | Grants a delegate permission to transfer a specific amount of tokens from the token account. This is optional, but implementations SHOULD include it since secondary market capability may depend on delegated approval to automate trading and settlement for regulated entities. Issuers SHOULD consult relevant trading and settlement venues if listing is contemplated. |                                                  |                                                |                        |
 
@@ -104,7 +172,7 @@ For CMTAT reference implementations, `tokenId` SHOULD be included.
 
 ### Pause module (mandatory)
 
-| ID   | Requirement         | CMTAT Solidity corresponding feature | Access Control (CMTAT Solidity)           | Notes                                                        | Present in implementation being approved (`y/n`) | Access Control (implementation being approved) | Implementation details |
+| ID   | Requirement         | CMTAT Solidity corresponding feature | Access Control (CMTAT Solidity)           | Notes                                                        | Present in implementation being approved (`y/partial/n`) | Access Control (implementation being approved) | Implementation details |
 |---|---|---|---|---|---|---|---|
 | 12   | Pause tokens        | `pause`                              | Role-restricted (pauser/admin authorized) | Pause must prevent all transfers until `unpause` is called.  |                                                  |                                                |                        |
 | 13   | Unpause tokens      | `unpause`                            | Role-restricted (pauser/admin authorized) |                                                              |                                                  |                                                |                        |
@@ -114,7 +182,7 @@ For CMTAT reference implementations, `tokenId` SHOULD be included.
 
 #### Mandatory
 
-| ID   | Requirement | CMTAT Solidity corresponding feature                         | Access Control (CMTAT Solidity)               | Notes                                                        | Present in implementation being approved (`y/n`) | Access Control (implementation being approved) | Implementation details |
+| ID   | Requirement | CMTAT Solidity corresponding feature                         | Access Control (CMTAT Solidity)               | Notes                                                        | Present in implementation being approved (`y/partial/n`) | Access Control (implementation being approved) | Implementation details |
 |---|---|---|---|---|---|---|---|
 | 15   | Freeze      | `freeze` or `setAddressFrozen(true)` *(inferred from extracted PDF text)* | Role-restricted (compliance/admin authorized) | Must block transfers to and from a given address. Single-function implementations are acceptable if they set a frozen status. |                                                  |                                                |                        |
 | 16   | Unfreeze    | `unfreeze` or `setAddressFrozen(false)` *(inferred from extracted PDF text)* | Role-restricted (compliance/admin authorized) | Single-function implementations are acceptable if they clear a frozen status. |                                                  |                                                |                        |
@@ -123,7 +191,7 @@ For CMTAT reference implementations, `tokenId` SHOULD be included.
 
 #### Optional
 
-| ID   | Requirement        | CMTAT Solidity corresponding feature                         | Access Control (CMTAT Solidity)                  | Notes                                                        | Present in implementation being approved (`y/n`) | Access Control (implementation being approved) | Implementation details |
+| ID   | Requirement        | CMTAT Solidity corresponding feature                         | Access Control (CMTAT Solidity)                  | Notes                                                        | Present in implementation being approved (`y/partial/n`) | Access Control (implementation being approved) | Implementation details |
 |---|---|---|---|---|---|---|---|
 | 17   | Enforce a transfer | `forcedTransfer(address from, address to, uint256 value)`    | Role-restricted (operator/compliance authorized) | Enforcement transfer is performed via `forcedTransfer`.      |                                                  |                                                |                        |
 | 18   | Partial freeze     | `freezePartialTokens(address account, uint256 value)` / `unfreezePartialTokens(address account, uint256 value)` | Role-restricted (operator/compliance authorized) | Intended only to block a sold amount to avoid double-spend during settlement. |                                                  |                                                |                        |
@@ -132,7 +200,7 @@ For CMTAT reference implementations, `tokenId` SHOULD be included.
 
 #### Transfer restriction (optional)
 
-| ID   | Requirement                   | CMTAT Solidity corresponding feature                         | Access Control (CMTAT Solidity)                         | Notes                                                        | Present in implementation being approved (`y/n`) | Access Control (implementation being approved) | Implementation details |
+| ID   | Requirement                   | CMTAT Solidity corresponding feature                         | Access Control (CMTAT Solidity)                         | Notes                                                        | Present in implementation being approved (`y/partial/n`) | Access Control (implementation being approved) | Implementation details |
 |---|---|---|---|---|---|---|---|
 | 19   | Conditional transfer request  | `RuleConditionalTransferLight.detectTransferRestriction(from, to, value)` / `detectTransferRestrictionFrom(spender, from, to, value)` and `approvedCount(from, to, value)` | Public (`view`)                                         | Request is represented by a transfer restricted until approval count is non-zero. |                                                  |                                                |                        |
 | 20   | Conditional transfer approval | `RuleConditionalTransferLight.approveTransfer(from, to, value)` (or `approveAndTransferIfAllowed`) | Role-restricted (compliance/approver authorized)        | Approval is consumed on transfer via `transferred(...)`; cancellation via `cancelTransferApproval(...)`. |                                                  |                                                |                        |
@@ -146,7 +214,7 @@ For CMTAT reference implementations, `tokenId` SHOULD be included.
 
 #### Access Control
 
-| ID   | Requirement      | CMTAT Solidity corresponding feature                         | Access Control (CMTAT Solidity)                 | Notes                                                        | Present in implementation being approved (`y/n`) | Access Control (implementation being approved) | Implementation details |
+| ID   | Requirement      | CMTAT Solidity corresponding feature                         | Access Control (CMTAT Solidity)                 | Notes                                                        | Present in implementation being approved (`y/partial/n`) | Access Control (implementation being approved) | Implementation details |
 |---|---|---|---|---|---|---|---|
 | 22   | Grant role       | `grantRole(bytes32 role, address account)` (OpenZeppelin AccessControl via CMTAT/Rules modules) | Role admin (`DEFAULT_ADMIN_ROLE` or role admin) | Used for roles such as `ALLOWLIST_ROLE`, `DEBT_ROLE`, `OPERATOR_ROLE`, `COMPLIANCE_MANAGER_ROLE`. |                                                  |                                                |                        |
 | 23   | Revoke role      | `revokeRole(bytes32 role, address account)`                  | Role admin (`DEFAULT_ADMIN_ROLE` or role admin) | AccessControl role removal.                                  |                                                  |                                                |                        |
@@ -157,7 +225,7 @@ For CMTAT reference implementations, `tokenId` SHOULD be included.
 > This subsection can be used to detail the concrete authorization model (roles, admins, delegates, approvers) and implementation-specific exceptions. It MAY also be relevant to explain how access control works in the implementation being approved.
 
 #### Snapshot (optional)
-| ID | Requirement | CMTAT Solidity corresponding feature | Access Control (CMTAT Solidity) | Notes | Present in implementation being approved (`y/n`) | Access Control (implementation being approved) | Implementation details |
+| ID | Requirement | CMTAT Solidity corresponding feature | Access Control (CMTAT Solidity) | Notes | Present in implementation being approved (`y/partial/n`) | Access Control (implementation being approved) | Implementation details |
 |---|---|---|---|---|---|---|---|
 | 25 | Schedule a snapshot | `scheduleSnapshot(uint256 time)` | Role-restricted (snapshot scheduler/admin authorized) | SnapshotEngine `ISnapshotScheduler`. |  |  |  |
 | 26 | Reschedule a snapshot | `rescheduleSnapshot(uint256 oldTime, uint256 newTime)` | Role-restricted (snapshot scheduler/admin authorized) | `newTime` must stay between adjacent scheduled snapshots (not before previous / not after next). |  |  |  |
@@ -172,7 +240,7 @@ For CMTAT reference implementations, `tokenId` SHOULD be included.
 
 #### Dividend (optional)
 
-| ID | Requirement | CMTAT Solidity corresponding feature | Access Control (CMTAT Solidity) | Notes | Present in implementation being approved (`y/n`) | Access Control (implementation being approved) | Implementation details |
+| ID | Requirement | CMTAT Solidity corresponding feature | Access Control (CMTAT Solidity) | Notes | Present in implementation being approved (`y/partial/n`) | Access Control (implementation being approved) | Implementation details |
 |---|---|---|---|---|---|---|---|
 | 31 | Distribution create parameters |  |  |  |  |  |  |
 | 32 | Distribution set eligibility |  |  |  |  |  |  |
@@ -185,7 +253,7 @@ For CMTAT reference implementations, `tokenId` SHOULD be included.
 > No direct CMTAT Solidity equivalent is currently defined for these items; they are implementation-specific. However, a prototype is available on the CMTA GitHub organization: https://github.com/CMTA/IncomeVault
 
 #### Credit Events (optional)
-| ID | Requirement | CMTAT Solidity corresponding feature | Access Control (CMTAT Solidity) | Notes | Present in implementation being approved (`y/n`) | Access Control (implementation being approved) | Implementation details |
+| ID | Requirement | CMTAT Solidity corresponding feature | Access Control (CMTAT Solidity) | Notes | Present in implementation being approved (`y/partial/n`) | Access Control (implementation being approved) | Implementation details |
 |---|---|---|---|---|---|---|---|
 | 37 | Flag as default | `setCreditEvents(CreditEvents)` -> `creditEvents().flagDefault` | Role-restricted (issuer/compliance/admin authorized) | Managed in `ICMTATCreditEvents.CreditEvents`. |  |  |  |
 | 38 | Remove default flag | `setCreditEvents(CreditEvents)` with `flagDefault = false` | Role-restricted (issuer/compliance/admin authorized) | Same function as 1.29 with different value. |  |  |  |
@@ -197,7 +265,7 @@ For CMTAT reference implementations, `tokenId` SHOULD be included.
 
 
 ### Debt (optional)
-| ID | Attribute | CMTAT Solidity corresponding feature | Access Control (CMTAT Solidity) | Notes | Present in implementation being approved (`y/n`) | Access Control (implementation being approved) | Implementation details |
+| ID | Attribute | CMTAT Solidity corresponding feature | Access Control (CMTAT Solidity) | Notes | Present in implementation being approved (`y/partial/n`) | Access Control (implementation being approved) | Implementation details |
 |---|---|---|---|---|---|---|---|
 | 41 | Guarantor identifier | `debt().debtIdentifier.guarantor` (set via `setDebt`) | Read: public (`view`); write: role-restricted (`setDebt`) | Debt module (`ICMTATDebt.DebtIdentifier`). |  |  |  |
 | 42 | Debtholder representative identifier | `debt().debtIdentifier.debtHolder` (set via `setDebt`) | Read: public (`view`); write: role-restricted (`setDebt`) | Debt module (`ICMTATDebt.DebtIdentifier`). |  |  |  |
@@ -242,7 +310,7 @@ unfreeze(address targetAddress)
 
 In the table below, the CMTAT framework extended features are mapped to Solidity features.
 
-| CMTAT Functionalities | CMTAT Solidity corresponding features | CMTAT Allowlist | CMTAT Light | CMTAT Debt | CMTAT Standard | Present in implementation being approved (`y/n`) | Implementation details |
+| CMTAT Functionalities | CMTAT Solidity corresponding features | CMTAT Allowlist | CMTAT Light | CMTAT Debt | CMTAT Standard | Present in implementation being approved (`y/partial/n`) | Implementation details |
 |---|---|---|---|---|---|---|---|
 | On-chain snapshot | `snapshotModule` and `snapshotEngine` | <strong><span style="color: #1e7e34;">&#x2714;</span></strong> | <strong><span style="color: #b00020;">&#x2718;</span></strong> | <strong><span style="color: #1e7e34;">&#x2714;</span></strong> | <strong><span style="color: #1e7e34;">&#x2714;</span></strong> |  |  |
 | Forced transfer | `forcedTransfer` | <strong><span style="color: #1e7e34;">&#x2714;</span></strong> | <strong><span style="color: #b00020;">&#x2718;</span></strong> | <strong><span style="color: #1e7e34;">&#x2714;</span></strong> | <strong><span style="color: #1e7e34;">&#x2714;</span></strong> |  |  |
@@ -273,7 +341,7 @@ In the table below, the CMTAT framework extended features are mapped to Solidity
 
 ### Implementation Details
 
-| Functionalities | CMTAT Solidity | Access Control (CMTAT Solidity) | Note | Present in implementation being approved (`y/n`) | Access Control (implementation being approved) | Implementation details |
+| Functionalities | CMTAT Solidity | Access Control (CMTAT Solidity) | Note | Present in implementation being approved (`y/partial/n`) | Access Control (implementation being approved) | Implementation details |
 |---|---|---|---|---|---|---|
 | Mint while pause | <strong><span style="color: #1e7e34;">&#x2714;</span></strong> | Role-restricted (minter/issuer authorized) | Dedicated cross-chain mint (for example `crosschainMint`) cannot be performed while paused. |  |  |  |
 | Burn while pause | <strong><span style="color: #1e7e34;">&#x2714;</span></strong> | Role-restricted (burner/issuer authorized) | Dedicated cross-chain burn (for example `crosschainBurn`) cannot be performed while paused. |  |  |  |
@@ -318,7 +386,7 @@ they are dedicated functions restricted to the trusted bridge via a specific rol
 are blocked while the contract is paused (consistent with the *Mint while pause* /
 *Burn while pause* rows in [Implementation Details](#implementation-details)).
 
-| Requirement | CMTAT Solidity corresponding feature | Access Control (CMTAT Solidity) | Notes | Present in implementation being approved (`y/n`) | Access Control (implementation being approved) | Implementation details |
+| Requirement | CMTAT Solidity corresponding feature | Access Control (CMTAT Solidity) | Notes | Present in implementation being approved (`y/partial/n`) | Access Control (implementation being approved) | Implementation details |
 |---|---|---|---|---|---|---|
 | Cross-chain mint (ERC-7802) | `crosschainMint(address to, uint256 value)` | Role-restricted (`CROSS_CHAIN_ROLE`, trusted token bridge); blocked while paused | Authenticates the bridge with `msg.sender` (not `_msgSender()`) so a relayer/forwarder cannot impersonate the bridge. Emits `CrosschainMint`. |  |  |  |
 | Cross-chain burn (ERC-7802) | `crosschainBurn(address from, uint256 value)` | Role-restricted (`CROSS_CHAIN_ROLE`, trusted token bridge); blocked while paused | Does **not** require an ERC-20 allowance from `from`, following the Optimism Superchain ERC-20 and OpenZeppelin `ERC20Bridgeable` design. Emits `CrosschainBurn`. |  |  |  |
@@ -348,7 +416,18 @@ are blocked while the contract is paused (consistent with the *Mint while pause*
 
 ## Conclusion
 
-> This section can be used to summarize the main point and potential difference between the implementation being approved and CMTAT Specification
+> This section MUST describe, in the broad lines, **how the implementation being approved works technically**, so that a reader who has not gone through the tables can understand the design and its main differences with the CMTAT specification. It SHOULD cover at least the following points:
+>
+> - **Token model**: the underlying token primitive of the target blockchain (for example ERC-20, SPL token, Soroban token interface, UTXO-based asset), and how balances, total supply, and decimals are represented.
+> - **Architecture**: single contract or several modules/programs, how they are linked (inheritance, composition, external calls, on-chain registry), and the upgradeability strategy (proxy, native chain upgrade, immutable with redeployment).
+> - **Access control model**: which roles exist, who holds the administrator role, how roles are granted and revoked, and how these roles map to the CMTAT roles.
+> - **Transfer control flow**: which checks are applied on a transfer (pause, freeze, partial freeze, allowlist, rule engine or transfer hook), in which order, and where this logic lives (inside the token, in an external module, or in the chain runtime).
+> - **Issuance and cancellation**: the mint and burn paths, forced transfer and forced burn, and the behaviour on a frozen address or while the contract is paused.
+> - **Data and metadata storage**: how terms, `tokenId`, debt attributes, and credit events are stored (on-chain state, hash with off-chain document, or chain-native metadata).
+> - **Main differences with the CMTAT Solidity implementation**, and the reason for each one (chain constraints, legal context, performance, code size).
+> - **Known limitations** and features that are planned but not yet implemented.
+>
+> The [Summary](#summary) gives the counts; this section gives the technical explanation behind them and MUST stay consistent with it.
 
 ## Reference
 

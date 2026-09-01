@@ -4,6 +4,20 @@ All notable changes to this document will be recorded here.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [Unreleased]
+
+### Added
+
+- Summary section (before the equivalency table) giving the aggregated compliance of the implementation being approved with CMTAT: scope of the count (17 mandatory / 37 optional criteria), allowed answer values (`y` / `partial` / `n`), compliance table to fill, and a note requiring every `partial` and every mandatory `n` to be explained
+- Cross-Chain Bridge Support section (ERC-7802 and Chainlink CCIP), documented as an optional module outside the equivalency criteria
+
+### Changed
+
+- Conclusion section: replaced the free-form guideline with a list of the technical points the conclusion MUST cover (token model, architecture, access control model, transfer control flow, issuance and cancellation, data and metadata storage, main differences with CMTAT Solidity, known limitations)
+- How to Use This Document: added the filling order (equivalency table, then summary, then conclusion) and the `y` / `partial` / `n` answer values
+- Table of Contents: added Summary and Conclusion entries
+- All assessment table headers: the *Present in implementation being approved* column now accepts `y/partial/n` instead of `y/n`
+
 ## [0.2.0] - 2026-05-22
 
 ### Added
