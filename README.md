@@ -24,6 +24,7 @@
   - [Forced Burn and Forced Transfer](#forced-burn-and-forced-transfer)
   - [Implementation Details](#implementation-details)
   - [Self-Burn](#self-burn)
+  - [Cross-Chain Bridge Support](#cross-chain-bridge-support)
 - [Supplementary features](#supplementary-features)
 - [Reference](#reference)
 
@@ -223,9 +224,8 @@ If you create a version for another blockchain, use this section to build a corr
 
 ### Freeze
 
-To be compatible with [ERC-3643](https://eips.ethereum.org/EIPS/eip-3643), freeze is implemented with a single function: `setAddressFrozen(targetAddress, frozenStatus)`.
-
-For non-EVM blockchains, implementations MAY separate this into two distinct functions:
+> To be compatible with [ERC-3643](https://eips.ethereum.org/EIPS/eip-3643), freeze in CMTAT Solidity is implemented with a single function: `setAddressFrozen(targetAddress, frozenStatus)`.
+> For non-EVM blockchains, implementations MAY separate this into two distinct functions:
 
 ```solidity
 freeze(address targetAddress)
@@ -261,11 +261,11 @@ In the table below, the CMTAT framework extended features are mapped to Solidity
 
 ### Forced Burn and Forced Transfer
 
-In the standard burn function, tokens from a frozen wallet MUST NOT be burnable. CMTAT offers `forcedTransfer` to force a transfer or a burn.
-
-If `forcedTransfer` is not available, implementations MAY implement only `forcedBurn` (as in CMTAT Light). Implementations MAY also implement both. In that case, only `forcedBurn` SHOULD burn tokens, and `forcedTransfer` SHOULD NOT burn tokens.
-
-With the CMTAT Solidity version, when `forcedTransfer` is available, `forcedBurn` is not implemented to reduce contract code size. This limitation MAY not apply to other blockchains.
+> In the standard burn function, tokens from a frozen wallet MUST NOT be burnable. CMTAT offers `forcedTransfer` to force a transfer or a burn.
+>
+> If `forcedTransfer` is not available, implementations MAY implement only `forcedBurn` (as in CMTAT Light). Implementations MAY also implement both. In that case, only `forcedBurn` SHOULD burn tokens, and `forcedTransfer` SHOULD NOT burn tokens.
+>
+> With the CMTAT Solidity version, when `forcedTransfer` is available, `forcedBurn` is not implemented to reduce contract code size. This limitation MAY not apply to other blockchains.
 
 ##### Note
 
@@ -290,11 +290,65 @@ Once issued, a security can only be cancelled by its issuer, not its holder. Sin
 
 You MAY still add self-burn in your version if it fits your legal or business context.
 
+
+
+### Cross-Chain Bridge Support
+
+> **This feature is NOT part of the CMTAT specification directly.** Cross-chain
+> transferability is not a requirement of the CMTAT standard and is not part of the
+> equivalency criteria above. It is an **optional module offered by the CMTAT Solidity
+> implementation**, documented here only as a reference so that new implementations MAY
+> map equivalent functionality if they choose to support bridging. An implementation MAY
+> be fully CMTAT-equivalent without providing any cross-chain capability.
+
+CMTAT Solidity supports cross-chain bridging through a **burn-and-mint** model rather than
+lock-and-mint: tokens are burned on the source chain by an authorized bridge and minted on
+the destination chain by an authorized bridge. Two complementary standards are implemented
+in the optional cross-chain module:
+
+- **[ERC-7802](https://eips.ethereum.org/EIPS/eip-7802)** — a minimal, bridge-agnostic
+  interface for cross-chain mint and burn. This is the primitive that any compliant token
+  bridge can call.
+- **[Chainlink CCIP](https://docs.chain.link/ccip) (Cross-Chain Token / CCT standard)** —
+  administrative hooks (`CCIPModule`) that let the token register with the CCIP token admin
+  registry.
+
+The cross-chain mint/burn entry points are **not** the standard `mint` / `burn` functions:
+they are dedicated functions restricted to the trusted bridge via a specific role, and they
+are blocked while the contract is paused (consistent with the *Mint while pause* /
+*Burn while pause* rows in [Implementation Details](#implementation-details)).
+
+| Requirement | CMTAT Solidity corresponding feature | Access Control (CMTAT Solidity) | Notes | Present in implementation being approved (`y/n`) | Access Control (implementation being approved) | Implementation details |
+|---|---|---|---|---|---|---|
+| Cross-chain mint (ERC-7802) | `crosschainMint(address to, uint256 value)` | Role-restricted (`CROSS_CHAIN_ROLE`, trusted token bridge); blocked while paused | Authenticates the bridge with `msg.sender` (not `_msgSender()`) so a relayer/forwarder cannot impersonate the bridge. Emits `CrosschainMint`. |  |  |  |
+| Cross-chain burn (ERC-7802) | `crosschainBurn(address from, uint256 value)` | Role-restricted (`CROSS_CHAIN_ROLE`, trusted token bridge); blocked while paused | Does **not** require an ERC-20 allowance from `from`, following the Optimism Superchain ERC-20 and OpenZeppelin `ERC20Bridgeable` design. Emits `CrosschainBurn`. |  |  |  |
+| Advertise ERC-7802 support | `supportsInterface(type(IERC7802).interfaceId)` | Public (`view`) | ERC-165 discovery so bridges can detect ERC-7802 compatibility. |  |  |  |
+| Set CCIP admin | `setCCIPAdmin(address newAdmin)` | Role-restricted (`DEFAULT_ADMIN_ROLE`) | Chainlink CCIP (CCT) integration. The CCIP admin only registers the token with the CCIP token admin registry and has no other powers; 1-step transfer, `address(0)` revokes. |  |  |  |
+| Get CCIP admin | `getCCIPAdmin()` | Public (`view`) | Returns the current CCIP admin. |  |  |  |
+
+##### Note
+
+> - The trusted bridge holds `CROSS_CHAIN_ROLE`. A bridge MAY `renounceRole` to drop its
+>   privileges; this only deprives it of cross-chain mint/burn and has no other effect, but
+>   such a bridge should then be considered compromised and not reused.
+> - CMTAT Solidity also exposes related dedicated burn paths used alongside bridging —
+>   `burnFrom` (guarded by `BURNER_FROM_ROLE`) and self-`burn` (guarded by
+>   `BURNER_SELF_ROLE`) — which are likewise role-restricted and blocked while paused.
+> - This subsection can be used to detail whether and how the implementation being approved
+>   supports bridging, which standard(s) or bridge(s) it targets, and the trust/role model
+>   applied to the bridge on the target chain. For non-EVM blockchains, ERC-7802 and CCIP
+>   may not be directly applicable; an equivalent burn-and-mint bridge model MAY be
+>   documented instead.
+
+
+
 ## Supplementary features
 
 > This section MAY be used to document supplementary features beyond the CMTAT standard that are present in the implementation being approved.
 
+## Conclusion
 
+> This section can be used to summarize the main point and potential difference between the implementation being approved and CMTAT Specification
 
 ## Reference
 
