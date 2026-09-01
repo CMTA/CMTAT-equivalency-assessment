@@ -8,8 +8,10 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 
-- Summary section (before the equivalency table) giving the aggregated compliance of the implementation being approved with CMTAT: scope of the count (17 mandatory / 37 optional criteria), allowed answer values (`y` / `partial` / `n`), compliance table to fill, and a note requiring every `partial` and every mandatory `n` to be explained
+- Summary section (before the equivalency table) giving the aggregated compliance of the implementation being approved with CMTAT: scope of the count (17 mandatory / 38 optional criteria), allowed answer values (`y` / `partial` / `n`), compliance table to fill, and a note requiring every `partial` and every mandatory `n` to be explained
 - Cross-Chain Bridge Support section (ERC-7802 and Chainlink CCIP), documented as an optional module outside the equivalency criteria
+- Optional criterion 6: Version attribute, mapped to the CMTAT Solidity `VersionModule` / ERC-3643 `version()` function
+- Version subsection in the Guideline for New Blockchain Implementations, describing how the implementation version MAY be exposed on other blockchains and the constraint on a mutable version value
 
 ### Changed
 
@@ -17,6 +19,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - How to Use This Document: added the filling order (equivalency table, then summary, then conclusion) and the `y` / `partial` / `n` answer values
 - Table of Contents: added Summary and Conclusion entries
 - All assessment table headers: the *Present in implementation being approved* column now accepts `y/partial/n` instead of `y/n`
+- Criteria renumbered from 55 items: former IDs 6–54 shifted to 7–55 to insert the Version attribute as ID 6. Optional criteria count goes from 37 to 38 (mandatory stays at 17)
+- Credit Events table: stale reference to the pre-0.2.0 ID `1.29` replaced by ID 38
 
 ## [0.2.0] - 2026-05-22
 
