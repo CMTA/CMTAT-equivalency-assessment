@@ -362,7 +362,7 @@ In CMTAT Solidity a restriction is a **rule**: a contract that answers whether a
 - Each rule exposes a **read path** — `detectTransferRestriction` / `canTransfer` and their `…From` variants — which MUST NOT revert and returns an [ERC-1404](https://eips.ethereum.org/EIPS/eip-1404) restriction code, `0` meaning no restriction.
 - Each rule also exposes a **write path** — `transferred`, `created`, `destroyed` — called by the token once it has decided to move the value. It reverts to block the operation and MAY update the rule state.
 
-Mint and burn travel the same path with one party missing — a mint is a movement from the zero address, a burn a movement to the zero address — so a rule does not necessarily apply to them. The table states, for each restriction, what it checks on a transfer, on a mint, and on a burn.
+Mint and burn use the same path with one party missing — a mint is a movement from the zero address, a burn a movement to the zero address — so a rule does not necessarily apply to them. The table states, for each restriction, what it checks on a transfer, on a mint, and on a burn.
 
 | Restriction | CMTAT Solidity rule | On transfer | On mint | On burn | Notes | Present in implementation being approved (`y/partial/n`) | Implementation details |
 |---|---|---|---|---|---|---|---|
