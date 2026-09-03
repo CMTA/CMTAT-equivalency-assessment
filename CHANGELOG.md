@@ -16,7 +16,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   - List of typical readers to consider (everyone, the account holder, the transfer counterparty, the issuer or administrator role, an auditor or regulator, the ledger operator or validator nodes, nobody)
   - Note asking the implementation to describe how privacy works on the target chain and its consequences for the CMTAT features (supply audit, snapshot, dividend, freeze and allowlist enforcement, disclosure procedure)
 - Document Version section: distinction between the **template version** (this document, as published by CMTA) and the **assessment version** (the filled document, set by its author)
-  - Table to fill with the three values (template version, assessment version, template version the assessment was filled from) and the recommended one-line form `v0.2.0 (this assessment), filled from CMTA assessment template v0.2.0`
+  - Table with the two values (the template version, pre-filled and not to be modified, and the assessment version, set by the author) and the recommended one-line form `v0.2.0 (this assessment), filled from CMTA assessment template v0.2.0`
   - The template version an assessment was filled from MUST always be recorded, since criteria IDs MAY be renumbered from one template version to the next
 - Note subsections for the Pause module, the Enforcement module and the Implementation Details table, so every fillable table now has a place to describe how the implementation being approved covers it (role model, execution flow, chain-level behaviour)
 - Optional criterion 6: Version attribute, mapped to the CMTAT Solidity `VersionModule` / ERC-3643 `version()` function
