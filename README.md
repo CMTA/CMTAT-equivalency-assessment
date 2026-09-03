@@ -407,11 +407,13 @@ In the table below, the CMTAT framework extended features are mapped to Solidity
 
 ### Self-Burn
 
-Only the issuer and authorized addresses (not the token holder) can burn a token in CMTAT Solidity, which reflects legal requirements in several jurisdictions.
+> Only the issuer and authorized addresses (not the token holder) can burn a token in CMTAT Solidity, which reflects legal requirements in several jurisdictions.
+>
+> Once issued, a security can only be cancelled by its issuer, not its holder. Since the token represents the security, the same rule applies. An investor who wants to exit should transfer to the issuer, who can then cancel when legally permitted.
+>
+> You MAY still add self-burn in your version if it fits your legal or business context.
 
-Once issued, a security can only be cancelled by its issuer, not its holder. Since the token represents the security, the same rule applies. An investor who wants to exit should transfer to the issuer, who can then cancel when legally permitted.
 
-You MAY still add self-burn in your version if it fits your legal or business context.
 
 
 
@@ -426,7 +428,7 @@ CMTAT Solidity supports cross-chain bridging through a **burn-and-mint** model r
 
 The cross-chain mint/burn entry points are **not** the standard `mint` / `burn` functions: they are dedicated functions restricted to the trusted bridge via a specific role, and they are blocked while the contract is paused (consistent with the *Mint while pause* / *Burn while pause* rows in [Implementation Details](#implementation-details)).
 
-This distinction matters because, in CMTAT Solidity, the standard `mint` and `burn` remain available while the contract is paused: the pause check is carried by the authorization hook of each entry point (`_checkTokenBridge` is `whenNotPaused`, `_authorizeMint` is not), not by the shared mint/burn path.
+In CMTAT Solidity, the standard `mint` and `burn` remain available while the contract is paused: the pause check is carried by the authorization hook of each entry point (`_checkTokenBridge` is `whenNotPaused`, `_authorizeMint` is not), not by the shared mint/burn path.
 
 An implementation that does **not** provide dedicated cross-chain entry points, and instead reuses the standard `mint` and `burn` functions for bridge operations:
 
@@ -453,8 +455,9 @@ An implementation that does **not** provide dedicated cross-chain entry points, 
 ### Privacy and Confidentiality
 
 > **This section is NOT part of the CMTAT specification and is NOT an equivalency criterion.** CMTAT Solidity targets public EVM chains, where all token state is readable by anyone. This section exists so that an implementation targeting a blockchain or a distributed ledger offering some level of privacy or confidentiality can document what stays public, what is hidden, and who is still able to read it.
-
-On a public EVM chain, every element of the table below is public: contract storage is readable by any node even when a variable is declared `private` in Solidity, and every transfer, mint, burn, freeze, and allowlist update is visible in the transaction data and in the emitted events. An implementation on a privacy-enabled ledger MAY hide part of this state. It MUST then document how the hidden state is protected, and who can still read it — in particular whether the issuer retains the visibility required by the CMTAT features it claims (snapshot, dividend, forced transfer, freeze).
+>
+> On a public EVM chain, every element of the table below is public: contract storage is readable by any node even when a variable is declared `private` in Solidity, and every transfer, mint, burn, freeze, and allowlist update is visible in the transaction data and in the emitted events. An implementation on a privacy-enabled ledger MAY hide part of this state. It MUST then document how the hidden state is protected, and who can still read it — in particular whether the issuer retains the visibility required by the CMTAT features it claims (snapshot, dividend, forced transfer, freeze).
+>
 
 #### Visibility values
 
