@@ -3,6 +3,7 @@
 ## Table of Contents
 
 - [Document Version](#document-version)
+- [Metadata](#metadata)
 - [How to Use This Document](#how-to-use-this-document)
 - [General Note](#general-note)
 - [Warning](#warning)
@@ -11,7 +12,6 @@
   - [Answer values](#answer-values)
   - [Compliance table](#compliance-table)
 - [CMTAT Function Equivalency Table](#cmtat-function-equivalency-table)
-  - [Metadata](#metadata)
   - [Token Attributes](#token-attributes)
     - [Token module](#token-module)
   - [Pause module (mandatory)](#pause-module-mandatory)
@@ -59,10 +59,26 @@ Note:
 - both notes above apply to the template version and to the assessment version.
 - the template version MUST always be recorded next to the assessment version: criteria IDs are sequential over the whole document and MAY be renumbered from one template version to the next, so an answer given against an earlier template cannot be read against a later one without checking the [changelog](CHANGELOG.md).
 
+## Metadata
+
+This section identifies the implementation being assessed. It MUST be completed before the [CMTAT Function Equivalency Table](#cmtat-function-equivalency-table), together with the assessment version in [Document Version](#document-version).
+
+| Field | Value |
+|---|---|
+| Implementation name |  |
+| Target blockchain or distributed ledger |  |
+| Implementation language |  |
+| Implementation version |  |
+| Source repository and commit |  |
+| Assessment date |  |
+| Assessed by |  |
+
+The *Implementation version* is the version of the token implementation itself, as returned by criterion 6 when that criterion is supported. It is neither the assessment version nor the template version.
+
 ## How to Use This Document
 
 - Fill the document in this order: **CMTAT Function Equivalency Table** first, then **Summary**, then **Conclusion**.
-- Record both versions in **[Document Version](#document-version)** before starting: the version of the assessment being written, and the template version it is filled from.
+- Before starting, fill **[Metadata](#metadata)** — what is being assessed — and the assessment version in **[Document Version](#document-version)**, next to the template version the assessment is filled from.
 - Use the **CMTAT Function Equivalency Table** as the fillable assessment checklist. Each criterion MUST be answered with `y`, `partial`, or `n` in the *Present in implementation being approved* column (see [Answer values](#answer-values)).
 - Use the **Summary** to give the aggregated compliance result of the implementation being approved with the CMTAT standard.
 - Use the **Conclusion** to describe, in broad terms, how the implementation being approved works and where it differs from CMTAT.
@@ -137,11 +153,6 @@ An implementation SHOULD be considered equivalent to CMTAT only if **no mandator
 </details>
 
 ## CMTAT Function Equivalency Table
-
-### Metadata
-
-- Implementation language: _(to be filled)_
-- Implementation version: _(to be filled)_
 
 ### Token Attributes
 
