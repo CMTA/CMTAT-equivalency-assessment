@@ -33,6 +33,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [0.2.0] - 2026-05-22
 
+Commit: `a0b5f516447aec9dea51b48c420817e0b821de5d`
+
 ### Added
 
 - Table of Contents
