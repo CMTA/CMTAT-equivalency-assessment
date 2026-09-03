@@ -24,7 +24,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Changed
 
-- Bullet lists inside the note blockquotes are rendered one bullet per line again (Summary note, Version subsection, Cross-Chain Bridge Support note, Conclusion): they had been collapsed into a single paragraph where the items were separated by ` - `, which Markdown rendered as one run-on sentence
+- Bullet lists inside the note blockquotes are rendered one bullet per line again (Summary note, Version subsection, Cross-Chain Bridge Support note, Conclusion): they had been collapsed into a single paragraph where the items were separated by ` - `, which Markdown rendered as one run-on sentence. The guidance on reusing the standard `mint` and `burn` for bridge operations was likewise split into a lead-in sentence and three bullets
 - Conclusion section: replaced the free-form guideline with a list of the technical points the conclusion MUST cover (token model, architecture, access control model, transfer control flow, issuance and cancellation, data and metadata storage, main differences with CMTAT Solidity, known limitations)
 - How to Use This Document: added the filling order (equivalency table, then summary, then conclusion) and the `y` / `partial` / `n` answer values
 - Table of Contents: added Summary and Conclusion entries
