@@ -27,6 +27,10 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Changed
 
+- Submodules moved from the repository root into a `submodules/` directory (`submodules/CMTAT`, `submodules/SnapshotEngine`, `submodules/RuleEngine`, `submodules/Rules`); `git submodule update --init --recursive` is enough to pick up the new layout
+- Reference table updated to the checked-out submodule versions: CMTAT `v3.2.0` to `v3.3.0-rc3`, SnapshotEngine `v0.3.0` to `v0.5.0`, RuleEngine `v3.0.0-rc2` to `v3.0.0-rc6`, Rules `v0.3.0` to `v0.6.0`
+  - Every CMTAT Solidity function, interface and role named in the criteria was re-checked against these versions and still exists, so no pre-filled column changed
+  - CMTAT is now pinned to a release candidate: `v3.3.0-rc3` is newer than the last stable release `v3.2.0`
 - Bullet lists inside the note blockquotes are rendered one bullet per line again (Summary note, Version subsection, Cross-Chain Bridge Support note, Conclusion): they had been collapsed into a single paragraph where the items were separated by ` - `, which Markdown rendered as one run-on sentence. The guidance on reusing the standard `mint` and `burn` for bridge operations was likewise split into a lead-in sentence and three bullets
 - Conclusion section: replaced the free-form guideline with a list of the technical points the conclusion MUST cover (token model, architecture, access control model, transfer control flow, issuance and cancellation, data and metadata storage, main differences with CMTAT Solidity, known limitations)
 - How to Use This Document: added the filling order (equivalency table, then summary, then conclusion) and the `y` / `partial` / `n` answer values

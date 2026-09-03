@@ -536,7 +536,7 @@ Submodules used in this project and current checked-out versions:
 
 | Submodule | Repository | Version | Commit |
 |---|---|---|---|
-| CMTAT | https://github.com/CMTA/CMTAT | `v3.2.0` | `49544f4de1993008acfc9e848d0bf03bd31d8579` |
-| SnapshotEngine | https://github.com/CMTA/SnapshotEngine | `v0.3.0-1-g19e0b56` | `19e0b569bf5823aa8cec5760f080a932a9ac940e` |
-| RuleEngine | https://github.com/CMTA/RuleEngine | `v3.0.0-rc2-2-g9c0aa70` | `9c0aa70aae08047e4062beab0f89f92bd60252c0` |
-| Rules | https://github.com/CMTA/Rules | `v0.3.0` | `91c21c1191e84ff938892267ec443b0d1bb9efb0` |
+| CMTAT | https://github.com/CMTA/CMTAT | `v3.3.0-rc3` | `658672f190d56d3f61663a7d6d51962b8980df70` |
+| SnapshotEngine | https://github.com/CMTA/SnapshotEngine | `v0.5.0` | `aa089353605cd1b0e555d22b62aa4fbeaae7df25` |
+| RuleEngine | https://github.com/CMTA/RuleEngine | `v3.0.0-rc6` | `ca75429c581a2eb9043e4719561e941d0b2e1206` |
+| Rules | https://github.com/CMTA/Rules | `v0.6.0` | `283efe723225c89729fd618852a9c2705a47180b` |

@@ -46,26 +46,28 @@ This repository is **documentation only**. It defines the *CMTAT Equivalency Ass
 │   ├── CMTAT_Equivalency_Assessment_Specificationv0.2.0.pdf   # released PDF (cover page + document)
 │   ├── coverpage_CMTA.odg                                     # LibreOffice cover page source
 │   └── coverpage_CMTA.pdf                                     # its PDF export
-├── CMTAT/            # submodule — CMTAT Solidity reference implementation
-├── SnapshotEngine/   # submodule — snapshot engine behind the Snapshot criteria (26–31)
-├── RuleEngine/       # submodule — transfer-hook engine behind the Transfer restriction criteria (20–22)
-└── Rules/            # submodule — individual rules (whitelist, conditional transfer)
+├── doc/              # CMTA source documents the criteria are derived from (framework functional specifications, debt-instrument standard)
+└── submodules/       # the four CMTA reference repositories, all pinned to a tag
+    ├── CMTAT/            # submodule — CMTAT Solidity reference implementation
+    ├── SnapshotEngine/   # submodule — snapshot engine behind the Snapshot criteria (26–31)
+    ├── RuleEngine/       # submodule — transfer-hook engine behind the Transfer restriction criteria (20–22)
+    └── Rules/            # submodule — individual rules (whitelist, conditional transfer)
 ```
 
 Most useful paths when checking or writing the CMTAT Solidity columns:
 
-- `CMTAT/contracts/modules/wrapper/{core,controllers,extensions,options,security}/` — the module implementations the criteria map to.
-- `CMTAT/contracts/interfaces/` — the interfaces quoted in the criteria (`IERC3643Partial.sol`, `ICMTATDebt`, `ICMTATCreditEvents`, …).
-- `CMTAT/doc/modules/` — per-module documentation, the quickest source for a feature's description and its access control.
+- `submodules/CMTAT/contracts/modules/wrapper/{core,controllers,extensions,options,security}/` — the module implementations the criteria map to.
+- `submodules/CMTAT/contracts/interfaces/` — the interfaces quoted in the criteria (`IERC3643Partial.sol`, `ICMTATDebt`, `ICMTATCreditEvents`, …).
+- `submodules/CMTAT/doc/modules/` — per-module documentation, the quickest source for a feature's description and its access control.
 
 ## Dependencies (pinned submodule versions)
 
 | Submodule | Version | Commit |
 |---|---|---|
-| CMTAT | `v3.2.0` | `49544f4de1993008acfc9e848d0bf03bd31d8579` |
-| SnapshotEngine | `v0.3.0-1-g19e0b56` | `19e0b569bf5823aa8cec5760f080a932a9ac940e` |
-| RuleEngine | `v3.0.0-rc2-2-g9c0aa70` | `9c0aa70aae08047e4062beab0f89f92bd60252c0` |
-| Rules | `v0.3.0` | `91c21c1191e84ff938892267ec443b0d1bb9efb0` |
+| CMTAT | `v3.3.0-rc3` | `658672f190d56d3f61663a7d6d51962b8980df70` |
+| SnapshotEngine | `v0.5.0` | `aa089353605cd1b0e555d22b62aa4fbeaae7df25` |
+| RuleEngine | `v3.0.0-rc6` | `ca75429c581a2eb9043e4719561e941d0b2e1206` |
+| Rules | `v0.6.0` | `283efe723225c89729fd618852a9c2705a47180b` |
 
 This table is duplicated in the `Reference` section at the end of `README.md`. Whenever a submodule is moved, update both from `git submodule status`.
 
@@ -74,6 +76,7 @@ This table is duplicated in the `Reference` section at the end of `README.md`. W
 ```bash
 git submodule update --init --recursive   # fetch the four reference repositories
 git submodule status                      # versions and commits for the Reference table
+git -C submodules/<name> tag --sort=-v:refname | head   # newest tag available upstream, to check the pin
 ```
 
 After editing any criteria table, check that the IDs are still a gap-free sequence and that the totals still hold:
