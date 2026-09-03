@@ -24,6 +24,7 @@
   - [Debt (optional)](#debt-optional)
 - [Guideline for New Blockchain Implementations](#guideline-for-new-blockchain-implementations)
   - [Freeze](#freeze)
+  - [Restriction (optional)](#restriction-optional)
   - [Version](#version)
   - [CMTAT Extended](#cmtat-extended)
   - [Forced Burn and Forced Transfer](#forced-burn-and-forced-transfer)
@@ -106,7 +107,7 @@ The equivalency table contains **55 numbered criteria**:
 | Mandatory | 17 | 1–4, 7–11, 13–17, 23–25 |
 | Optional | 38 | 5–6, 12, 18–22, 26–55 |
 
-Each criterion MUST be counted exactly once. The non-numbered tables ([CMTAT Extended](#cmtat-extended), [Implementation Details](#implementation-details), [Cross-Chain Bridge Support](#cross-chain-bridge-support), [Privacy and Confidentiality](#privacy-and-confidentiality)) are **not** part of this count; they SHOULD be commented in the [Conclusion](#conclusion) instead.
+Each criterion MUST be counted exactly once. The non-numbered tables ([CMTAT Extended](#cmtat-extended), [Implementation Details](#implementation-details), [Cross-Chain Bridge Support](#cross-chain-bridge-support), [Restriction](#restriction-optional), [Privacy and Confidentiality](#privacy-and-confidentiality)) are **not** part of this count; they SHOULD be commented in the [Conclusion](#conclusion) instead.
 
 ### Answer values
 
@@ -349,6 +350,37 @@ unfreeze(address targetAddress)
 
 > This subsection can be used to detail the choice made by the implementation being approved.
 
+
+
+### Restriction (optional)
+
+> Transfer restrictions are criteria 20–22 and are optional. The table below is a **reference catalogue** of the restrictions the CMTAT Solidity stack can apply, taken from the [Rules](https://github.com/CMTA/Rules) repository; it is not part of the equivalency count. An implementation MAY offer any subset of these restrictions, none of them, or restrictions that have no CMTAT Solidity equivalent.
+
+In CMTAT Solidity a restriction is a **rule**: a contract that answers whether a movement of value is allowed. A rule is plugged directly into the token, or several rules are composed behind a **RuleEngine**, which returns the first non-zero restriction code — so the order of the rules decides which code a rejection reports. Each rule exposes two paths: a read path (`detectTransferRestriction` / `canTransfer` and their `…From` variants) that MUST NOT revert and returns an [ERC-1404](https://eips.ethereum.org/EIPS/eip-1404) restriction code, `0` meaning no restriction; and a write path (`transferred`, `created`, `destroyed`) called by the token once it has decided to move the value, which reverts to block the operation and MAY update the rule state.
+
+Mint and burn travel the same path with one party missing — a mint is a movement from the zero address, a burn a movement to the zero address — so a rule does not necessarily apply to them. The table states, for each restriction, what it checks on a transfer, on a mint, and on a burn.
+
+| Restriction | CMTAT Solidity rule | On transfer | On mint | On burn | Notes | Present in implementation being approved (`y/partial/n`) | Implementation details |
+|---|---|---|---|---|---|---|---|
+| Whitelist | `RuleWhitelist` | Sender and receiver MUST be listed; the spender of a `transferFrom` optionally | Not checked | Not checked |  |  |  |
+| Aggregated whitelists | `RuleWhitelistWrapper` | Sender and receiver MUST be listed in at least one of the aggregated lists | Not checked | Not checked | An empty wrapper rejects every transfer (fail-closed). |  |  |
+| Receiver whitelist | `RuleReceiverWhitelist` | Receiver only | Receiver MUST be listed | Not checked | Reproduces ERC-3643 eligibility: screening only the receiver lets a de-listed holder still exit a position. |  |  |
+| Spender whitelist | `RuleSpenderWhitelist` | Spender of a `transferFrom` MUST be listed; sender and receiver are not checked | Not checked | Not checked |  |  |  |
+| Blacklist | `RuleBlacklist` | Blocks a listed sender, receiver or spender | Blocks a listed minter | Blocks a listed burner |  |  |  |
+| Sanctions list | `RuleSanctionsList` | Blocks a sanctioned sender, receiver or spender | Blocks a sanctioned minter | Blocks a sanctioned burner | Reads an external sanctions oracle. An unset oracle allows everything (fail-open). |  |  |
+| Whitelist and frozen list (ERC-2980) | `RuleERC2980` | Receiver MUST be whitelisted; sender, receiver and spender MUST NOT be frozen | Blocks a frozen minter | Blocks a frozen burner |  |  |  |
+| Identity registry | `RuleIdentityRegistry` | Receiver MUST be verified; sender and spender are opt-in checks | Not checked | Not checked | Calls `isVerified` on an ERC-3643 identity registry. An unset registry allows everything (fail-open). |  |  |
+| Maximum total supply | `RuleMaxTotalSupply`, `RuleMaxTotalSupplyERC3643` | Not checked | Rejects a mint that would take the total supply over the cap | Not checked | The `…ERC3643` variant exists because an ERC-3643 token calls compliance after moving the value. |  |  |
+| Reserve-backed supply cap | `RuleChainlinkPoR`, `RuleChainlinkPoRERC3643` | Not checked | Rejects a mint that would take the total supply over the reserves reported by a proof-of-reserve feed | Not checked | A missing, broken or stale feed rejects every mint (fail-closed). |  |  |
+| Maximum balance per address | `RuleMaxBalance` | Receiver's balance after the transfer MUST stay under the cap | Receiver's balance after the mint MUST stay under the cap | Not checked | The cap counts tokens per address, so splitting a position across wallets defeats it unless one address per investor is enforced. |  |  |
+| Conditional transfer | `RuleConditionalTransferLight`, `RuleConditionalTransferLightMultiToken` | The exact transfer MUST have been approved beforehand; the approval is consumed | Not checked | Not checked | Criteria 20–21. |  |  |
+| Per-minter quota | `RuleMintAllowance` | Not checked | Debits the minter's quota and rejects the mint once it is exhausted | Not checked | Needs the token to forward the spender on mint (CMTAT `v3.3` or later). |  |  |
+
+##### Note
+
+> This subsection can be used to detail which restrictions the implementation being approved applies, where the logic lives (in the token, in an external module, or in the chain runtime), in which order the restrictions are evaluated, and what a rejected operation returns to the caller — a revert, an error code, or a status returned by a read-only entry point.
+>
+> Restrictions that have no CMTAT Solidity equivalent SHOULD be listed here as well, together with the behaviour of each restriction when its external data source (oracle, registry, list) is unset or unavailable: rejecting every operation (fail-closed) and allowing every operation (fail-open) are both defensible, but the choice MUST be explicit.
 
 
 ### Version
