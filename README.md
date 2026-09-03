@@ -199,6 +199,10 @@ For CMTAT reference implementations, `tokenId` and `version` SHOULD both be incl
 | 14   | Unpause tokens      | `unpause`                            | Role-restricted (pauser/admin authorized) |                                                              |                                                  |                                                |                        |
 | 15   | Deactivate contract | `deactivateContract`                 | Role-restricted (admin authorized)        | Must permanently disable the token (except in upgradeability patterns where deactivation behavior is explicitly defined). |                                                  |                                                |                        |
 
+##### Note
+
+> This subsection can be used to detail how each mandatory function is implemented, including role model, execution flow, and specific chain-level behavior.
+
 #### Enforcement
 
 #### Mandatory
@@ -218,6 +222,10 @@ For CMTAT reference implementations, `tokenId` and `version` SHOULD both be incl
 | 19   | Partial freeze     | `freezePartialTokens(address account, uint256 value)` / `unfreezePartialTokens(address account, uint256 value)` | Role-restricted (operator/compliance authorized) | Intended only to block a sold amount to avoid double-spend during settlement. |                                                  |                                                |                        |
 
 
+
+##### Note
+
+> This subsection can be used to detail how each mandatory function is implemented, including role model, execution flow, and specific chain-level behavior.
 
 #### Transfer restriction (optional)
 
@@ -387,6 +395,10 @@ In the table below, the CMTAT framework extended features are mapped to Solidity
 | Self-Burn for authorized addresses | <strong><span style="color: #1e7e34;">&#x2714;</span></strong> | Role-restricted (authorized burner) |  |  |  |  |
 | Standard burn on a frozen address | <strong><span style="color: #b00020;">&#x2718;</span></strong> | Not permitted in standard burn path | Requires `forcedTransfer` or `forcedBurn`. |  |  |  |
 | Burn tokens with `forcedTransfer` | <strong><span style="color: #1e7e34;">&#x2714;</span></strong> | Role-restricted (operator/compliance authorized) | See notes above. |  |  |  |
+
+##### Note
+
+> This subsection can be used to detail how the implementation being approved behaves in each case above, including the role model and the specific chain-level behavior while the token is paused or an address is frozen.
 
 ### Self-Burn
 

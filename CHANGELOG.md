@@ -18,6 +18,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Document Version section: distinction between the **template version** (this document, as published by CMTA) and the **assessment version** (the filled document, set by its author)
   - Table to fill with the three values (template version, assessment version, template version the assessment was filled from) and the recommended one-line form `v0.2.0 (this assessment), filled from CMTA assessment template v0.2.0`
   - The template version an assessment was filled from MUST always be recorded, since criteria IDs MAY be renumbered from one template version to the next
+- Note subsections for the Pause module, the Enforcement module and the Implementation Details table, so every fillable table now has a place to describe how the implementation being approved covers it (role model, execution flow, chain-level behaviour)
 - Optional criterion 6: Version attribute, mapped to the CMTAT Solidity `VersionModule` / ERC-3643 `version()` function
 - Version subsection in the Guideline for New Blockchain Implementations, describing how the implementation version MAY be exposed on other blockchains and the constraint on a mutable version value
 
