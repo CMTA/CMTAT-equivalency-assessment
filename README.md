@@ -118,7 +118,9 @@ An implementation SHOULD be considered equivalent to CMTAT only if **no mandator
 
 > This subsection MUST explain the figures given in the compliance table, and in particular:
 >
-> - **every `partial` answer**: which part of the requirement is covered, which part is not, and why (chain-level limitation, legal or business choice, different access control model, feature planned for a later version); - **every mandatory `n` answer**: why the requirement cannot be met, and what compensating measure (if any) exists; - **optional modules left out by design**: when a whole optional module (for example Dividend, Debt, or Snapshot) is answered `n`, it SHOULD be stated once here rather than criterion by criterion.
+> - **every `partial` answer**: which part of the requirement is covered, which part is not, and why (chain-level limitation, legal or business choice, different access control model, feature planned for a later version);
+> - **every mandatory `n` answer**: why the requirement cannot be met, and what compensating measure (if any) exists;
+> - **optional modules left out by design**: when a whole optional module (for example Dividend, Debt, or Snapshot) is answered `n`, it SHOULD be stated once here rather than criterion by criterion.
 >
 > Example of an entry:
 >
@@ -344,7 +346,9 @@ unfreeze(address targetAddress)
 >
 > Versioning is an optional feature (criterion 6). Implementations on other blockchains MAY expose it differently:
 >
-> - as a constant returned by a read-only entry point, as in CMTAT Solidity; - through the chain-native contract or package metadata, when the target chain already versions the deployed code; - as a state variable restricted to an administrator role. In that case, the implementation MUST ensure that the value cannot be desynchronized from the deployed code, typically by writing it only in the initialization or upgrade path.
+> - as a constant returned by a read-only entry point, as in CMTAT Solidity;
+> - through the chain-native contract or package metadata, when the target chain already versions the deployed code;
+> - as a state variable restricted to an administrator role. In that case, the implementation MUST ensure that the value cannot be desynchronized from the deployed code, typically by writing it only in the initialization or upgrade path.
 >
 > For an upgradeable implementation, the version SHOULD be updated by the upgrade itself, so that an off-chain observer can always determine which code is live.
 
@@ -434,7 +438,9 @@ This distinction matters because, in CMTAT Solidity, the standard `mint` and `bu
 
 ##### Note
 
-> - The trusted bridge holds `CROSS_CHAIN_ROLE`. A bridge MAY `renounceRole` to drop its privileges; this only deprives it of cross-chain mint/burn and has no other effect, but such a bridge should then be considered compromised and not reused. - CMTAT Solidity also exposes related dedicated burn paths used alongside bridging — `burnFrom` (guarded by `BURNER_FROM_ROLE`) and self-`burn` (guarded by `BURNER_SELF_ROLE`) — which are likewise role-restricted and blocked while paused. - This subsection can be used to detail whether and how the implementation being approved supports bridging, which standard(s) or bridge(s) it targets, and the trust/role model applied to the bridge on the target chain. For non-EVM blockchains, ERC-7802 and CCIP may not be directly applicable; an equivalent burn-and-mint bridge model MAY be documented instead.
+> - The trusted bridge holds `CROSS_CHAIN_ROLE`. A bridge MAY `renounceRole` to drop its privileges; this only deprives it of cross-chain mint/burn and has no other effect, but such a bridge should then be considered compromised and not reused.
+> - CMTAT Solidity also exposes related dedicated burn paths used alongside bridging — `burnFrom` (guarded by `BURNER_FROM_ROLE`) and self-`burn` (guarded by `BURNER_SELF_ROLE`) — which are likewise role-restricted and blocked while paused.
+> - This subsection can be used to detail whether and how the implementation being approved supports bridging, which standard(s) or bridge(s) it targets, and the trust/role model applied to the bridge on the target chain. For non-EVM blockchains, ERC-7802 and CCIP may not be directly applicable; an equivalent burn-and-mint bridge model MAY be documented instead.
 
 
 
@@ -468,7 +474,13 @@ On a public EVM chain, every element of the table below is public: contract stor
 
 > Typical readers to consider when filling the *Other readers* column. An implementation SHOULD list every case that applies, not only the most restrictive one:
 >
-> - **everyone** — the value is public on the ledger; - **the account holder** — an address can read its own balance and its own transfers, but not those of other holders; - **the counterparty of a transfer** — sender and recipient both see the amount, third parties do not; - **the issuer or an administrator role** — able to read all balances, typically because the corporate actions covered by this document (snapshot, dividend, forced transfer, freeze) require it; - **an auditor, a regulator, or a court-appointed third party** — granted a read credential (view key, decryption share, observer node) permanently or on request; - **the operator of the ledger or the validator nodes** — on a permissioned ledger the nodes hosting the data may see it even when the public cannot; - **nobody** — the value is recoverable only by the key holder, and is lost with the key.
+> - **everyone** — the value is public on the ledger;
+> - **the account holder** — an address can read its own balance and its own transfers, but not those of other holders;
+> - **the counterparty of a transfer** — sender and recipient both see the amount, third parties do not;
+> - **the issuer or an administrator role** — able to read all balances, typically because the corporate actions covered by this document (snapshot, dividend, forced transfer, freeze) require it;
+> - **an auditor, a regulator, or a court-appointed third party** — granted a read credential (view key, decryption share, observer node) permanently or on request;
+> - **the operator of the ledger or the validator nodes** — on a permissioned ledger the nodes hosting the data may see it even when the public cannot;
+> - **nobody** — the value is recoverable only by the key holder, and is lost with the key.
 
 ##### Note
 
@@ -487,7 +499,14 @@ On a public EVM chain, every element of the table below is public: contract stor
 
 > This section MUST describe, in broad terms, **how the implementation being approved works technically**, so that a reader who has not gone through the tables can understand the design and its main differences with the CMTAT specification. It SHOULD cover at least the following points:
 >
-> - **Token model**: the underlying token primitive of the target blockchain (for example ERC-20, SPL token, Soroban token interface, UTXO-based asset), and how balances, total supply, and decimals are represented. - **Architecture**: single contract or several modules/programs, how they are linked (inheritance, composition, external calls, on-chain registry), and the upgradeability strategy (proxy, native chain upgrade, immutable with redeployment). - **Access control model**: which roles exist, who holds the administrator role, how roles are granted and revoked, and how these roles map to the CMTAT roles. - **Transfer control flow**: which checks are applied on a transfer (pause, freeze, partial freeze, allowlist, rule engine or transfer hook), in which order, and where this logic lives (inside the token, in an external module, or in the chain runtime). - **Issuance and cancellation**: the mint and burn paths, forced transfer and forced burn, and the behaviour on a frozen address or while the contract is paused. - **Data and metadata storage**: how terms, `tokenId`, debt attributes, and credit events are stored (on-chain state, hash with off-chain document, or chain-native metadata). - **Main differences with the CMTAT Solidity implementation**, and the reason for each one (chain constraints, legal context, performance, code size). - **Known limitations** and features that are planned but not yet implemented.
+> - **Token model**: the underlying token primitive of the target blockchain (for example ERC-20, SPL token, Soroban token interface, UTXO-based asset), and how balances, total supply, and decimals are represented.
+> - **Architecture**: single contract or several modules/programs, how they are linked (inheritance, composition, external calls, on-chain registry), and the upgradeability strategy (proxy, native chain upgrade, immutable with redeployment).
+> - **Access control model**: which roles exist, who holds the administrator role, how roles are granted and revoked, and how these roles map to the CMTAT roles.
+> - **Transfer control flow**: which checks are applied on a transfer (pause, freeze, partial freeze, allowlist, rule engine or transfer hook), in which order, and where this logic lives (inside the token, in an external module, or in the chain runtime).
+> - **Issuance and cancellation**: the mint and burn paths, forced transfer and forced burn, and the behaviour on a frozen address or while the contract is paused.
+> - **Data and metadata storage**: how terms, `tokenId`, debt attributes, and credit events are stored (on-chain state, hash with off-chain document, or chain-native metadata).
+> - **Main differences with the CMTAT Solidity implementation**, and the reason for each one (chain constraints, legal context, performance, code size).
+> - **Known limitations** and features that are planned but not yet implemented.
 >
 > The [Summary](#summary) gives the counts; this section gives the technical explanation behind them and MUST stay consistent with it.
 
