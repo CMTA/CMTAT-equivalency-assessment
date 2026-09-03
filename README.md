@@ -30,35 +30,40 @@
   - [Implementation Details](#implementation-details)
   - [Self-Burn](#self-burn)
   - [Cross-Chain Bridge Support](#cross-chain-bridge-support)
+  - [Privacy and Confidentiality](#privacy-and-confidentiality)
 - [Supplementary features](#supplementary-features)
 - [Conclusion](#conclusion)
 - [Reference](#reference)
 
 ## Document Version
+
 `v0.2.0`
 
-Note: 
+Note:
 
 - versions with the `rc` suffix are draft versions.
 - version before `1.0` are also draft versions
 
 ## How to Use This Document
+
 - Fill the document in this order: **CMTAT Function Equivalency Table** first, then **Summary**, then **Conclusion**.
 - Use the **CMTAT Function Equivalency Table** as the fillable assessment checklist. Each criterion MUST be answered with `y`, `partial`, or `n` in the *Present in implementation being approved* column (see [Answer values](#answer-values)).
 - Use the **Summary** to give the aggregated compliance result of the implementation being approved with the CMTAT standard.
-- Use the **Conclusion** to describe, in the broad lines, how the implementation being approved works and where it differs from CMTAT.
+- Use the **Conclusion** to describe, in broad terms, how the implementation being approved works and where it differs from CMTAT.
 - Use **Guideline for New Blockchain Implementations** as reference guidance when designing or mapping non-Solidity implementations.
 
 ## General Note
+
 - The listed functionalities are the **minimal set** required for each module.
 - The key words "MUST", "MUST NOT", "REQUIRED", "SHOULD", and "MAY" in this document are to be interpreted as described in [RFC 2119](https://www.rfc-editor.org/info/rfc2119) and [RFC 8174](https://www.rfc-editor.org/info/rfc8174).
 
 ## Warning
+
 An implementation MAY satisfy the CMTAT standard while still failing to meet the criteria required for tokenized shares under Swiss law at the underlying-ledger level. In particular, compliance with CMTAT does not, by itself, demonstrate that decentralization-related legal criteria are satisfied.
 
 ## Summary
 
-> This section MUST be completed **after** the [CMTAT Function Equivalency Table](#cmtat-function-equivalency-table). It summarizes, in a single view, the compliance of the implementation being approved with the CMTAT standard.
+> This section MUST be completed **after** the [CMTAT Function Equivalency Table](#cmtat-function-equivalency-table). It summarizes the compliance of the implementation being approved with the CMTAT standard.
 
 ### Scope of the count
 
@@ -69,7 +74,7 @@ The equivalency table contains **55 numbered criteria**:
 | Mandatory | 17 | 1–4, 7–11, 13–17, 23–25 |
 | Optional | 38 | 5–6, 12, 18–22, 26–55 |
 
-Each criterion MUST be counted exactly once. The non-numbered tables ([CMTAT Extended](#cmtat-extended), [Implementation Details](#implementation-details), [Cross-Chain Bridge Support](#cross-chain-bridge-support)) are **not** part of this count; they SHOULD be commented in the [Conclusion](#conclusion) instead.
+Each criterion MUST be counted exactly once. The non-numbered tables ([CMTAT Extended](#cmtat-extended), [Implementation Details](#implementation-details), [Cross-Chain Bridge Support](#cross-chain-bridge-support), [Privacy and Confidentiality](#privacy-and-confidentiality)) are **not** part of this count; they SHOULD be commented in the [Conclusion](#conclusion) instead.
 
 ### Answer values
 
@@ -97,16 +102,13 @@ An implementation SHOULD be considered equivalent to CMTAT only if **no mandator
 
 > This subsection MUST explain the figures given in the compliance table, and in particular:
 >
-> - **every `partial` answer**: which part of the requirement is covered, which part is not, and why (chain-level limitation, legal or business choice, different access control model, feature planned for a later version);
-> - **every mandatory `n` answer**: why the requirement cannot be met, and what compensating measure (if any) exists;
-> - **optional modules left out by design**: when a whole optional module (for example Dividend, Debt, or Snapshot) is answered `n`, it SHOULD be stated once here rather than criterion by criterion.
+> - **every `partial` answer**: which part of the requirement is covered, which part is not, and why (chain-level limitation, legal or business choice, different access control model, feature planned for a later version); - **every mandatory `n` answer**: why the requirement cannot be met, and what compensating measure (if any) exists; - **optional modules left out by design**: when a whole optional module (for example Dividend, Debt, or Snapshot) is answered `n`, it SHOULD be stated once here rather than criterion by criterion.
 >
 > Example of an entry:
 >
 > > *Criterion 15 (Deactivate contract) — Partial: the implementation permanently blocks all transfers and mints, but the account itself cannot be deleted from the ledger, since the chain runtime does not allow it. The deactivated state is irreversible and publicly readable.*
 
-<details>
-<summary>Example of a filled compliance table</summary>
+<details><summary>Example of a filled compliance table</summary>
 
 | Answer         | Mandatory (17) | Optional (38) |
 | -------------- | -------------: | ------------: |
@@ -119,10 +121,12 @@ An implementation SHOULD be considered equivalent to CMTAT only if **no mandator
 ## CMTAT Function Equivalency Table
 
 ### Metadata
+
 - Implementation language: _(to be filled)_
 - Implementation version: _(to be filled)_
 
 ### Token Attributes
+
 #### Mandatory
 | ID | Requirement | CMTAT Solidity corresponding feature | Access Control (CMTAT Solidity) | Notes | Present in implementation being approved (`y/partial/n`) | Access Control (implementation being approved) | Implementation details |
 |---|---|---|---|---|---|---|---|
@@ -236,6 +240,7 @@ For CMTAT reference implementations, `tokenId` and `version` SHOULD both be incl
 | 30 | Snapshot total supply | `snapshotTotalSupply(uint256 time)` | Public (`view`) | `ISnapshotState`. |  |  |  |
 | 31 | Snapshot balance | `snapshotBalanceOf(uint256 time, address tokenHolder)` | Public (`view`) | `ISnapshotState` (see also `snapshotInfo`). |  |  |  |
 ##### Note
+
 > This subsection can be used to detail snapshot scheduling and query behavior, including timing constraints and permission specifics.
 
 
@@ -251,8 +256,8 @@ For CMTAT reference implementations, `tokenId` and `version` SHOULD both be incl
 | 36 | Distribution schedule |  |  |  |  |  |  |
 | 37 | Distribution unschedule |  |  |  |  |  |  |
 ##### Note
-> This subsection can be used to detail dividend/distribution workflow specifics and jurisdiction- or product-specific handling rules.
-> No direct CMTAT Solidity equivalent is currently defined for these items; they are implementation-specific. However, a prototype is available on the CMTA GitHub organization: https://github.com/CMTA/IncomeVault
+
+> This subsection can be used to detail dividend/distribution workflow specifics and jurisdiction- or product-specific handling rules. No direct CMTAT Solidity equivalent is currently defined for these items; they are implementation-specific. However, a prototype is available on the CMTA GitHub organization: https://github.com/CMTA/IncomeVault
 
 #### Credit Events (optional)
 | ID | Requirement | CMTAT Solidity corresponding feature | Access Control (CMTAT Solidity) | Notes | Present in implementation being approved (`y/partial/n`) | Access Control (implementation being approved) | Implementation details |
@@ -262,6 +267,7 @@ For CMTAT reference implementations, `tokenId` and `version` SHOULD both be incl
 | 40 | Flag as redeemed | `setCreditEvents(CreditEvents)` -> `creditEvents().flagRedeemed` | Role-restricted (issuer/compliance/admin authorized) | Managed in `ICMTATCreditEvents.CreditEvents`. |  |  |  |
 | 41 | Set rating | `setCreditEvents(CreditEvents)` -> `creditEvents().rating` | Role-restricted (issuer/compliance/admin authorized) | Managed in `ICMTATCreditEvents.CreditEvents`. |  |  |  |
 ##### Note
+
 > This subsection can be used to detail how credit event states are updated, governed, and audited in the implementation being approved.
 
 
@@ -284,6 +290,7 @@ For CMTAT reference implementations, `tokenId` and `version` SHOULD both be incl
 | 54 | Day count convention | `debt().debtInstrument.dayCountConvention` | Read: public (`view`); write: role-restricted (`setDebt*`) | Debt module (`string`). |  |  |  |
 | 55 | Business day convention | `debt().debtInstrument.businessDayConvention` | Read: public (`view`); write: role-restricted (`setDebt*`) | Debt module (`string`). |  |  |  |
 ##### Note
+
 > This subsection can be used to detail supplementary attributes and to explain specific representation or governance choices made by the implementation being approved.
 
 
@@ -294,8 +301,7 @@ If you create a version for another blockchain, use this section to build a corr
 
 ### Freeze
 
-> To be compatible with [ERC-3643](https://eips.ethereum.org/EIPS/eip-3643), freeze in CMTAT Solidity is implemented with a single function: `setAddressFrozen(targetAddress, frozenStatus)`.
-> For non-EVM blockchains, implementations MAY separate this into two distinct functions:
+> To be compatible with [ERC-3643](https://eips.ethereum.org/EIPS/eip-3643), freeze in CMTAT Solidity is implemented with a single function: `setAddressFrozen(targetAddress, frozenStatus)`. For non-EVM blockchains, implementations MAY separate this into two distinct functions:
 
 ```solidity
 freeze(address targetAddress)
@@ -314,9 +320,7 @@ unfreeze(address targetAddress)
 >
 > Versioning is an optional feature (criterion 6). Implementations on other blockchains MAY expose it differently:
 >
-> - as a constant returned by a read-only entry point, as in CMTAT Solidity;
-> - through the chain-native contract or package metadata, when the target chain already versions the deployed code;
-> - as a state variable restricted to an administrator role. In that case, the implementation MUST ensure that the value cannot be desynchronized from the deployed code, typically by writing it only in the initialization or upgrade path.
+> - as a constant returned by a read-only entry point, as in CMTAT Solidity; - through the chain-native contract or package metadata, when the target chain already versions the deployed code; - as a state variable restricted to an administrator role. In that case, the implementation MUST ensure that the value cannot be desynchronized from the deployed code, typically by writing it only in the initialization or upgrade path.
 >
 > For an upgradeable implementation, the version SHOULD be updated by the upgrade itself, so that an off-chain observer can always determine which code is live.
 
@@ -344,8 +348,7 @@ In the table below, the CMTAT framework extended features are mapped to Solidity
 
 ##### Note
 
-> This section can be used to detail supplementary features implemented beyond the mandatory baseline and specific cases in the target chain.  
-> For non-EVM blockchains, it MAY be relevant to explain how gasless/gas sponsorship and upgradeability work in the particular blockchain targeted.
+> This section can be used to detail supplementary features implemented beyond the mandatory baseline and specific cases in the target chain. For non-EVM blockchains, it MAY be relevant to explain how gasless/gas sponsorship and upgradeability work in the particular blockchain targeted.
 
 ### Forced Burn and Forced Transfer
 
@@ -382,29 +385,14 @@ You MAY still add self-burn in your version if it fits your legal or business co
 
 ### Cross-Chain Bridge Support
 
-> **This feature is NOT part of the CMTAT specification directly.** Cross-chain
-> transferability is not a requirement of the CMTAT standard and is not part of the
-> equivalency criteria above. It is an **optional module offered by the CMTAT Solidity
-> implementation**, documented here only as a reference so that new implementations MAY
-> map equivalent functionality if they choose to support bridging. An implementation MAY
-> be fully CMTAT-equivalent without providing any cross-chain capability.
+> **This feature is NOT part of the CMTAT specification directly.** Cross-chain transferability is not a requirement of the CMTAT standard and is not part of the equivalency criteria above. It is an **optional module offered by the CMTAT Solidity implementation**, documented here only as a reference so that new implementations MAY map equivalent functionality if they choose to support bridging. An implementation MAY be fully CMTAT-equivalent without providing any cross-chain capability.
 
-CMTAT Solidity supports cross-chain bridging through a **burn-and-mint** model rather than
-lock-and-mint: tokens are burned on the source chain by an authorized bridge and minted on
-the destination chain by an authorized bridge. Two complementary standards are implemented
-in the optional cross-chain module:
+CMTAT Solidity supports cross-chain bridging through a **burn-and-mint** model rather than lock-and-mint: tokens are burned on the source chain by an authorized bridge and minted on the destination chain by an authorized bridge. Two complementary standards are implemented in the optional cross-chain module:
 
-- **[ERC-7802](https://eips.ethereum.org/EIPS/eip-7802)** — a minimal, bridge-agnostic
-  interface for cross-chain mint and burn. This is the primitive that any compliant token
-  bridge can call.
-- **[Chainlink CCIP](https://docs.chain.link/ccip) (Cross-Chain Token / CCT standard)** —
-  administrative hooks (`CCIPModule`) that let the token register with the CCIP token admin
-  registry.
+- **[ERC-7802](https://eips.ethereum.org/EIPS/eip-7802)** — a minimal, bridge-agnostic interface for cross-chain mint and burn. This is the primitive that any compliant token bridge can call.
+- **[Chainlink CCIP](https://docs.chain.link/ccip) (Cross-Chain Token / CCT standard)** — administrative hooks (`CCIPModule`) that let the token register with the CCIP token admin registry.
 
-The cross-chain mint/burn entry points are **not** the standard `mint` / `burn` functions:
-they are dedicated functions restricted to the trusted bridge via a specific role, and they
-are blocked while the contract is paused (consistent with the *Mint while pause* /
-*Burn while pause* rows in [Implementation Details](#implementation-details)).
+The cross-chain mint/burn entry points are **not** the standard `mint` / `burn` functions: they are dedicated functions restricted to the trusted bridge via a specific role, and they are blocked while the contract is paused (consistent with the *Mint while pause* / *Burn while pause* rows in [Implementation Details](#implementation-details)).
 
 | Requirement | CMTAT Solidity corresponding feature | Access Control (CMTAT Solidity) | Notes | Present in implementation being approved (`y/partial/n`) | Access Control (implementation being approved) | Implementation details |
 |---|---|---|---|---|---|---|
@@ -416,18 +404,49 @@ are blocked while the contract is paused (consistent with the *Mint while pause*
 
 ##### Note
 
-> - The trusted bridge holds `CROSS_CHAIN_ROLE`. A bridge MAY `renounceRole` to drop its
->   privileges; this only deprives it of cross-chain mint/burn and has no other effect, but
->   such a bridge should then be considered compromised and not reused.
-> - CMTAT Solidity also exposes related dedicated burn paths used alongside bridging —
->   `burnFrom` (guarded by `BURNER_FROM_ROLE`) and self-`burn` (guarded by
->   `BURNER_SELF_ROLE`) — which are likewise role-restricted and blocked while paused.
-> - This subsection can be used to detail whether and how the implementation being approved
->   supports bridging, which standard(s) or bridge(s) it targets, and the trust/role model
->   applied to the bridge on the target chain. For non-EVM blockchains, ERC-7802 and CCIP
->   may not be directly applicable; an equivalent burn-and-mint bridge model MAY be
->   documented instead.
+> - The trusted bridge holds `CROSS_CHAIN_ROLE`. A bridge MAY `renounceRole` to drop its privileges; this only deprives it of cross-chain mint/burn and has no other effect, but such a bridge should then be considered compromised and not reused. - CMTAT Solidity also exposes related dedicated burn paths used alongside bridging — `burnFrom` (guarded by `BURNER_FROM_ROLE`) and self-`burn` (guarded by `BURNER_SELF_ROLE`) — which are likewise role-restricted and blocked while paused. - This subsection can be used to detail whether and how the implementation being approved supports bridging, which standard(s) or bridge(s) it targets, and the trust/role model applied to the bridge on the target chain. For non-EVM blockchains, ERC-7802 and CCIP may not be directly applicable; an equivalent burn-and-mint bridge model MAY be documented instead.
 
+
+
+### Privacy and Confidentiality
+
+> **This section is NOT part of the CMTAT specification and is NOT an equivalency criterion.** CMTAT Solidity targets public EVM chains, where all token state is readable by anyone. This section exists so that an implementation targeting a blockchain or a distributed ledger offering some level of privacy or confidentiality can document what stays public, what is hidden, and who is still able to read it.
+
+On a public EVM chain, every element of the table below is public: contract storage is readable by any node even when a variable is declared `private` in Solidity, and every transfer, mint, burn, freeze, and allowlist update is visible in the transaction data and in the emitted events. An implementation on a privacy-enabled ledger MAY hide part of this state. It MUST then document how the hidden state is protected, and who can still read it — in particular whether the issuer retains the visibility required by the CMTAT features it claims (snapshot, dividend, forced transfer, freeze).
+
+#### Visibility values
+
+| Value | Meaning |
+|---|---|
+| `public` | Readable by anyone with access to the ledger, as in CMTAT Solidity. |
+| `private` | Not readable from the ledger; only the holder of a specific right (private key, view key, role, node, disclosure credential) can read it. |
+| `partial` | Partly hidden — for example the amount is encrypted but the participants are public, the value is visible only to the parties of the transaction, or it is disclosed only in aggregated or delayed form. |
+
+#### Privacy table
+
+| Data | Visibility in CMTAT Solidity | Visibility in the implementation being approved (`public/private/partial`) | Available to the issuer (`y/n`) | Other readers (role or address) | Implementation details |
+|---|---|---|---|---|---|
+| Balance of an address | `public` — `balanceOf` is a public view function and the balance mapping is readable from storage |  |  |  |  |
+| Transfer amount | `public` — carried in the transaction calldata and in the `Transfer` event |  |  |  |  |
+| Transfer participants (sender and recipient) | `public` — indexed `from` and `to` in the `Transfer` event |  |  |  |  |
+| Total supply | `public` — `totalSupply` is a public view function; mint and burn are publicly traceable |  |  |  |  |
+| Token decimals | `public` — `decimals` is a public view function |  |  |  |  |
+| Frozen / blacklisted addresses | `public` — `isFrozen` / `getFrozenTokens` are public view functions and freeze operations emit events |  |  |  |  |
+| Allowlisted / whitelisted addresses (if applicable) | `public` — `isAllowlisted` (CMTAT Allowlist) and `isAddressListed` (Rules whitelist) are public view functions |  |  |  |  |
+
+#### Readers
+
+> Typical readers to consider when filling the *Other readers* column. An implementation SHOULD list every case that applies, not only the most restrictive one:
+>
+> - **everyone** — the value is public on the ledger; - **the account holder** — an address can read its own balance and its own transfers, but not those of other holders; - **the counterparty of a transfer** — sender and recipient both see the amount, third parties do not; - **the issuer or an administrator role** — able to read all balances, typically because the corporate actions covered by this document (snapshot, dividend, forced transfer, freeze) require it; - **an auditor, a regulator, or a court-appointed third party** — granted a read credential (view key, decryption share, observer node) permanently or on request; - **the operator of the ledger or the validator nodes** — on a permissioned ledger the nodes hosting the data may see it even when the public cannot; - **nobody** — the value is recoverable only by the key holder, and is lost with the key.
+
+##### Note
+
+> This subsection is here to provide additional notes regarding privacy and confidentiality. It SHOULD describe **how privacy and confidentiality work on the particular blockchain targeted**, for example: encrypted balances under homomorphic encryption, a shielded pool with zero-knowledge proofs and view keys, confidential amounts with range proofs, per-participant data segregation on a permissioned ledger, or off-chain balances anchored on-chain by a commitment.
+>
+> It SHOULD also state the consequences for the CMTAT features: how the total supply can be audited when individual balances are hidden, how a snapshot or a dividend is computed on hidden balances, how the freeze and allowlist checks are enforced without revealing the lists, and what an issuer, an auditor, or a regulator has to do to obtain a disclosure.
+>
+> Privacy MUST NOT remove a mandatory capability: if the issuer cannot read a balance, the implementation MUST still explain how it performs the operations the mandatory criteria require on that balance.
 
 
 ## Supplementary features
@@ -436,16 +455,9 @@ are blocked while the contract is paused (consistent with the *Mint while pause*
 
 ## Conclusion
 
-> This section MUST describe, in the broad lines, **how the implementation being approved works technically**, so that a reader who has not gone through the tables can understand the design and its main differences with the CMTAT specification. It SHOULD cover at least the following points:
+> This section MUST describe, in broad terms, **how the implementation being approved works technically**, so that a reader who has not gone through the tables can understand the design and its main differences with the CMTAT specification. It SHOULD cover at least the following points:
 >
-> - **Token model**: the underlying token primitive of the target blockchain (for example ERC-20, SPL token, Soroban token interface, UTXO-based asset), and how balances, total supply, and decimals are represented.
-> - **Architecture**: single contract or several modules/programs, how they are linked (inheritance, composition, external calls, on-chain registry), and the upgradeability strategy (proxy, native chain upgrade, immutable with redeployment).
-> - **Access control model**: which roles exist, who holds the administrator role, how roles are granted and revoked, and how these roles map to the CMTAT roles.
-> - **Transfer control flow**: which checks are applied on a transfer (pause, freeze, partial freeze, allowlist, rule engine or transfer hook), in which order, and where this logic lives (inside the token, in an external module, or in the chain runtime).
-> - **Issuance and cancellation**: the mint and burn paths, forced transfer and forced burn, and the behaviour on a frozen address or while the contract is paused.
-> - **Data and metadata storage**: how terms, `tokenId`, debt attributes, and credit events are stored (on-chain state, hash with off-chain document, or chain-native metadata).
-> - **Main differences with the CMTAT Solidity implementation**, and the reason for each one (chain constraints, legal context, performance, code size).
-> - **Known limitations** and features that are planned but not yet implemented.
+> - **Token model**: the underlying token primitive of the target blockchain (for example ERC-20, SPL token, Soroban token interface, UTXO-based asset), and how balances, total supply, and decimals are represented. - **Architecture**: single contract or several modules/programs, how they are linked (inheritance, composition, external calls, on-chain registry), and the upgradeability strategy (proxy, native chain upgrade, immutable with redeployment). - **Access control model**: which roles exist, who holds the administrator role, how roles are granted and revoked, and how these roles map to the CMTAT roles. - **Transfer control flow**: which checks are applied on a transfer (pause, freeze, partial freeze, allowlist, rule engine or transfer hook), in which order, and where this logic lives (inside the token, in an external module, or in the chain runtime). - **Issuance and cancellation**: the mint and burn paths, forced transfer and forced burn, and the behaviour on a frozen address or while the contract is paused. - **Data and metadata storage**: how terms, `tokenId`, debt attributes, and credit events are stored (on-chain state, hash with off-chain document, or chain-native metadata). - **Main differences with the CMTAT Solidity implementation**, and the reason for each one (chain constraints, legal context, performance, code size). - **Known limitations** and features that are planned but not yet implemented.
 >
 > The [Summary](#summary) gives the counts; this section gives the technical explanation behind them and MUST stay consistent with it.
 

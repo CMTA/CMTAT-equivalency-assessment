@@ -27,7 +27,7 @@ This repository is **documentation only**. It defines the *CMTAT Equivalency Ass
 - Those figures appear in four places that must always agree: the `Scope of the count` table, the `Compliance table` column headers `Mandatory (17)` / `Optional (38)`, the sum rule underneath it, and the example filled table. Update all four together.
 - IDs are sequential over the whole document, so inserting or deleting a criterion renumbers every following row. It also invalidates the ID ranges in `Summary` and any ID quoted inside a `Notes` cell — grep for stale references after renumbering.
 - Answers are `y` (present), `partial`, or `n` (absent). Every `partial` and every mandatory `n` MUST be explained in the note under the compliance table.
-- The tables with no ID column — `CMTAT Extended`, `Implementation Details`, `Cross-Chain Bridge Support` — are deliberately outside the count and are commented in the `Conclusion` instead.
+- The tables with no ID column — `CMTAT Extended`, `Implementation Details`, `Cross-Chain Bridge Support`, `Privacy and Confidentiality` — are deliberately outside the count and are commented in the `Conclusion` instead.
 - Documented fill order for users: equivalency table first, then `Summary` (the counts), then `Conclusion` (how the implementation works technically).
 - Normative language follows [RFC 2119](https://www.rfc-editor.org/info/rfc2119) / [RFC 8174](https://www.rfc-editor.org/info/rfc8174): use MUST, MUST NOT, SHOULD, MAY rather than "has to" or "needs to".
 - The Table of Contents at the top of `README.md` is maintained by hand. Add an entry whenever you add a heading, and match GitHub's anchor slug.
