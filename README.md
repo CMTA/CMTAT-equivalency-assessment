@@ -356,7 +356,11 @@ unfreeze(address targetAddress)
 
 > Transfer restrictions are criteria 20–22 and are optional. The table below is a **reference catalogue** of the restrictions the CMTAT Solidity stack can apply, taken from the [Rules](https://github.com/CMTA/Rules) repository; it is not part of the equivalency count. An implementation MAY offer any subset of these restrictions, none of them, or restrictions that have no CMTAT Solidity equivalent.
 
-In CMTAT Solidity a restriction is a **rule**: a contract that answers whether a movement of value is allowed. A rule is plugged directly into the token, or several rules are composed behind a **RuleEngine**, which returns the first non-zero restriction code — so the order of the rules decides which code a rejection reports. Each rule exposes two paths: a read path (`detectTransferRestriction` / `canTransfer` and their `…From` variants) that MUST NOT revert and returns an [ERC-1404](https://eips.ethereum.org/EIPS/eip-1404) restriction code, `0` meaning no restriction; and a write path (`transferred`, `created`, `destroyed`) called by the token once it has decided to move the value, which reverts to block the operation and MAY update the rule state.
+In CMTAT Solidity a restriction is a **rule**: a contract that answers whether a movement of value is allowed.
+
+- A rule is plugged directly into the token, or several rules are composed behind a **RuleEngine**, which returns the first non-zero restriction code — so the order of the rules decides which code a rejection reports.
+- Each rule exposes a **read path** — `detectTransferRestriction` / `canTransfer` and their `…From` variants — which MUST NOT revert and returns an [ERC-1404](https://eips.ethereum.org/EIPS/eip-1404) restriction code, `0` meaning no restriction.
+- Each rule also exposes a **write path** — `transferred`, `created`, `destroyed` — called by the token once it has decided to move the value. It reverts to block the operation and MAY update the rule state.
 
 Mint and burn travel the same path with one party missing — a mint is a movement from the zero address, a burn a movement to the zero address — so a rule does not necessarily apply to them. The table states, for each restriction, what it checks on a transfer, on a mint, and on a burn.
 
