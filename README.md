@@ -42,14 +42,14 @@ Two distinct versions MUST be distinguished: the version of **this template**, a
 
 | Version | Value |
 |---|---|
-| Template version — this document, as published by CMTA; pre-filled, MUST NOT be modified by the author of an assessment | `v0.2.0` |
+| Template version — this document, as published by CMTA; pre-filled, MUST NOT be modified by the author of an assessment | `v0.3.0` |
 | Assessment version — the filled document, set by its author |  |
 
 The template version is not a second value to fill in. An assessment is produced by filling a copy of this document, so the value above **is** the template version that assessment was filled from, and it MUST be carried over unchanged. Only an assessment written in a separate document — a report that reproduces the criteria instead of filling this file — has to quote the template version explicitly.
 
 A filled assessment SHOULD state both numbers on a single line, for example:
 
-> `v0.2.0` (this assessment), filled from CMTA assessment template `v0.2.0`
+> `v0.2.0` (this assessment), filled from CMTA assessment template `v0.3.0`
 
 The two numbers are independent: a filled assessment MAY be revised — for example after a new release of the implementation being approved — without any change to the template, and a new template version MAY be published without the existing assessments being refilled.
 
