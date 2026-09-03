@@ -37,16 +37,31 @@
 
 ## Document Version
 
-`v0.2.0`
+Two distinct versions MUST be distinguished: the version of **this template**, as published by CMTA, and the version of the **filled assessment** produced for the implementation being approved.
+
+| Version | Value |
+|---|---|
+| Template version — this document, as published by CMTA | `v0.2.0` |
+| Assessment version — the filled document, set by its author |  |
+| Template version this assessment was filled from |  |
+
+A filled assessment SHOULD state both on a single line, for example:
+
+> `v0.2.0` (this assessment), filled from CMTA assessment template `v0.2.0`
+
+The two numbers are independent: a filled assessment MAY be revised — for example after a new release of the implementation being approved — without any change to the template, and a new template version MAY be published without the existing assessments being refilled.
 
 Note:
 
 - versions with the `rc` suffix are draft versions.
 - version before `1.0` are also draft versions
+- both notes above apply to the template version and to the assessment version.
+- the template version an assessment was filled from MUST always be recorded: criteria IDs are sequential over the whole document and MAY be renumbered from one template version to the next, so an answer given against an earlier template cannot be read against a later one without checking the [changelog](CHANGELOG.md).
 
 ## How to Use This Document
 
 - Fill the document in this order: **CMTAT Function Equivalency Table** first, then **Summary**, then **Conclusion**.
+- Record both versions in **[Document Version](#document-version)** before starting: the version of the assessment being written, and the template version it is filled from.
 - Use the **CMTAT Function Equivalency Table** as the fillable assessment checklist. Each criterion MUST be answered with `y`, `partial`, or `n` in the *Present in implementation being approved* column (see [Answer values](#answer-values)).
 - Use the **Summary** to give the aggregated compliance result of the implementation being approved with the CMTAT standard.
 - Use the **Conclusion** to describe, in broad terms, how the implementation being approved works and where it differs from CMTAT.
