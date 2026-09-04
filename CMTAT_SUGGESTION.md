@@ -199,7 +199,7 @@ The framework SHOULD also recommend a **two-step transfer of the administrator r
 
 **Draft text** — two new functionalities in the Authorization module, § 3.2.3:
 
-> 47. **Know role administration**: for a given role, any person may know which role or which account may grant and revoke it.
+> 47. **Know role administration**: for a given role, the issuer, the persons it has authorised and the account holding that role may know which role or which account may grant and revoke it. On a public ledger, that information is available to any person.
 >
 > 48. **Renounce a role**: an account may renounce a role that it holds.
 >
