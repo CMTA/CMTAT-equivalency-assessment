@@ -222,6 +222,8 @@ The attributes list (page 8) requires a "reference to any legally required docum
 > 50. **Know document**: for a particular CMTAT token, any person may know the documents associated with the token, their reference and their hash.
 >
 > The hash allows a reader to verify that the document obtained is the document that the issuer associated with the token. These functionalities may be used for the documentation referred to in the attributes applicable to all CMTAT tokens.
+>
+> A separate hash is not required where the document is held in a store in which the reference is itself derived from the content, such as a content-addressed system of the IPFS kind or a decentralised storage network of the Walrus kind. In that case the reference identifies one content and no other, and a document that has been altered is no longer obtainable under that reference. The issuer must still ensure that the document remains obtainable for as long as the instrument exists, since a reference of that kind establishes what the document is, not that a copy of it is still available.
 
 ### 6.2 State whether decimals may change after issuance
 
