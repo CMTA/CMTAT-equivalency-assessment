@@ -217,15 +217,17 @@ The attributes list (page 8) requires a "reference to any legally required docum
 >
 > The hash allows a reader to verify that the document obtained is the document that the issuer associated with the token. These functionalities may be used for the documentation referred to in the attributes applicable to all CMTAT tokens.
 
-### 6.2 State that decimals are fixed after issuance
+### 6.2 State whether decimals may change after issuance
 
 The framework requires decimals to be zero unless the applicable law allows fractions, and functionality 11 explains their display role. It does not say whether the value may change after issuance.
 
-It MUST not: changing decimals retroactively reinterprets every recorded balance. The framework SHOULD state that decimals are set at issuance and immutable thereafter, and that a change of denomination is a corporate action carried out through cancellation and re-issuance.
+It SHOULD not, since changing decimals retroactively reinterprets every balance already recorded. The framework SHOULD state that decimals are set at issuance and SHOULD NOT change afterwards, that where a change is nevertheless required the holders MUST be informed before it takes effect, and that a change of denomination MAY instead be carried out through cancellation and re-issuance.
 
 **Draft text** — an addition to functionality 11:
 
-> The number of decimals is set when the token is created and does not change thereafter, as a change would alter the meaning of every balance already recorded. A change of denomination is a corporate action, carried out by cancelling the tokens and creating new ones.
+> The number of decimals is set when the token is created and should not change thereafter, as a change alters the meaning of every balance already recorded without any token being transferred, created or cancelled.
+>
+> Where a change is nevertheless required, it must be made with the knowledge of the token holders: the issuer must inform them before the change takes effect, so that no holder acts on a figure whose meaning has changed, and must record the change as it records a corporate action. A change of denomination may also be carried out by cancelling the tokens and creating new ones, which leaves the meaning of the existing balances untouched.
 
 ### 6.3 Reconsider the optionality of the ticker symbol
 
