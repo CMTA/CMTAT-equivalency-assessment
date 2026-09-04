@@ -23,6 +23,18 @@ Two options, either of which removes the problem:
 
 The framework SHOULD also record, in each edition, which numbers changed meaning since the previous one. This repository had to publish exactly such a warning when inserting one criterion shifted 49 following IDs, which invalidated every assessment already filled.
 
+## Define the normative keywords
+
+The document nowhere defines the words that carry its normative force. It uses "must" 19 times, "should" 8 times and "may" 29 times — the whole distinction between what an implementation has to do and what it may choose to do rests on them — and it cites neither [RFC 2119](https://www.rfc-editor.org/info/rfc2119) nor [RFC 8174](https://www.rfc-editor.org/info/rfc8174). None of the keywords is capitalised.
+
+The framework SHOULD adopt the standard formulation, as this repository's criteria do, placing it in the introduction:
+
+> The key words "MUST", "MUST NOT", "REQUIRED", "SHOULD", and "MAY" in this document are to be interpreted as described in [RFC 2119](https://www.rfc-editor.org/info/rfc2119) and [RFC 8174](https://www.rfc-editor.org/info/rfc8174).
+
+RFC 8174 restricts that meaning to the **uppercase** forms, so adopting the paragraph means a pass over the document to capitalise each keyword that is normative and leave in lowercase those that are descriptive — "the issuer may wish to delegate", in § 2.7, describes a practice rather than granting a permission. That pass is worth making on its own account: it forces, sentence by sentence, the question a reader of a standard has to answer, which is whether a given statement is a requirement or an explanation.
+
+The draft wording proposed in [CMTAT_SUGGESTION.md](CMTAT_SUGGESTION.md) and in its companions is written in lowercase, to match the document as it stands. If the framework adopts the formulation above, those drafts would be capitalised in the same pass.
+
 ## Corrections
 
 | Page | Section | Current text | Suggested |
