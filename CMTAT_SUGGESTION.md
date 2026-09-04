@@ -121,6 +121,10 @@ The framework SHOULD require each restriction to state its behaviour on creation
 | Per-issuer creation quota | Each authorized minter has its own allowance |
 | Conditional transfer | Each transfer must be approved beforehand (functionalities 21–22) |
 
+**Blacklist and freeze are not interchangeable, and the framework SHOULD say which to use.** Freezing an address is already mandatory in the Enforcement module (functionalities 12–14), and it is the mechanism an issuer SHOULD use to block the funds recorded on an address: it lives in the token, the issuer controls it directly, and the frozen status is readable per address. A blacklist rule that reproduces the same decision inside the Validation module creates a second record of it, and the two can disagree — an address frozen on the token but absent from the list, or the reverse.
+
+A blacklist earns its place in one case: when the list is a **contract shared by several tokens**. One listing decision then applies to every token that consults the list, so an issuer with a range of instruments, or several issuers sharing a compliance provider, does not have to repeat the freeze on each token and keep the copies in step. The trade-off is that the record of a blocked address then lives outside the token, and whoever administers the shared list can block transfers on every token pointing at it.
+
 ### 3.4 Require an explicit fail-open or fail-closed policy
 
 A restriction backed by an external source (a sanctions oracle, an identity registry, a reserve feed) has to behave somehow when that source is unset, unavailable or stale. Both answers are defensible — reject every operation, or allow every operation — and the reference rules genuinely differ: an unset sanctions oracle allows everything, an empty aggregated whitelist rejects everything.
