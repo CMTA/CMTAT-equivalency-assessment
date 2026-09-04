@@ -175,7 +175,7 @@ That is a reasonable degree of freedom, but it makes the pause status uninterpre
 - Cross-chain creation and cancellation MUST be blocked while paused (see [CMTAT_SUGGESTION_CROSSCHAIN.md](CMTAT_SUGGESTION_CROSSCHAIN.md)).
 - A pause that does not block creation lets the issuer dilute holders while they cannot transfer, which SHOULD be called out as a consequence the issuer accepts.
 
-Functionality 9, "deactivate contract", requires tokens to be destroyed before or during deactivation, and states that the issuer can no longer create or cancel tokens afterwards. On ledgers where an account or contract cannot be removed, and in upgradeable deployments, "permanently and irreversibly" needs qualification: the framework SHOULD state what MUST be true after deactivation rather than how it is achieved.
+Functionality 9, "deactivate contract", requires tokens to be destroyed before or during deactivation, and states that the issuer can no longer create or cancel tokens afterwards. On ledgers where an account or contract cannot be removed, and in upgradeable deployments, "permanently and irreversibly" needs qualification: the framework SHOULD state what MUST be true after deactivation rather than how it is achieved. In an upgradeable deployment it MUST also say that deactivating the token is not sufficient on its own, since an upgrade can restore the functions it disabled — the ability to upgrade has to go with it.
 
 **Draft text** — an addition to functionality 6:
 
@@ -184,6 +184,8 @@ Functionality 9, "deactivate contract", requires tokens to be destroyed before o
 **Draft text** — an addition to functionality 9:
 
 > After deactivation, no token may be transferred, created or cancelled, and any person may know that the token has been deactivated. Deactivation cannot be reversed. Where the ledger does not permit the account or the code to be removed, a state satisfying these conditions is sufficient.
+>
+> Where the code that operates the token can be upgraded, deactivation is not irreversible by itself, since an upgrade can restore the functions that deactivation disabled. The issuer must therefore also remove the ability to upgrade the code, at the latest when the token is deactivated. Depending on the ledger, this may be done on the ledger, by transferring the right to upgrade to an address from which it cannot be exercised — the address zero on Ethereum and other EVM ledgers — or outside the ledger, by destroying the key that controls that right. The measure taken must be documented, and where it is taken outside the ledger the issuer must be able to evidence it, since a person examining the ledger cannot verify it.
 
 ## 5. Authorization module
 
