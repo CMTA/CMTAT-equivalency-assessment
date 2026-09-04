@@ -8,7 +8,7 @@ It is written from the work on the [CMTAT Equivalency Assessment Criteria](READM
 
 Each suggestion gives the current wording (with its section and page in the PDF), the gap, and a proposed change.
 
-Two subjects have their own companion documents: [CMTAT_SUGGESTION_CROSSCHAIN.md](CMTAT_SUGGESTION_CROSSCHAIN.md) for cross-chain transferability, and [CMTAT_SUGGESTION_PRIVACY.md](CMTAT_SUGGESTION_PRIVACY.md) for privacy and confidentiality.
+Three subjects have their own companion documents: [CMTAT_SUGGESTION_CROSSCHAIN.md](CMTAT_SUGGESTION_CROSSCHAIN.md) for cross-chain transferability, [CMTAT_SUGGESTION_PRIVACY.md](CMTAT_SUGGESTION_PRIVACY.md) for privacy and confidentiality, and [CMTAT_SUGGESTION_EDITORIAL.md](CMTAT_SUGGESTION_EDITORIAL.md) for the typographical and consistency corrections.
 
 ### What this was checked against
 
@@ -33,7 +33,6 @@ Two subjects have their own companion documents: [CMTAT_SUGGESTION_CROSSCHAIN.md
 - [8. Events and auditability](#8-events-and-auditability)
 - [9. Reference implementations](#9-reference-implementations)
 - [10. Divergences with this repository's criteria](#10-divergences-with-this-repositorys-criteria)
-- [11. Editorial corrections](#11-editorial-corrections)
 
 ## 1. Versioning
 
@@ -219,21 +218,3 @@ Three of them are gaps in the criteria rather than in the framework: functionali
 | Cross-chain | Absent | Documented as a non-criterion reference section |
 | Restrictions beyond whitelisting | Absent | Documented as a non-criterion reference catalogue |
 | Privacy | One note under functionality 14 | Documented as a non-criterion reference section |
-
-## 11. Editorial corrections
-
-| Page | Section | Current text | Suggested |
-|---|---|---|---|
-| 6 | §3, last line | "projects on Ethereum **ad** EVM blockchains" | "and EVM blockchains" |
-| 7 | Functionality 1 | "at any point **it** time" | "at any point in time" |
-| 7 | Functionality 2 | "Know balance Each token holder may know" | Add the missing colon after "Know balance", as in every other entry |
-| 7 | Functionality 4 | "capital increase **of** re-opening of a particular debt issuance" | "capital increase or re-opening" |
-| 12 | Functionality 38 | "A possible use case of this **opional** function" | "optional" |
-| 12 | Functionality 42, note | "consult with the **relavent** trading and settlement venues" | "relevant" |
-| 13 | §4.1 | The snapshot engine appears twice in the same list — "the SnapshotEngine implementing the 'Snapshot' function" and "the **SnapShot**EngineModule to call a SnapShotEngine to perform on-chain snapshots" | Keep one entry, and use one spelling of "Snapshot" throughout (the repository name is `SnapshotEngine`) |
-| 14 | §4.3 | "the Ethereum layer-2 protocol Aztec (https://aztec.network)**.** and enables confidential transactions" | Remove the stray full stop before "and" |
-
-Two consistency points that are not typos:
-
-- §3 (page 6) refers to the modules as "Base module", while §4.1 (page 13) refers to "BaseModule" and "ERC20BaseModule", which are Solidity contract names. The chain-agnostic sections SHOULD use the functional names only, and leave implementation names to §4.
-- The role table (page 6) defines the symbols used to identify the issuer and user roles, but the numbered functionalities that follow carry no such symbol in the extracted text. If the symbols are present in the layout, they SHOULD also be stated in words per functionality, so that the allocation survives copying, translation and text extraction.

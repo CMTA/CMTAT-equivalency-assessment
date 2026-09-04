@@ -43,6 +43,7 @@ This repository is **documentation only**. It defines the *CMTAT Equivalency Ass
 ├── CMTAT_SUGGESTION.md   # suggested improvements to the CMTA framework specifications in doc/ — not part of the criteria
 ├── CMTAT_SUGGESTION_CROSSCHAIN.md # its cross-chain transferability companion
 ├── CMTAT_SUGGESTION_PRIVACY.md   # its privacy and confidentiality companion
+├── CMTAT_SUGGESTION_EDITORIAL.md  # its typographical and consistency corrections
 ├── LICENSE.md        # Mozilla Public License 2.0
 ├── .gitmodules       # the four CMTA reference repositories below
 ├── specification/
