@@ -49,17 +49,19 @@ For each item of data, the framework therefore distinguishes two things:
 - the minimum set of persons who must be able to read it, which is a requirement of this framework; and
 - publication to any person, which is the ordinary consequence of using a public ledger, and is not in itself a requirement.
 
-| Data | Persons who must be able to read it |
-|---|---|
-| Number of tokens in circulation | the issuer; and every token holder, unless the issuer has restricted that reading under the paragraph on inference below |
-| Balance of an address | the holder of that address, and the issuer |
-| Amount of a transfer | the parties to the transfer, and the issuer |
-| Decimals | any person, since the value is display information and reveals nothing about holdings |
-| Frozen status of an address | the holder of that address, and the issuer |
-| Membership of a whitelist | the holder of that address, and the issuer |
-| Snapshot total supply and snapshot balances | the same persons as for the corresponding current data |
+| Data | Persons who must be able to read it | Persons who may also be entitled to read it |
+|---|---|---|
+| Number of tokens in circulation | the issuer; and every token holder, unless the issuer has restricted that reading under the paragraph on inference below | a person auditing the issuer or the instrument; a supervisory authority; a trading or settlement venue on which the instrument is admitted |
+| Balance of an address | the holder of that address, and the issuer | a person auditing the issuer; a person auditing that holder; a supervisory authority; a court or an officer appointed by it; a tax authority |
+| Amount of a transfer | the parties to the transfer, and the issuer | the persons listed for a balance; the venue that settles the transaction |
+| Decimals | any person, since the value is display information and reveals nothing about holdings | — |
+| Frozen status of an address | the holder of that address, and the issuer | a person auditing the issuer; a supervisory authority; a court or an officer appointed by it |
+| Membership of a whitelist | the holder of that address, and the issuer | a person auditing the issuer; a supervisory authority; the operator of a venue verifying the eligibility of a counterparty |
+| Snapshot total supply and snapshot balances | the same persons as for the corresponding current data | the same persons as for the corresponding current data |
 
-The following persons may be entitled to read data that is not public. The implementation must provide for the readings that apply to it; a reading that the implementation cannot provide cannot be granted afterwards.
+The second column is a requirement: an implementation that does not provide those readings does not satisfy this framework. The third column is not. It lists the readings that the applicable law, the terms of the instrument or a contract may call for, and which the implementation has to be capable of providing when they are called for.
+
+The following table states the same allocation by person rather than by item of data. The implementation must provide for the readings that apply to it; a reading that the implementation cannot provide cannot be granted afterwards.
 
 | Person | Data that person must be able to read |
 |---|---|
