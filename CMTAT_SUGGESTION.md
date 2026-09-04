@@ -94,7 +94,9 @@ The framework SHOULD require each restriction to state its behaviour on creation
 
 **Blacklist and freeze are not interchangeable, and the framework SHOULD say which to use.** Freezing an address is already mandatory in the Enforcement module (functionalities 12–14), and it is the mechanism an issuer SHOULD use to block the funds recorded on an address: it lives in the token, the issuer controls it directly, and the frozen status is readable per address. A blacklist rule that reproduces the same decision inside the Validation module creates a second record of it, and the two can disagree — an address frozen on the token but absent from the list, or the reverse.
 
-A blacklist earns its place in one case: when the list is a **contract shared by several tokens**. One listing decision then applies to every token that consults the list, so an issuer with a range of instruments, or several issuers sharing a compliance provider, does not have to repeat the freeze on each token and keep the copies in step. The trade-off is that the record of a blocked address then lives outside the token, and whoever administers the shared list can block transfers on every token pointing at it.
+A blacklist earns its place in two cases. The first is when the list is a **contract shared by several tokens**: one listing decision then applies to every token that consults the list, so an issuer with a range of instruments, or several issuers sharing a compliance provider, does not have to repeat the freeze on each token and keep the copies in step. The trade-off is that the record of a blocked address then lives outside the token, and whoever administers the shared list can block transfers on every token pointing at it.
+
+The second is **preventive**: a blacklist records the addresses that must never come to hold the tokens, and is maintained in advance of any relationship with them, while a freeze is an enforcement measure taken against an address that already holds tokens, on a suspicion or an order concerning that holder. A freeze does block incoming transfers as well, so the two overlap in effect; they differ in what they are for, and therefore in how many addresses each is expected to carry and in how the decision to list is taken.
 
 **Draft text** — an addition to the Validation module, § 3.2.2:
 
@@ -110,7 +112,9 @@ A blacklist earns its place in one case: when the list is a **contract shared by
 > - an allowance granted to each account authorised to create tokens;
 > - the approval of each transfer, as provided by functionalities 21 and 22.
 >
-> Freezing, under functionalities 12 and 13, is the means by which the issuer blocks the tokens recorded on an address of a given token, and should be used for that purpose. A blacklist is appropriate where the list is held outside the token and shared by several tokens, so that a single decision applies to all of them. The record of a blocked address then lies outside the token, and the person who administers the list can block transfers on every token that consults it.
+> Freezing, under functionalities 12 and 13, is the means by which the issuer blocks the tokens recorded on an address of a given token, and should be used for that purpose: it is an enforcement measure directed at an address that already holds tokens.
+>
+> A blacklist is appropriate in two cases. The first is where the list is held outside the token and shared by several tokens, so that a single decision applies to all of them; the record of a blocked address then lies outside the token, and the person who administers the list can block transfers on every token that consults it. The second is where the issuer wishes to prevent addresses from acquiring the tokens before they hold any: such a list is maintained in advance and may concern addresses that never interact with the token.
 
 ### 2.4 Require an explicit fail-open or fail-closed policy
 
