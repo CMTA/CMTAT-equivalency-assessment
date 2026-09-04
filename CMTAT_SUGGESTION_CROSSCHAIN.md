@@ -28,7 +28,7 @@ The framework SHOULD state that, where the same instrument is issued across seve
 
 ## Draft text for the framework
 
-The text below is a draft that could be inserted in the framework as a new module. It is written in the framework's own register — lowercase "must", "may" and "should", numbered functionalities, a rationale followed by a list — rather than in the RFC 2119 style used elsewhere in this repository, so that it can be pasted in without rewriting. The numbers 43 to 45 assume the module is appended after the current functionality 42.
+The text below is a draft that could be inserted in the framework as a new module. It is written in the framework's own register — lowercase "must", "may" and "should", numbered functionalities, a rationale followed by a list — rather than in the RFC 2119 style used elsewhere in this repository, so that it can be pasted in without rewriting. The numbers 53 to 55 continue the numbering used in [CMTAT_SUGGESTION.md](CMTAT_SUGGESTION.md), which proposes functionalities 43 to 52; if this module is adopted on its own, they become 43 to 45.
 
 ---
 
@@ -47,11 +47,11 @@ Under either model, the total number of valid tokens across all the ledgers on w
 
 Functionalities:
 
-43. **Cross-chain create**: create, on the destination ledger, the number of tokens that has been cancelled or locked on the source ledger.
+53. **Cross-chain create**: create, on the destination ledger, the number of tokens that has been cancelled or locked on the source ledger.
 
-44. **Cross-chain cancel**: cancel or lock, on the source ledger, the number of tokens that is to be created on the destination ledger.
+54. **Cross-chain cancel**: cancel or lock, on the source ledger, the number of tokens that is to be created on the destination ledger.
 
-45. **Know cross-chain authorisation**: for a particular CMTAT token, any person may know which addresses are authorised to call functionalities 43 and 44.
+55. **Know cross-chain authorisation**: for a particular CMTAT token, any person may know which addresses are authorised to call functionalities 53 and 54.
 
 The following applies to the two functionalities above:
 
@@ -60,4 +60,4 @@ The following applies to the two functionalities above:
 - The issuer must document which transfer restrictions apply on the cross-chain path — freeze (functionality 12), partial freeze (functionality 38), whitelisting (functionality 23) and any other validation rule — and which do not.
 - Functionality 1 (know total supply) is satisfied per ledger. Where the same instrument is issued across several ledgers, the issuer must be able to reconcile the aggregate number of tokens in circulation, either off chain or on a ledger designated as the ledger of record.
 
-Roles: functionalities 43 and 44 are issuer functionalities, exercised by the bridge designated by the issuer. Functionality 45 may be called by any person.
+Roles: functionalities 53 and 54 are issuer functionalities, exercised by the bridge designated by the issuer. Functionality 55 may be called by any person.
