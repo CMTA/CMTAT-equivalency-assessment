@@ -18,10 +18,12 @@ The framework SHOULD generalize the note under functionality 14 into its own sec
 |---|---|
 | Balance of an address | The holder of that address, and the issuer |
 | Transfer amount | The parties to the transfer, and the issuer |
-| Total supply | The issuer; publicly if the ledger is public |
+| Total supply | The issuer and every token holder, since a holder cannot determine the extent of a proportional right without it; publicly if the ledger is public |
 | Decimals | Everyone, since it is display metadata and reveals nothing about holdings |
 | Frozen status | The affected holder and the issuer (as already stated in functionality 14) |
 | Whitelist membership | The affected holder and the issuer |
+
+The same section SHOULD also list the third parties who may be entitled to a reading — the auditor of the issuer, the auditor of a token holder, a supervisory authority, a court or an officer appointed by it — since these are the readings an implementation has to provide for and cannot add after the fact. The draft below gives that list as a second table.
 
 It SHOULD also state the consequences for the optional modules, since these are the operations that break first when balances are hidden: how the total supply is audited, how a snapshot and a distribution are computed on confidential balances, and how a validation rule screens participants without revealing the list. Finally it SHOULD require the disclosure path to be documented — which addresses or roles (auditor, regulator, court-appointed third party) can obtain a reading, and by what mechanism.
 
@@ -42,7 +44,7 @@ For each item of data, the framework therefore distinguishes two things:
 
 | Data | Persons who must be able to read it |
 |---|---|
-| Number of tokens in circulation | the issuer |
+| Number of tokens in circulation | the issuer and every token holder |
 | Balance of an address | the holder of that address, and the issuer |
 | Amount of a transfer | the parties to the transfer, and the issuer |
 | Decimals | any person, since the value is display information and reveals nothing about holdings |
@@ -50,7 +52,24 @@ For each item of data, the framework therefore distinguishes two things:
 | Membership of a whitelist | the holder of that address, and the issuer |
 | Snapshot total supply and snapshot balances | the same persons as for the corresponding current data |
 
-An implementation must document, for each item above: whether the data is public, confidential, or partially confidential; the mechanism by which confidentiality is obtained; and how a person entitled to read the data obtains it, for example a viewing key, a decryption share, an observer node, or a disclosure made by the issuer.
+The following persons may be entitled to read data that is not public. The implementation must provide for the readings that apply to it; a reading that the implementation cannot provide cannot be granted afterwards.
+
+| Person | Data that person must be able to read |
+|---|---|
+| The holder of an address | the balance of that address, the transfers to and from it, its frozen status, its membership of a whitelist, and the number of tokens in circulation |
+| The issuer, and the persons authorised by it | every item in the table above, for every address |
+| The other party to a transfer | the amount of that transfer |
+| A person auditing the issuer, or auditing the instrument | every item in the table above, for the periods covered by the audit |
+| A person auditing a token holder | the balances and the transfers of the addresses of that holder |
+| A supervisory or regulatory authority | the data required by the regulation applicable to the issuer or to the instrument |
+| A court, or an officer appointed by it, such as an insolvency administrator or an executor | the balances and the transfers of the addresses concerned by the order or the appointment |
+| A tax authority | the data required by the applicable tax legislation |
+| An operator of a trading or settlement venue on which the instrument is admitted | the data required to settle the transactions it processes |
+| The operator of the ledger, and the nodes that validate the transactions | whatever the ledger requires them to process, which is a consequence of the technology chosen and must be documented as such |
+
+For each of these persons, the implementation must state whether the reading is available permanently or on request, and who grants it. A reading that depends on the co-operation of a person having an interest in withholding it does not satisfy this requirement.
+
+An implementation must document, for each item of data: whether it is public, confidential, or partially confidential; the mechanism by which confidentiality is obtained; and how a person entitled to read the data obtains it, for example a viewing key, a decryption share, an observer node, or a disclosure made by the issuer.
 
 The issuer must retain the ability to read whatever data is necessary to perform the functionalities that the token implements. In particular, the issuer must be able to determine the balances at a record time where the Snapshot module (§ 3.2.1) or the Distribution module (§ 3.2.4) is used, and the balance of an address that is subject to a freeze (functionality 12) or to an enforced transfer (functionality 37).
 
