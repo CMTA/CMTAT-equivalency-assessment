@@ -36,8 +36,6 @@ Three subjects have their own companion documents: [CMTAT_SUGGESTION_CROSSCHAIN.
 
 ## 1. Versioning
 
-### 1.1 Add a "Know version" functionality
-
 The numbered list of functionalities has no version functionality, yet §4.1 (page 13) states that the Solidity implementation has a "BaseModule which contains the smart contract version", and that implementation exposes `version()` through `IERC3643Version`.
 
 An implementer reading only the framework has no reason to expose a version, and an assessor has no criterion to check. This repository had to add it as optional criterion 6 without a framework functionality to map it to.
@@ -47,23 +45,6 @@ The framework SHOULD add an optional functionality, worded chain-agnostically:
 > **Know version**: for a particular CMTAT token, any person may know the version of the token implementation. This is the version of the code, not the version of the tokenized instrument nor the version of this framework.
 
 It SHOULD also state the acceptable forms, since they differ per ledger: a constant returned by a read-only entry point; the chain-native contract or package metadata, where the target chain already versions deployed code; or a state variable restricted to an administrator, in which case the implementation MUST prevent the value from being desynchronized from the deployed code. For an upgradeable implementation, the version SHOULD be updated by the upgrade itself.
-
-### 1.2 Give the framework document itself a version number
-
-The document is identified only by publication dates ("Updated November 2024, September 2025 and June 2026"). Anything derived from it — an implementation, an assessment, a compliance report — can therefore only cite a month.
-
-The framework SHOULD carry a [semantic version](https://semver.org/) on the cover in addition to the date, so that a filled assessment can record which edition it was produced against.
-
-### 1.3 Make the functionality numbers stable across editions
-
-Functionalities are numbered 1–42 sequentially across all modules, so inserting one functionality renumbers every following one. Any document citing "functionality 21" therefore silently changes meaning between editions.
-
-Two options, either of which removes the problem:
-
-- Number per module (`BASE-1`, `ENF-3`, `VAL-2`), so an insertion only affects the module it lands in.
-- Keep global numbers but make them append-only: a new functionality takes the next free number wherever it belongs logically, and a withdrawn functionality leaves its number retired rather than reused.
-
-The framework SHOULD also record, in each edition, which numbers changed meaning since the previous one. This repository had to publish exactly such a warning when inserting one criterion shifted 49 following IDs, which invalidated every assessment already filled.
 
 ## 2. Validation module and transfer restrictions
 
