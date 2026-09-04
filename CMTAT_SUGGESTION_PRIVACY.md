@@ -4,7 +4,7 @@
 
 This document suggests how the **CMTAT Framework functional specifications** (`doc/cmtat-framework-functional-specifications-june-2026.pdf`, June 2026 edition) could address privacy and confidentiality.
 
-It is a companion to [CMTAT_SUGGESTION.md](CMTAT_SUGGESTION.md), which carries the other suggestions, and it comes from the same source: the mapping work behind the [CMTAT Equivalency Assessment Criteria](README.md), whose own Privacy and Confidentiality section covers the implementation side of the same question. It is a suggestion list produced by this repository, not a CMTA publication.
+It is a companion to `CMTAT_SUGGESTION.md`, which carries the other suggestions, and it comes from the same source: the mapping work behind the CMTAT Equivalency Assessment Criteria (`README.md`), whose own Privacy and Confidentiality section covers the implementation side of the same question. It is a suggestion list produced by this repository, not a CMTA publication.
 
 ## The gap
 

@@ -4,13 +4,13 @@
 
 This document lists potential improvements to the **CMTAT Framework functional specifications** (`doc/cmtat-framework-functional-specifications-june-2026.pdf`, first published January 2022, updated November 2024, September 2025 and June 2026).
 
-It is written from the work on the [CMTAT Equivalency Assessment Criteria](README.md): every criterion in that document had to be mapped from the framework to a concrete implementation, and the points below are the places where that mapping was ambiguous, incomplete, or contradicted by the reference implementation. It is a suggestion list produced by this repository, not a CMTA publication.
+It is written from the work on the CMTAT Equivalency Assessment Criteria (`README.md`): every criterion in that document had to be mapped from the framework to a concrete implementation, and the points below are the places where that mapping was ambiguous, incomplete, or contradicted by the reference implementation. It is a suggestion list produced by this repository, not a CMTA publication.
 
 Each suggestion gives the current wording (with its section and page in the PDF), the gap, and a proposed change. Where the change is a change of wording, a **Draft text** block gives it in the framework's own register — lowercase "must", "may" and "should", numbered functionalities — so that it can be pasted in without rewriting.
 
 New functionalities are numbered from 43 onward, continuing the current list of 42, in the order in which they appear in this document; the cross-chain companion continues the same numbering at 53.
 
-Three subjects have their own companion documents: [CMTAT_SUGGESTION_CROSSCHAIN.md](CMTAT_SUGGESTION_CROSSCHAIN.md) for cross-chain transferability, [CMTAT_SUGGESTION_PRIVACY.md](CMTAT_SUGGESTION_PRIVACY.md) for privacy and confidentiality, and [CMTAT_SUGGESTION_EDITORIAL.md](CMTAT_SUGGESTION_EDITORIAL.md) for the typographical and consistency corrections.
+Three subjects have their own companion documents: `CMTAT_SUGGESTION_CROSSCHAIN.md` for cross-chain transferability, `CMTAT_SUGGESTION_PRIVACY.md` for privacy and confidentiality, and `CMTAT_SUGGESTION_EDITORIAL.md` for the typographical and consistency corrections.
 
 ### What this was checked against
 
@@ -176,7 +176,7 @@ Functionality 6 (page 7) leaves the interaction between pause and issuance to th
 
 That is a reasonable degree of freedom, but it makes the pause status uninterpretable to a third party: a holder seeing a paused token cannot tell whether supply can still change. The framework SHOULD require the choice to be **documented and readable**, and SHOULD state the two cases where the answer is not free:
 
-- Cross-chain creation and cancellation MUST be blocked while paused (see [CMTAT_SUGGESTION_CROSSCHAIN.md](CMTAT_SUGGESTION_CROSSCHAIN.md)).
+- Cross-chain creation and cancellation MUST be blocked while paused (see `CMTAT_SUGGESTION_CROSSCHAIN.md`).
 - A pause that does not block creation lets the issuer dilute holders while they cannot transfer, which SHOULD be called out as a consequence the issuer accepts.
 
 Functionality 9, "deactivate contract", requires tokens to be destroyed before or during deactivation, and states that the issuer can no longer create or cancel tokens afterwards. On ledgers where an account or contract cannot be removed, and in upgradeable deployments, "permanently and irreversibly" needs qualification: the framework SHOULD state what MUST be true after deactivation rather than how it is achieved. In an upgradeable deployment it MUST also say that deactivating the token is not sufficient on its own, since an upgrade can restore the functions it disabled — the ability to upgrade has to go with it.
@@ -287,7 +287,7 @@ The framework SHOULD require that every issuer functionality records an entry id
 
 ## 10. Divergences with this repository's criteria
 
-These are places where the framework and the [CMTAT Equivalency Assessment Criteria](README.md) `v0.3.0` currently disagree. Each needs resolving on one side or the other.
+These are places where the framework and the CMTAT Equivalency Assessment Criteria (`README.md`) `v0.3.0` currently disagree. Each needs resolving on one side or the other.
 
 Three of them are gaps in the criteria rather than in the framework: functionalities 8, 10 and 14 — know pause status, know deactivate status, know frozen status — are **mandatory** in the framework and have no criterion at all. The criteria cover the operations that change those states but never require the states to be readable, so an implementation could pass all 17 mandatory criteria while offering no way to find out whether the token is paused, deactivated, or an address frozen. Adding them would take the mandatory count from 17 to 20 and renumber every following criterion, so it belongs in a release that carries the renumbering warning.
 

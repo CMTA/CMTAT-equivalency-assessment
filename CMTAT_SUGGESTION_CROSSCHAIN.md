@@ -4,7 +4,7 @@
 
 This document suggests how the **CMTAT Framework functional specifications** (`doc/cmtat-framework-functional-specifications-june-2026.pdf`, June 2026 edition) could address cross-chain transferability.
 
-It is a companion to [CMTAT_SUGGESTION.md](CMTAT_SUGGESTION.md), which carries the other suggestions, and it comes from the same source: the mapping work behind the [CMTAT Equivalency Assessment Criteria](README.md), whose own Cross-Chain Bridge Support section covers the implementation side of the same question. It is a suggestion list produced by this repository, not a CMTA publication.
+It is a companion to `CMTAT_SUGGESTION.md`, which carries the other suggestions, and it comes from the same source: the mapping work behind the CMTAT Equivalency Assessment Criteria (`README.md`), whose own Cross-Chain Bridge Support section covers the implementation side of the same question. It is a suggestion list produced by this repository, not a CMTA publication.
 
 ## The gap
 
@@ -30,7 +30,7 @@ The framework SHOULD state that, where the same instrument is issued across seve
 
 ## Draft text for the framework
 
-The text below is a draft that could be inserted in the framework as a new module. It is written in the framework's own register — lowercase "must", "may" and "should", numbered functionalities, a rationale followed by a list — rather than in the RFC 2119 style used elsewhere in this repository, so that it can be pasted in without rewriting. The numbers 53 to 55 continue the numbering used in [CMTAT_SUGGESTION.md](CMTAT_SUGGESTION.md), which proposes functionalities 43 to 52; if this module is adopted on its own, they become 43 to 46.
+The text below is a draft that could be inserted in the framework as a new module. It is written in the framework's own register — lowercase "must", "may" and "should", numbered functionalities, a rationale followed by a list — rather than in the RFC 2119 style used elsewhere in this repository, so that it can be pasted in without rewriting. The numbers 53 to 55 continue the numbering used in `CMTAT_SUGGESTION.md`, which proposes functionalities 43 to 52; if this module is adopted on its own, they become 43 to 46.
 
 ---
 

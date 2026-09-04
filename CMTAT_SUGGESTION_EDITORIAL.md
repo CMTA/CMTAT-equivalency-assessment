@@ -4,7 +4,7 @@
 
 This document covers the editorial side of the **CMTAT Framework functional specifications** (`doc/cmtat-framework-functional-specifications-june-2026.pdf`, June 2026 edition): how the document identifies itself and numbers its functionalities, and the typographical defects found in this edition. Page and section references are those of that PDF.
 
-It is a companion to [CMTAT_SUGGESTION.md](CMTAT_SUGGESTION.md), which carries the substantive suggestions, alongside [CMTAT_SUGGESTION_CROSSCHAIN.md](CMTAT_SUGGESTION_CROSSCHAIN.md) and [CMTAT_SUGGESTION_PRIVACY.md](CMTAT_SUGGESTION_PRIVACY.md). It is a suggestion list produced by this repository, not a CMTA publication.
+It is a companion to `CMTAT_SUGGESTION.md`, which carries the substantive suggestions, alongside `CMTAT_SUGGESTION_CROSSCHAIN.md` and `CMTAT_SUGGESTION_PRIVACY.md`. It is a suggestion list produced by this repository, not a CMTA publication.
 
 ## Give the document itself a version number
 
@@ -33,7 +33,7 @@ The framework SHOULD adopt the standard formulation, as this repository's criter
 
 RFC 8174 restricts that meaning to the **uppercase** forms, so adopting the paragraph means a pass over the document to capitalise each keyword that is normative and leave in lowercase those that are descriptive — "the issuer may wish to delegate", in § 2.7, describes a practice rather than granting a permission. That pass is worth making on its own account: it forces, sentence by sentence, the question a reader of a standard has to answer, which is whether a given statement is a requirement or an explanation.
 
-The draft wording proposed in [CMTAT_SUGGESTION.md](CMTAT_SUGGESTION.md) and in its companions is written in lowercase, to match the document as it stands. If the framework adopts the formulation above, those drafts would be capitalised in the same pass.
+The draft wording proposed in `CMTAT_SUGGESTION.md` and in its companions is written in lowercase, to match the document as it stands. If the framework adopts the formulation above, those drafts would be capitalised in the same pass.
 
 ## Corrections
 
