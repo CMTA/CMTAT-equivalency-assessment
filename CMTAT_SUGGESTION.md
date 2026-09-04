@@ -8,6 +8,8 @@ It is written from the work on the [CMTAT Equivalency Assessment Criteria](READM
 
 Each suggestion gives the current wording (with its section and page in the PDF), the gap, and a proposed change.
 
+Privacy and confidentiality are covered in a companion document, [CMTAT_SUGGESTION_PRIVACY.md](CMTAT_SUGGESTION_PRIVACY.md).
+
 ### What this was checked against
 
 | Source | Version |
@@ -24,16 +26,15 @@ Each suggestion gives the current wording (with its section and page in the PDF)
 - [1. Versioning](#1-versioning)
 - [2. Cross-chain transferability](#2-cross-chain-transferability)
 - [3. Validation module and transfer restrictions](#3-validation-module-and-transfer-restrictions)
-- [4. Privacy and confidentiality](#4-privacy-and-confidentiality)
-- [5. Enforcement, cancellation and frozen addresses](#5-enforcement-cancellation-and-frozen-addresses)
-- [6. Pause and deactivation semantics](#6-pause-and-deactivation-semantics)
-- [7. Authorization module](#7-authorization-module)
-- [8. Attributes and documents](#8-attributes-and-documents)
-- [9. Batch operations and atomicity](#9-batch-operations-and-atomicity)
-- [10. Events and auditability](#10-events-and-auditability)
-- [11. Reference implementations](#11-reference-implementations)
-- [12. Divergences with this repository's criteria](#12-divergences-with-this-repositorys-criteria)
-- [13. Editorial corrections](#13-editorial-corrections)
+- [4. Enforcement, cancellation and frozen addresses](#4-enforcement-cancellation-and-frozen-addresses)
+- [5. Pause and deactivation semantics](#5-pause-and-deactivation-semantics)
+- [6. Authorization module](#6-authorization-module)
+- [7. Attributes and documents](#7-attributes-and-documents)
+- [8. Batch operations and atomicity](#8-batch-operations-and-atomicity)
+- [9. Events and auditability](#9-events-and-auditability)
+- [10. Reference implementations](#10-reference-implementations)
+- [11. Divergences with this repository's criteria](#11-divergences-with-this-repositorys-criteria)
+- [12. Editorial corrections](#12-editorial-corrections)
 
 ## 1. Versioning
 
@@ -141,28 +142,9 @@ The framework SHOULD require an implementation to document the order and the rep
 
 The framework has "know pause status" (8) and "know frozen status" (14), but no equivalent for the whitelist, even though the same operational need exists: a holder needs to know whether they are listed before attempting a transfer. The reference implementations all expose it.
 
-## 4. Privacy and confidentiality
+## 4. Enforcement, cancellation and frozen addresses
 
-Functionalities 1, 2, 11 and 18–20 are worded as "any person may know" — total supply, decimals, snapshot time, snapshot total supply, snapshot balance. On a confidential ledger, none of these is necessarily public. The framework already acknowledges this once, for the frozen status only, in functionality 14 (page 9): "On private blockchains, such as Aztec, the issuer may want to restrict access to the issuer, the relevant token holder, and possibly any third parties explicitly authorized by the issuer." §4.3 (page 14) then lists a privacy-preserving Aztec implementation as a reference implementation.
-
-The wording and the reference implementations are therefore inconsistent: an implementation on a confidential ledger cannot satisfy "any person may know" for balances, and it is not clear whether it thereby fails the mandatory Base module.
-
-The framework SHOULD generalize the note under functionality 14 into its own section, stating for each data item whether public readability is a **requirement** or merely the **default on a public ledger**:
-
-| Data | Suggested minimum visibility |
-|---|---|
-| Balance of an address | The holder of that address, and the issuer |
-| Transfer amount | The parties to the transfer, and the issuer |
-| Total supply | The issuer; publicly if the ledger is public |
-| Decimals | Everyone, since it is display metadata and reveals nothing about holdings |
-| Frozen status | The affected holder and the issuer (as already stated in functionality 14) |
-| Whitelist membership | The affected holder and the issuer |
-
-It SHOULD also state the consequences for the optional modules, since these are the operations that break first when balances are hidden: how the total supply is audited, how a snapshot and a distribution are computed on confidential balances, and how a validation rule screens participants without revealing the list. Finally it SHOULD require the disclosure path to be documented — which addresses or roles (auditor, regulator, court-appointed third party) can obtain a reading, and by what mechanism.
-
-## 5. Enforcement, cancellation and frozen addresses
-
-### 5.1 Say whether a frozen address can be cancelled from
+### 4.1 Say whether a frozen address can be cancelled from
 
 Functionality 12 (page 9) prevents any token from being transferred to or from a frozen address. Functionality 5, "cancel tokens", is not qualified. Whether the issuer can cancel tokens held on a frozen address is therefore undefined — and it is precisely the case that matters, since an address is frozen exactly when a court order or a suspicion is being acted upon.
 
@@ -172,13 +154,13 @@ In the Solidity implementation the standard cancellation path refuses a frozen a
 
 The framework currently has "enforce a transfer" (37) but no enforced cancellation, so the only documented way to cancel from a frozen address is to enforce a transfer to the issuer and cancel there — which is a workaround worth either endorsing explicitly or replacing.
 
-### 5.2 Reconcile "user-approved cancel" with issuer-only cancellation
+### 4.2 Reconcile "user-approved cancel" with issuer-only cancellation
 
 Functionality 41 (page 12) states that "this functionality also allows token holders to cancel their own tokens". That is a substantive legal position — under several jurisdictions a security can only be cancelled by its issuer, not by its holder — and it is the opposite of the position taken by the Solidity implementation, where self-cancellation is not permitted by default.
 
 The framework SHOULD separate the two capabilities it currently merges: a cancellation that the holder **authorizes** but the issuer **performs**, and a cancellation that the holder performs alone. It SHOULD note that the second is available only where the applicable law permits it.
 
-## 6. Pause and deactivation semantics
+## 5. Pause and deactivation semantics
 
 Functionality 6 (page 7) leaves the interaction between pause and issuance to the issuer: "It is up to the issuer to decide whether token creation and deletion operations are also affected by the pause."
 
@@ -189,7 +171,7 @@ That is a reasonable degree of freedom, but it makes the pause status uninterpre
 
 Functionality 9, "deactivate contract", requires tokens to be destroyed before or during deactivation, and states that the issuer can no longer create or cancel tokens afterwards. On ledgers where an account or contract cannot be removed, and in upgradeable deployments, "permanently and irreversibly" needs qualification: the framework SHOULD state what MUST be true after deactivation (no transfer, no creation, no cancellation, and the state readable and irreversible) rather than how it is achieved.
 
-## 7. Authorization module
+## 6. Authorization module
 
 The Authorization module (§3.2.3, page 10) has grant role, revoke role, and role attribution. Three additions would reflect what implementations actually need:
 
@@ -199,37 +181,37 @@ The Authorization module (§3.2.3, page 10) has grant role, revoke role, and rol
 
 The framework SHOULD also recommend a **two-step transfer of the administrator role** (the new holder accepts before the old one loses control), since a one-step transfer to a wrong address is unrecoverable and permanently disables every issuer functionality.
 
-## 8. Attributes and documents
+## 7. Attributes and documents
 
-### 8.1 Add document functionalities to the numbered list
+### 7.1 Add document functionalities to the numbered list
 
 The attributes list (page 8) requires a "reference to any legally required documentation", and §4.1 mentions a Document module calling an ERC-1643 document engine, but no numbered functionality covers documents. Since the legal link between the token and the instrument runs through those documents, they deserve the same treatment as the other attributes:
 
 > **Set document** / **know document**: associate a named document with the token, as a reference and a hash allowing a reader to verify that the document has not been altered.
 
-### 8.2 State that decimals are fixed after issuance
+### 7.2 State that decimals are fixed after issuance
 
 The framework requires decimals to be zero unless the applicable law allows fractions, and functionality 11 explains their display role. It does not say whether the value may change after issuance.
 
 It MUST not: changing decimals retroactively reinterprets every recorded balance. The framework SHOULD state that decimals are set at issuance and immutable thereafter, and that a change of denomination is a corporate action carried out through cancellation and re-issuance.
 
-### 8.3 Reconsider the optionality of the ticker symbol
+### 7.3 Reconsider the optionality of the ticker symbol
 
-The attributes list marks the ticker symbol as optional. Every reference implementation exposes it, wallets and venues rely on it, and this repository's criteria treat it as mandatory (criterion 2). Either the framework SHOULD make it mandatory, or the criteria SHOULD be relaxed — the two documents currently disagree (see §12).
+The attributes list marks the ticker symbol as optional. Every reference implementation exposes it, wallets and venues rely on it, and this repository's criteria treat it as mandatory (criterion 2). Either the framework SHOULD make it mandatory, or the criteria SHOULD be relaxed — the two documents currently disagree (see §11).
 
-## 9. Batch operations and atomicity
+## 8. Batch operations and atomicity
 
 §2.1 (page 3) discusses the issuer's need to burn and mint atomically, and mentions a multicall function or a dedicated `burnAndMint` function. Nothing in the numbered list reflects this, so a conformant implementation may offer no way to do it.
 
 The framework SHOULD add optional functionalities for **batch creation, batch cancellation and batch transfer**, and for an **atomic cancel-and-create**. Both are already present in the Solidity implementation, and on ledgers that batch natively the requirement is satisfied by the ledger rather than by the token — which is worth stating, since it is the kind of difference an assessment has to record.
 
-## 10. Events and auditability
+## 9. Events and auditability
 
 The framework describes readable state ("know total supply", "know frozen status") but never requires the token to **record who did what**. An audit trail is a legal requirement in most of the contexts the framework addresses, and on some ledgers it is not obtainable after the fact if the implementation did not emit it.
 
 The framework SHOULD require that every issuer functionality records an entry identifying the operation, the acting account, the affected address, and the amount where applicable — as ledger events, logs, or whatever mechanism the target ledger provides.
 
-## 11. Reference implementations
+## 10. Reference implementations
 
 §4 (pages 12–14) lists the Ethereum, Tezos, Aztec and Solana implementations. Three improvements:
 
@@ -237,7 +219,7 @@ The framework SHOULD require that every issuer functionality records an entry id
 - **Point to the equivalency assessment criteria.** The framework says that "additional implementations are encouraged" but gives no procedure for showing that a new implementation matches the framework. The criteria in this repository are that procedure, and §4 is where an implementer would look for it.
 - **State the review status per implementation.** §4.2 notes that CMTA reviewed the Tezos FA2 implementation for compliance with the standard only, and that CMTA was not involved in the Ligo implementation. The other entries say nothing, so the absence of a statement cannot be distinguished from an endorsement. A one-line status for each entry (reviewed, audited, contributed, third-party) would make the list readable.
 
-## 12. Divergences with this repository's criteria
+## 11. Divergences with this repository's criteria
 
 These are places where the framework and the [CMTAT Equivalency Assessment Criteria](README.md) `v0.3.0` currently disagree. Each needs resolving on one side or the other.
 
@@ -258,18 +240,18 @@ Three of them are gaps in the criteria rather than in the framework: functionali
 | Restrictions beyond whitelisting | Absent | Documented as a non-criterion reference catalogue |
 | Privacy | One note under functionality 14 | Documented as a non-criterion reference section |
 
-## 13. Editorial corrections
+## 12. Editorial corrections
 
 | Page | Section | Current text | Suggested |
 |---|---|---|---|
-| 6 | §3, last line | "projects on Ethereum ad EVM blockchains" | "and EVM blockchains" |
-| 7 | Functionality 1 | "at any point it time" | "at any point in time" |
+| 6 | §3, last line | "projects on Ethereum **ad** EVM blockchains" | "and EVM blockchains" |
+| 7 | Functionality 1 | "at any point **it** time" | "at any point in time" |
 | 7 | Functionality 2 | "Know balance Each token holder may know" | Add the missing colon after "Know balance", as in every other entry |
-| 7 | Functionality 4 | "capital increase of re-opening of a particular debt issuance" | "capital increase or re-opening" |
-| 12 | Functionality 38 | "A possible use case of this opional function" | "optional" |
-| 12 | Functionality 42, note | "consult with the relavent trading and settlement venues" | "relevant" |
-| 13 | §4.1 | The snapshot engine appears twice in the same list — "the SnapshotEngine implementing the 'Snapshot' function" and "the SnapShotEngineModule to call a SnapShotEngine to perform on-chain snapshots" | Keep one entry, and use one spelling of "Snapshot" throughout (the repository name is `SnapshotEngine`) |
-| 14 | §4.3 | "the Ethereum layer-2 protocol Aztec (https://aztec.network). and enables confidential transactions" | Remove the stray full stop before "and" |
+| 7 | Functionality 4 | "capital increase **of** re-opening of a particular debt issuance" | "capital increase or re-opening" |
+| 12 | Functionality 38 | "A possible use case of this **opional** function" | "optional" |
+| 12 | Functionality 42, note | "consult with the **relavent** trading and settlement venues" | "relevant" |
+| 13 | §4.1 | The snapshot engine appears twice in the same list — "the SnapshotEngine implementing the 'Snapshot' function" and "the **SnapShot**EngineModule to call a SnapShotEngine to perform on-chain snapshots" | Keep one entry, and use one spelling of "Snapshot" throughout (the repository name is `SnapshotEngine`) |
+| 14 | §4.3 | "the Ethereum layer-2 protocol Aztec (https://aztec.network)**.** and enables confidential transactions" | Remove the stray full stop before "and" |
 
 Two consistency points that are not typos:
 
