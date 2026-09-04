@@ -10,3 +10,9 @@
 [submodule "Rules"]
 	path = submodules/Rules
 	url = https://github.com/CMTA/Rules.git
+[submodule "submodules/CMTAT-Confidential"]
+	path = submodules/CMTAT-Confidential
+	url = https://github.com/CMTA/CMTAT-Confidential
+[submodule "submodules/private-CMTAT-aztec"]
+	path = submodules/private-CMTAT-aztec
+	url = https://github.com/taurushq-io/private-CMTAT-aztec

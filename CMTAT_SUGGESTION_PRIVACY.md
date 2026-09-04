@@ -18,10 +18,17 @@ The framework SHOULD generalize the note under functionality 14 into its own sec
 |---|---|
 | Balance of an address | The holder of that address, and the issuer |
 | Transfer amount | The parties to the transfer, and the issuer |
-| Total supply | The issuer and every token holder, since a holder cannot determine the extent of a proportional right without it; publicly if the ledger is public |
+| Total supply | The issuer, and every token holder unless the issuer restricts it for the reason set out below, since a holder cannot otherwise determine the extent of a proportional right; publicly if the ledger is public |
 | Decimals | Everyone, since it is display metadata and reveals nothing about holdings |
 | Frozen status | The affected holder and the issuer (as already stated in functionality 14) |
 | Whitelist membership | The affected holder and the issuer |
+
+**A readable total supply leaks balance and transaction information, and the framework SHOULD warn about it.** On a confidential ledger the total supply is the one aggregate that is hard to hide, and both making it public and disclosing it to holders open inference channels:
+
+- **Delta inference across two readings.** An observer who reads the value before and after a period of activity recovers the net amount created or cancelled in between, and where exactly one such operation occurred, that operation's amount is revealed in full. This is documented in [CMTAT-Confidential](https://github.com/CMTA/CMTAT-Confidential) — FAQ "Is the total supply public or private information?" and the Total Supply Visibility section, reported as audit finding `OZ-L-01` — which recommends aggregating several supply-changing operations before publishing rather than publishing after each one.
+- **Complement inference within a small holder set.** A holder who knows the total supply and their own balance also knows the aggregate held by everyone else. Where there are two holders, that is the other holder's exact balance, and the fewer the holders, the narrower the range for each of them.
+
+The framework SHOULD therefore present readability by holders as the default rather than an absolute requirement, and allow the issuer to restrict it where the confidentiality of individual operations outweighs the holder's interest in knowing the denominator — stating which of the two it has chosen, and how a holder determines a proportional entitlement if the figure is withheld.
 
 The same section SHOULD also list the third parties who may be entitled to a reading — the auditor of the issuer, the auditor of a token holder, a supervisory authority, a court or an officer appointed by it — since these are the readings an implementation has to provide for and cannot add after the fact. The draft below gives that list as a second table.
 
@@ -44,7 +51,7 @@ For each item of data, the framework therefore distinguishes two things:
 
 | Data | Persons who must be able to read it |
 |---|---|
-| Number of tokens in circulation | the issuer and every token holder |
+| Number of tokens in circulation | the issuer; and every token holder, unless the issuer has restricted that reading under the paragraph on inference below |
 | Balance of an address | the holder of that address, and the issuer |
 | Amount of a transfer | the parties to the transfer, and the issuer |
 | Decimals | any person, since the value is display information and reveals nothing about holdings |
@@ -66,6 +73,8 @@ The following persons may be entitled to read data that is not public. The imple
 | A tax authority | the data required by the applicable tax legislation |
 | An operator of a trading or settlement venue on which the instrument is admitted | the data required to settle the transactions it processes |
 | The operator of the ledger, and the nodes that validate the transactions | whatever the ledger requires them to process, which is a consequence of the technology chosen and must be documented as such |
+
+The number of tokens in circulation requires particular care, since it is an aggregate of every balance. Where the ledger is confidential, an observer who obtains that figure at two points in time can determine the net number of tokens created or cancelled between them, and where a single such operation occurred in that interval, its amount is revealed in full. A holder who knows the figure and its own balance also knows the aggregate held by all the other holders, which, where the holders are few, narrows their individual balances. An implementation may therefore restrict the reading of that figure, including as against holders, where the confidentiality of individual operations is to be preserved; it must then state how a holder determines the extent of a right expressed as a proportion of the tokens in issue. Where the figure is disclosed periodically, the disclosures should cover several operations rather than each one.
 
 For each of these persons, the implementation must state whether the reading is available permanently or on request, and who grants it. A reading that depends on the co-operation of a person having an interest in withholding it does not satisfy this requirement.
 
