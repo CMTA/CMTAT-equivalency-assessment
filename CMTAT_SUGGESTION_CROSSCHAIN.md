@@ -24,3 +24,37 @@ The framework SHOULD add an optional **Cross-chain module**, stating at least:
 Functionality 1 (page 7) reads "any person may know the total number of tokens in circulation at any point in time". For a token deployed on several chains, a single contract only knows its **local** supply.
 
 The framework SHOULD state that, where the same instrument is issued across several ledgers, the functionality is satisfied per ledger, and the issuer MUST be able to reconcile the aggregate — either off-chain or through a designated ledger of record.
+
+## Draft text for the framework
+
+The text below is a draft that could be inserted in the framework as a new module. It is written in the framework's own register — lowercase "must", "may" and "should", numbered functionalities, a rationale followed by a list — rather than in the RFC 2119 style used elsewhere in this repository, so that it can be pasted in without rewriting. The numbers 43 to 45 assume the module is appended after the current functionality 42.
+
+---
+
+### § 3.2.7 Cross-chain module
+
+Rationale: an issuer may wish to make the same instrument available on more than one distributed ledger, so that holders can hold and transfer their tokens on the ledger of their choice. Cross-chain transferability is not a requirement of this framework: a token issued on a single ledger satisfies it in full. Where an issuer chooses to support it, the arrangements below apply, so that the same instrument is never represented twice.
+
+Two models are acceptable:
+
+- **Cancel-and-create** (also called burn-and-mint): the tokens are cancelled on the source ledger, and the same number of tokens is created on the destination ledger.
+- **Lock-and-create** (also called lock-and-mint): the tokens are immobilised on the source ledger, and the same number of tokens is created on the destination ledger. Tokens locked for this purpose must be treated as not valid for as long as they are locked: they must not be counted in the number of tokens in circulation, they must not be transferable, and they must not carry any right attached to the instrument, in particular no distribution, no entitlement determined by a snapshot, and no voting right.
+
+Under either model, the total number of valid tokens across all the ledgers on which the instrument is issued must at all times equal the number of tokens issued.
+
+Functionalities:
+
+43. **Cross-chain create**: create, on the destination ledger, the number of tokens that has been cancelled or locked on the source ledger.
+
+44. **Cross-chain cancel**: cancel or lock, on the source ledger, the number of tokens that is to be created on the destination ledger.
+
+45. **Know cross-chain authorisation**: for a particular CMTAT token, any person may know which addresses are authorised to call functionalities 43 and 44.
+
+The following applies to the two functionalities above:
+
+- They should be implemented as functions distinct from "create tokens" (functionality 4) and "cancel tokens" (functionality 5), reserved to the addresses that the issuer has designated as bridges. The authorisation of a bridge can then be granted and revoked without affecting the issuer's own authority to issue and cancel tokens.
+- Where an implementation instead uses functionalities 4 and 5 themselves for cross-chain operations, those functions must apply the same restrictions as a transfer, and in particular the pause (functionality 6). A cancellation on one ledger followed by a creation on another is economically a transfer between two ledgers, and must not remain possible while transfers are paused.
+- The issuer must document which transfer restrictions apply on the cross-chain path — freeze (functionality 12), partial freeze (functionality 38), whitelisting (functionality 23) and any other validation rule — and which do not.
+- Functionality 1 (know total supply) is satisfied per ledger. Where the same instrument is issued across several ledgers, the issuer must be able to reconcile the aggregate number of tokens in circulation, either off chain or on a ledger designated as the ledger of record.
+
+Roles: functionalities 43 and 44 are issuer functionalities, exercised by the bridge designated by the issuer. Functionality 45 may be called by any person.
