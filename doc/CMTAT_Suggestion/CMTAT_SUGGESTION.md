@@ -305,7 +305,7 @@ The framework SHOULD require that every issuer functionality records an entry id
 
 These are places where the framework and the CMTAT Equivalency Assessment Criteria (`README.md`) `v0.3.0` currently disagree. Each needs resolving on one side or the other.
 
-Three of them are gaps in the criteria rather than in the framework: functionalities 8, 10 and 14 — know pause status, know deactivate status, know frozen status — are **mandatory** in the framework and have no criterion at all. The criteria cover the operations that change those states but never require the states to be readable, so an implementation could pass all 17 mandatory criteria while offering no way to find out whether the token is paused, deactivated, or an address frozen. Adding them would take the mandatory count from 17 to 20 and renumber every following criterion, so it belongs in a release that carries the renumbering warning.
+Three of them have since been resolved on the criteria side. Functionalities 8, 10 and 14 — know pause status, know deactivate status, know frozen status — are **mandatory** in the framework and had no criterion at all, so an implementation could pass every mandatory criterion while offering no way to find out whether the token was paused, deactivated, or an address frozen. They became criteria 15, 17 and 20 in `v0.3.0`, which took the mandatory count from 17 to 20 and renumbered every following criterion.
 
 | Point | Framework (June 2026) | This repository's criteria |
 |---|---|---|
@@ -313,9 +313,6 @@ Three of them are gaps in the criteria rather than in the framework: functionali
 | Version | Not a functionality | Optional, criterion 6 |
 | Self-cancellation | Part of functionality 41 (page 12), unconditionally | Issuer-only by default, following the rule that a security is cancelled by its issuer, but the Self-Burn section expressly permits an implementation to add self-burn where its legal or business context allows. The divergence is the default and the condition, not the permission: the criteria already take the position that § 3.2 proposes for the framework |
 | Enforced cancellation | No functionality; only "enforce a transfer" (37) | Documented in Forced Burn and Forced Transfer, and in the Implementation Details table |
-| Know pause status | **Mandatory** functionality 8 | No criterion |
-| Know deactivate status | **Mandatory** functionality 10 | No criterion |
-| Know frozen status | **Mandatory** functionality 14 | No criterion |
 | Know active balance / frozen balance | Optional functionalities 39–40 | No criteria; only the partial freeze setters, criterion 19 |
 | Know decimals | Mandatory functionality 11 where decimals are permitted | Criterion 4, worded as "no fractions" |
 | Cross-chain | Absent | Documented as a non-criterion reference section |

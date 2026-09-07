@@ -8,6 +8,11 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 
+- Three mandatory criteria for reading the states the existing criteria only let an issuer change: **15 Know pause status** (`paused()`), **17 Know deactivate status** (`deactivated()`, declared by the draft `IERC8343` interface) and **20 Know frozen status** (`isFrozen(address)`), all public reads in CMTAT Solidity
+  - Closes a gap in which an implementation could pass every mandatory criterion while offering no way to find out whether the token was paused, whether it had been deactivated, or whether an address was frozen — the criteria covered the operations that change those states but never required the states to be readable
+  - Criterion 20 records that on a ledger providing confidentiality the reading MAY be restricted to the issuer, the holder concerned and the third parties the issuer authorizes, cross-referencing the Privacy and Confidentiality section
+  - Mandatory count goes from 17 to 20, total from 55 to 58; the optional count is unchanged at 38
+
 - Summary section (before the equivalency table) giving the aggregated compliance of the implementation being approved with CMTAT: scope of the count (17 mandatory / 38 optional criteria), allowed answer values (`y` / `partial` / `n`), compliance table to fill, and a note requiring every `partial` and every mandatory `n` to be explained
 - Cross-Chain Bridge Support section (ERC-7802 and Chainlink CCIP), documented as an optional module outside the equivalency criteria
   - Guidance for implementations that reuse the standard `mint` and `burn` functions for bridge operations instead of dedicated cross-chain entry points: those functions SHOULD apply the pause check on the bridge path, so a cross-chain movement is subject to the same checks as a standard transfer, and the implementation SHOULD state which other transfer checks (freeze, partial freeze, allowlist, rule engine) the bridge path enforces
@@ -56,6 +61,9 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Criteria renumbered from 55 items: former IDs 6–54 shifted to 7–55 to insert the Version attribute as ID 6. Optional criteria count goes from 37 to 38 (mandatory stays at 17)
   - This breaks every assessment already filled against `0.2.0`: an answer given against an ID in the old numbering does not designate the same criterion in `0.3.0`, so such an assessment MUST be re-read against this version before being reused
 - Credit Events table: stale reference to the pre-0.2.0 ID `1.29` replaced by ID 38
+- Criteria renumbered a second time in this release, to insert the three status-reading criteria: former IDs 15 to 55 shift to 16, 18–19 and 21–58 (IDs 1–14 are unaffected)
+  - **This breaks every assessment already filled against `0.2.0` and against any earlier draft of `0.3.0`**: an answer given against an ID in the previous numbering does not designate the same criterion here, so such an assessment MUST be re-read against this version before being reused
+  - The stale ID references were updated with it: the compliance-table example now cites criterion 16 for *Deactivate contract*, the Credit Events note cites ID 41, and the Restriction section cites criteria 23–25
 - Cross-Chain Bridge Support: added the LayerZero arrangement alongside ERC-7802 and the Chainlink CCIP hooks
   - `CMTAT-LayerZero` sits outside the token rather than in it — an adapter on the LayerZero V2 OFT standard that holds the bridge authorization itself and calls the token to burn on the source chain and mint on the destination chain
   - Records its two forms: `LayerZeroAdapterERC7802` on the ERC-7802 entry points, and `LayerZeroAdapter` on the ERC-3643 `mint` and `burn`, which is the reuse case the section already warned about
