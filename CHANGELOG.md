@@ -56,6 +56,11 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Criteria renumbered from 55 items: former IDs 6–54 shifted to 7–55 to insert the Version attribute as ID 6. Optional criteria count goes from 37 to 38 (mandatory stays at 17)
   - This breaks every assessment already filled against `0.2.0`: an answer given against an ID in the old numbering does not designate the same criterion in `0.3.0`, so such an assessment MUST be re-read against this version before being reused
 - Credit Events table: stale reference to the pre-0.2.0 ID `1.29` replaced by ID 38
+- Cross-Chain Bridge Support: added the LayerZero arrangement alongside ERC-7802 and the Chainlink CCIP hooks
+  - `CMTAT-LayerZero` sits outside the token rather than in it — an adapter on the LayerZero V2 OFT standard that holds the bridge authorization itself and calls the token to burn on the source chain and mint on the destination chain
+  - Records its two forms: `LayerZeroAdapterERC7802` on the ERC-7802 entry points, and `LayerZeroAdapter` on the ERC-3643 `mint` and `burn`, which is the reuse case the section already warned about
+  - Notes that each adapter carries its own pause, controlled by the adapter owner and independent of the token's, and that several bridges can each hold their own authorization
+- Reference table: added the three submodules pinned since it was last written — `CMTAT-Confidential` `v1.0.0`, `CMTAT-LayerZero` (`v0.2.0` + 1 commit) and `private-CMTAT-aztec` (`0.1.1` + 25 commits) — with a sentence separating the four implementations the criteria are mapped against from the three cited only by the sections outside the count
 - The four suggestion documents moved from the repository root into `doc/CMTAT_Suggestion/`, next to the CMTA specifications they comment on
   - `CMTAT_SUGGESTION.md`, `CMTAT_SUGGESTION_CROSSCHAIN.md`, `CMTAT_SUGGESTION_PRIVACY.md` and `CMTAT_SUGGESTION_EDITORIAL.md` keep their names, so any reference to one of them by file name still resolves; only their location changed
   - The root now holds the deliverable and its metadata alone (`README.md`, `CHANGELOG.md`, `LICENSE.md`), which keeps the suggestions to CMTA visibly separate from the criteria

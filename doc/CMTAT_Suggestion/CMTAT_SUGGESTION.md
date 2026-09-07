@@ -6,7 +6,9 @@ This document lists potential improvements to the **CMTAT Framework functional s
 
 It is written from the work on the CMTAT Equivalency Assessment Criteria (`README.md`): every criterion in that document had to be mapped from the framework to a concrete implementation, and the points below are the places where that mapping was ambiguous, incomplete, or contradicted by the reference implementation. It is a suggestion list produced by this repository, not a CMTA publication.
 
-Each suggestion gives the current wording (with its section and page in the PDF), the gap, and a proposed change. Where the change is a change of wording, a **Draft text** block gives it in the framework's own register — numbered functionalities, a rationale followed by a list — so that it can be pasted in without rewriting. The normative keywords in those blocks are written in the uppercase forms of [RFC 2119](https://www.rfc-editor.org/info/rfc2119) and [RFC 8174](https://www.rfc-editor.org/info/rfc8174), consistently with the keyword paragraph proposed in `CMTAT_SUGGESTION_EDITORIAL.md`; where a word is used descriptively rather than to state a requirement level, it stays in lowercase, as RFC 8174 requires.
+Each suggestion gives the current wording (with its section and page in the PDF), the gap, and a proposed change. Where the change is a change of wording, a **Draft text** block gives it in the framework's own register — numbered functionalities, a rationale followed by a list — so that it can be pasted in without rewriting. 
+
+The normative keywords in those blocks are written in the uppercase forms of [RFC 2119](https://www.rfc-editor.org/info/rfc2119) and [RFC 8174](https://www.rfc-editor.org/info/rfc8174), consistently with the keyword paragraph proposed in `CMTAT_SUGGESTION_EDITORIAL.md`; where a word is used descriptively rather than to state a requirement level, it stays in lowercase, as RFC 8174 requires.
 
 New functionalities are numbered from 43 onward, continuing the current list of 42, in the order in which they appear in this document; the cross-chain companion continues the same numbering at 53.
 

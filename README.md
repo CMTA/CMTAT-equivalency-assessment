@@ -473,6 +473,13 @@ CMTAT Solidity supports cross-chain bridging through a **burn-and-mint** model r
 - **[ERC-7802](https://eips.ethereum.org/EIPS/eip-7802)** — a minimal, bridge-agnostic interface for cross-chain mint and burn. This is the primitive that any compliant token bridge can call.
 - **[Chainlink CCIP](https://docs.chain.link/ccip) (Cross-Chain Token / CCT standard)** — administrative hooks (`CCIPModule`) that let the token register with the CCIP token admin registry.
 
+A third arrangement sits **outside** the token rather than in it: **[CMTAT-LayerZero](https://github.com/CMTA/CMTAT-LayerZero)** is an adapter built on the LayerZero V2 OFT standard, which holds the bridge authorization itself and calls the token to burn on the source chain and mint on the destination chain. It ships in two forms:
+
+- `LayerZeroAdapterERC7802` — calls the ERC-7802 entry points described above, and is the form CMTA recommends where the token implements ERC-7802;
+- `LayerZeroAdapter` — calls the ERC-3643 `mint` and `burn` where the token does not, which is the reuse case described below.
+
+Each adapter carries its own pause, controlled by the adapter owner and independent of the token's. An implementation MAY support several bridges at once; each one then holds its own authorization, so that one can be revoked without interrupting the others.
+
 The cross-chain mint/burn entry points are **not** the standard `mint` / `burn` functions: they are dedicated functions restricted to the trusted bridge via a specific role, and they are blocked while the contract is paused (consistent with the *Mint while pause* / *Burn while pause* rows in [Implementation Details](#implementation-details)).
 
 In CMTAT Solidity, the standard `mint` and `burn` remain available while the contract is paused: the pause check is carried by the authorization hook of each entry point (`_checkTokenBridge` is `whenNotPaused`, `_authorizeMint` is not), not by the shared mint/burn path.
@@ -576,3 +583,8 @@ Submodules used in this project and current checked-out versions:
 | SnapshotEngine | https://github.com/CMTA/SnapshotEngine | `v0.5.0` | `aa089353605cd1b0e555d22b62aa4fbeaae7df25` |
 | RuleEngine | https://github.com/CMTA/RuleEngine | `v3.0.0-rc6` | `ca75429c581a2eb9043e4719561e941d0b2e1206` |
 | Rules | https://github.com/CMTA/Rules | `v0.6.0` | `283efe723225c89729fd618852a9c2705a47180b` |
+| CMTAT-Confidential | https://github.com/CMTA/CMTAT-Confidential | `v1.0.0` | `285ed93721dfbbc147932bd450aa057126e70e84` |
+| CMTAT-LayerZero | https://github.com/CMTA/CMTAT-LayerZero | `v0.2.0` + 1 commit | `e57ca4f076e44ed5a08fdfce9379e2a82925d7cf` |
+| private-CMTAT-aztec | https://github.com/taurushq-io/private-CMTAT-aztec | `0.1.1` + 25 commits | `61f4220d5565840fd4fcdd2b723c9f55eb824c60` |
+
+The first four are the implementations the criteria are mapped against. The last three are referenced by the [Cross-Chain Bridge Support](#cross-chain-bridge-support) and [Privacy and Confidentiality](#privacy-and-confidentiality) sections, which are outside the equivalency count.

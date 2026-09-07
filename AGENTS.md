@@ -16,7 +16,7 @@
 
 ## What this project is
 
-This repository is **documentation only**. It defines the *CMTAT Equivalency Assessment Criteria*: the fillable checklist used to assess whether a token implementation — typically on a non-EVM blockchain — is equivalent to the [CMTAT](https://github.com/CMTA/CMTAT) (CMTA Token) standard. The deliverable is `README.md`; the four git submodules are the CMTA Solidity reference implementations the criteria are mapped against. There is no source code, no build system and no test suite.
+This repository is **documentation only**. It defines the *CMTAT Equivalency Assessment Criteria*: the fillable checklist used to assess whether a token implementation — typically on a non-EVM blockchain — is equivalent to the [CMTAT](https://github.com/CMTA/CMTAT) (CMTA Token) standard. The deliverable is `README.md`; the first four git submodules are the CMTA Solidity reference implementations the criteria are mapped against, and the other three are cited only by the sections that sit outside the equivalency count. There is no source code, no build system and no test suite.
 
 ## Key concepts
 
@@ -52,11 +52,14 @@ This repository is **documentation only**. It defines the *CMTAT Equivalency Ass
 │       ├── CMTAT_SUGGESTION_CROSSCHAIN.md # its cross-chain transferability companion
 │       ├── CMTAT_SUGGESTION_PRIVACY.md    # its privacy and confidentiality companion
 │       └── CMTAT_SUGGESTION_EDITORIAL.md  # its typographical and consistency corrections
-└── submodules/       # the four CMTA reference repositories, all pinned to a tag
+└── submodules/       # the CMTA reference repositories, all pinned
     ├── CMTAT/            # submodule — CMTAT Solidity reference implementation
     ├── SnapshotEngine/   # submodule — snapshot engine behind the Snapshot criteria (26–31)
     ├── RuleEngine/       # submodule — transfer-hook engine behind the Transfer restriction criteria (20–22)
-    └── Rules/            # submodule — individual rules (whitelist, conditional transfer)
+    ├── Rules/            # submodule — individual rules (whitelist, conditional transfer)
+    ├── CMTAT-Confidential/  # submodule — cited by Privacy and Confidentiality, outside the count
+    ├── CMTAT-LayerZero/     # submodule — LayerZero OFT adapter, cited by Cross-Chain Bridge Support
+    └── private-CMTAT-aztec/ # submodule — privacy-preserving Aztec implementation, cited by Privacy and Confidentiality
 ```
 
 Most useful paths when checking or writing the CMTAT Solidity columns:
@@ -73,6 +76,9 @@ Most useful paths when checking or writing the CMTAT Solidity columns:
 | SnapshotEngine | `v0.5.0` | `aa089353605cd1b0e555d22b62aa4fbeaae7df25` |
 | RuleEngine | `v3.0.0-rc6` | `ca75429c581a2eb9043e4719561e941d0b2e1206` |
 | Rules | `v0.6.0` | `283efe723225c89729fd618852a9c2705a47180b` |
+| CMTAT-Confidential | `v1.0.0` | `285ed93721dfbbc147932bd450aa057126e70e84` |
+| CMTAT-LayerZero | `v0.2.0` + 1 commit | `e57ca4f076e44ed5a08fdfce9379e2a82925d7cf` |
+| private-CMTAT-aztec | `0.1.1` + 25 commits | `61f4220d5565840fd4fcdd2b723c9f55eb824c60` |
 
 This table is duplicated in the `Reference` section at the end of `README.md`. Whenever a submodule is moved, update both from `git submodule status`.
 
