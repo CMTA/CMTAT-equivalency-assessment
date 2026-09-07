@@ -165,6 +165,8 @@ An implementation SHOULD be considered equivalent to CMTAT only if **no mandator
 | 3 | Reference to legally required documentation | `terms` | Public (`view`) |  |  |  |  |
 | 4 | Decimals (no fractions by default) | ERC20 `decimals` | Public (`view`) | - Decimals MUST be set to zero unless governing law permits fractions.<br />- The value MUST be readable, since a holder cannot interpret a balance without it.<br />- CMTAT Solidity allows configurable decimals at deployment |  |  |  |
 
+The ticker symbol (criterion 2) is mandatory here although the CMTA framework lists it as an optional attribute: where the token is intended to be held in a wallet or admitted to trading, a ticker symbol SHOULD be set, and every CMTA reference implementation carries one.
+
 For CMTAT reference implementations, decimals SHOULD be configurable rather than defaulting to zero, to support use cases beyond tokenized shares in Switzerland.
 
 ##### Note

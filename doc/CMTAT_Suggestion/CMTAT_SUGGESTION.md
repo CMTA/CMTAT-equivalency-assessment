@@ -255,15 +255,13 @@ It SHOULD not, since changing decimals retroactively reinterprets every balance 
 
 ### 6.3 Reconsider the optionality of the ticker symbol
 
-The attributes list marks the ticker symbol as optional. Every reference implementation exposes it, wallets and venues rely on it, and this repository's criteria treat it as mandatory (criterion 2). Either the framework SHOULD make it mandatory, or the criteria SHOULD be relaxed — the two documents currently disagree (see §10).
+The attributes list marks the ticker symbol as optional. Every reference implementation exposes it, wallets and venues rely on it, and this repository's criteria treat it as mandatory (criterion 2).
 
-**Draft text** — in the attributes applicable to all CMTAT tokens, page 8, replace "Ticker symbol (optional)" with:
+Making the attribute mandatory would be the larger change, and it would bind an issuer that has no use for a symbol — a token that is never held in a wallet nor admitted to trading. The framework SHOULD instead keep the attribute optional and record the practice: state when a symbol is called for, and state that an implementation published or reviewed by CMTA carries one. That leaves the choice with the issuer while removing the impression that the reference implementations exceed the framework by accident.
 
-> • Ticker symbol
+**Draft text** — in the attributes applicable to all CMTAT tokens, page 8, keep "Ticker symbol (optional)" and add beneath the list:
 
-If the attribute is to remain optional, the following sentence would at least record the practice:
-
-> Where the token is intended to be held in a wallet or admitted to trading, a ticker symbol SHOULD be set.
+> Where the token is intended to be held in a wallet or admitted to trading, a ticker symbol SHOULD be set. An implementation published by CMTA, or reviewed by CMTA for compliance with this framework, SHOULD carry one.
 
 ## 7. Batch operations and atomicity
 
@@ -309,7 +307,7 @@ These are places where the framework and the CMTAT Equivalency Assessment Criter
 
 | Point | Framework (June 2026) | This repository's criteria | Resolution |
 |---|---|---|---|
-| Ticker symbol | Optional attribute (page 8) | Mandatory, criterion 2 | Open, either side: the framework makes the attribute mandatory (§ 6.3), or the criteria relax criterion 2 |
+| Ticker symbol | Optional attribute (page 8) | Mandatory, criterion 2 | Open, framework side: keep the attribute optional but record the practice, as drafted in § 6.3. The criteria are stricter than the framework here rather than in conflict with it — an implementation satisfying criterion 2 satisfies the framework either way — so criterion 2 stays mandatory |
 | Version | Not a functionality | Optional, criterion 6 | Open, framework side: add the "know version" functionality drafted in § 1 |
 | Self-cancellation | Part of functionality 41 (page 12), unconditionally | Reserved by default to the issuer and the addresses it authorises, but the Self-Burn section expressly permits an implementation to add self-burn where its legal or business context allows | Open, framework side: adopt the § 3.2 replacement of functionality 41. The divergence is the default and the condition, not the permission — the criteria already hold that position |
 | Enforced cancellation | No functionality; only "enforce a transfer" (37) | Documented in Forced Burn and Forced Transfer, and in the Implementation Details table | Open, framework side: add the "enforce a cancellation" functionality drafted in § 3.1 |
