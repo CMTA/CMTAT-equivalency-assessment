@@ -40,10 +40,6 @@ This repository is **documentation only**. It defines the *CMTAT Equivalency Ass
 ├── README.md         # THE document: criteria tables, guidelines, summary, conclusion
 ├── README.pdf        # manual export of README.md — stale until re-exported
 ├── CHANGELOG.md      # Keep a Changelog format; every README change is recorded here
-├── CMTAT_SUGGESTION.md   # suggested improvements to the CMTA framework specifications in doc/ — not part of the criteria
-├── CMTAT_SUGGESTION_CROSSCHAIN.md # its cross-chain transferability companion
-├── CMTAT_SUGGESTION_PRIVACY.md   # its privacy and confidentiality companion
-├── CMTAT_SUGGESTION_EDITORIAL.md  # its typographical and consistency corrections
 ├── LICENSE.md        # Mozilla Public License 2.0
 ├── .gitmodules       # the four CMTA reference repositories below
 ├── specification/
@@ -51,6 +47,11 @@ This repository is **documentation only**. It defines the *CMTAT Equivalency Ass
 │   ├── coverpage_CMTA.odg                                     # LibreOffice cover page source
 │   └── coverpage_CMTA.pdf                                     # its PDF export
 ├── doc/              # CMTA source documents the criteria are derived from (framework functional specifications, debt-instrument standard)
+│   └── CMTAT_Suggestion/  # suggested improvements to those CMTA specifications — not part of the criteria
+│       ├── CMTAT_SUGGESTION.md            # the main suggestion list
+│       ├── CMTAT_SUGGESTION_CROSSCHAIN.md # its cross-chain transferability companion
+│       ├── CMTAT_SUGGESTION_PRIVACY.md    # its privacy and confidentiality companion
+│       └── CMTAT_SUGGESTION_EDITORIAL.md  # its typographical and consistency corrections
 └── submodules/       # the four CMTA reference repositories, all pinned to a tag
     ├── CMTAT/            # submodule — CMTAT Solidity reference implementation
     ├── SnapshotEngine/   # submodule — snapshot engine behind the Snapshot criteria (26–31)

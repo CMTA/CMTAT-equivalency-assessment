@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This document suggests how the **CMTAT Framework functional specifications** (`doc/cmtat-framework-functional-specifications-june-2026.pdf`, June 2026 edition) could address cross-chain transferability.
+This document suggests how the **CMTAT Framework functional specifications** (`cmtat-framework-functional-specifications-june-2026.pdf`, June 2026 edition) could address cross-chain transferability.
 
 It is a companion to `CMTAT_SUGGESTION.md`, which carries the other suggestions, and it comes from the same source: the mapping work behind the CMTAT Equivalency Assessment Criteria (`README.md`), whose own Cross-Chain Bridge Support section covers the implementation side of the same question. It is a suggestion list produced by this repository, not a CMTA publication.
 

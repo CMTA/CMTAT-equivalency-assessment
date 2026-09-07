@@ -56,6 +56,10 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Criteria renumbered from 55 items: former IDs 6–54 shifted to 7–55 to insert the Version attribute as ID 6. Optional criteria count goes from 37 to 38 (mandatory stays at 17)
   - This breaks every assessment already filled against `0.2.0`: an answer given against an ID in the old numbering does not designate the same criterion in `0.3.0`, so such an assessment MUST be re-read against this version before being reused
 - Credit Events table: stale reference to the pre-0.2.0 ID `1.29` replaced by ID 38
+- The four suggestion documents moved from the repository root into `doc/CMTAT_Suggestion/`, next to the CMTA specifications they comment on
+  - `CMTAT_SUGGESTION.md`, `CMTAT_SUGGESTION_CROSSCHAIN.md`, `CMTAT_SUGGESTION_PRIVACY.md` and `CMTAT_SUGGESTION_EDITORIAL.md` keep their names, so any reference to one of them by file name still resolves; only their location changed
+  - The root now holds the deliverable and its metadata alone (`README.md`, `CHANGELOG.md`, `LICENSE.md`), which keeps the suggestions to CMTA visibly separate from the criteria
+  - Inside those documents, the framework specifications are now cited as `cmtat-framework-functional-specifications-june-2026.pdf` rather than `doc/cmtat-framework-functional-specifications-june-2026.pdf`, since the path was relative to the old location
 
 ## [0.2.0] - 2026-05-22
 

@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This document covers the editorial side of the **CMTAT Framework functional specifications** (`doc/cmtat-framework-functional-specifications-june-2026.pdf`, June 2026 edition): how the document identifies itself and numbers its functionalities, and the typographical defects found in this edition. Page and section references are those of that PDF.
+This document covers the editorial side of the **CMTAT Framework functional specifications** (`cmtat-framework-functional-specifications-june-2026.pdf`, June 2026 edition): how the document identifies itself and numbers its functionalities, and the typographical defects found in this edition. Page and section references are those of that PDF.
 
 It is a companion to `CMTAT_SUGGESTION.md`, which carries the substantive suggestions, alongside `CMTAT_SUGGESTION_CROSSCHAIN.md` and `CMTAT_SUGGESTION_PRIVACY.md`. It is a suggestion list produced by this repository, not a CMTA publication.
 

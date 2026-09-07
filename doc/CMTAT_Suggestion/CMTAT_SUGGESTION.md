@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This document lists potential improvements to the **CMTAT Framework functional specifications** (`doc/cmtat-framework-functional-specifications-june-2026.pdf`, first published January 2022, updated November 2024, September 2025 and June 2026).
+This document lists potential improvements to the **CMTAT Framework functional specifications** (`cmtat-framework-functional-specifications-june-2026.pdf`, first published January 2022, updated November 2024, September 2025 and June 2026).
 
 It is written from the work on the CMTAT Equivalency Assessment Criteria (`README.md`): every criterion in that document had to be mapped from the framework to a concrete implementation, and the points below are the places where that mapping was ambiguous, incomplete, or contradicted by the reference implementation. It is a suggestion list produced by this repository, not a CMTA publication.
 
