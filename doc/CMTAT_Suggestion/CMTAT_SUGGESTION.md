@@ -311,7 +311,7 @@ Three of them are gaps in the criteria rather than in the framework: functionali
 |---|---|---|
 | Ticker symbol | Optional attribute (page 8) | Mandatory, criterion 2 |
 | Version | Not a functionality | Optional, criterion 6 |
-| Self-cancellation | Permitted by functionality 41 (page 12) | Not permitted by default; the Self-Burn section states that only the issuer and authorized addresses may cancel |
+| Self-cancellation | Part of functionality 41 (page 12), unconditionally | Issuer-only by default, following the rule that a security is cancelled by its issuer, but the Self-Burn section expressly permits an implementation to add self-burn where its legal or business context allows. The divergence is the default and the condition, not the permission: the criteria already take the position that § 3.2 proposes for the framework |
 | Enforced cancellation | No functionality; only "enforce a transfer" (37) | Documented in Forced Burn and Forced Transfer, and in the Implementation Details table |
 | Know pause status | **Mandatory** functionality 8 | No criterion |
 | Know deactivate status | **Mandatory** functionality 10 | No criterion |
