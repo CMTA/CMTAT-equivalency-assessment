@@ -104,8 +104,8 @@ The equivalency table contains **61 numbered criteria**:
 
 | Category | Count | IDs |
 |---|---:|---|
-| Mandatory | 20 | 1–4, 7–11, 14–21, 29–31 |
-| Optional | 41 | 5–6, 12–13, 22–28, 32–61 |
+| Mandatory | 19 | 1–3, 7–11, 14–21, 29–31 |
+| Optional | 42 | 4–6, 12–13, 22–28, 32–61 |
 
 Each criterion MUST be counted exactly once. The non-numbered tables ([CMTAT Extended](#cmtat-extended), [Implementation Details](#implementation-details), [Cross-Chain Bridge Support](#cross-chain-bridge-support), [Restriction](#restriction-optional), [Privacy and Confidentiality](#privacy-and-confidentiality)) are **not** part of this count; they SHOULD be commented in the [Conclusion](#conclusion) instead.
 
@@ -121,13 +121,13 @@ Each criterion MUST be answered with exactly one of the following values in the 
 
 ### Compliance table
 
-| Answer         | Mandatory (20) | Optional (41) |
+| Answer         | Mandatory (19) | Optional (42) |
 | -------------- | -------------: | ------------: |
 | Present (`y`)  |                |               |
 | Partial        |                |               |
 | Absent (`n`)   |                |               |
 
-Each column MUST sum to its total: 20 for mandatory criteria, 41 for optional criteria.
+Each column MUST sum to its total: 19 for mandatory criteria, 42 for optional criteria.
 
 An implementation SHOULD be considered equivalent to CMTAT only if **no mandatory criterion is answered `n`**. Any mandatory criterion answered `partial` MUST be justified in the note below.
 
@@ -145,9 +145,9 @@ An implementation SHOULD be considered equivalent to CMTAT only if **no mandator
 
 <details><summary>Example of a filled compliance table</summary>
 
-| Answer         | Mandatory (20) | Optional (41) |
+| Answer         | Mandatory (19) | Optional (42) |
 | -------------- | -------------: | ------------: |
-| Present (`y`)  |             17 |             6 |
+| Present (`y`)  |             16 |             7 |
 | Partial        |              3 |             4 |
 | Absent (`n`)   |              0 |            31 |
 
@@ -161,11 +161,8 @@ An implementation SHOULD be considered equivalent to CMTAT only if **no mandator
 | ID | Requirement | CMTAT Solidity corresponding feature | Access Control (CMTAT Solidity) | Notes | Present in implementation being approved (`y/partial/n`) | Access Control (implementation being approved) | Implementation details |
 |---|---|---|---|---|---|---|---|
 | 1 | Name attribute | ERC20 `name` | Public (`view`) |  |  |  |  |
-| 2 | Ticker symbol attribute | ERC20 `symbol` | Public (`view`) |  |  |  |  |
-| 3 | Reference to legally required documentation | `terms` | Public (`view`) |  |  |  |  |
-| 4 | Decimals (no fractions by default) | ERC20 `decimals` | Public (`view`) | - Decimals MUST be set to zero unless governing law permits fractions.<br />- The value MUST be readable, since a holder cannot interpret a balance without it.<br />- CMTAT Solidity allows configurable decimals at deployment |  |  |  |
-
-The ticker symbol (criterion 2) is mandatory here although the CMTA framework lists it as an optional attribute: where the token is intended to be held in a wallet or admitted to trading, a ticker symbol SHOULD be set, and every CMTA reference implementation carries one.
+| 2 | Reference to legally required documentation | `terms` | Public (`view`) |  |  |  |  |
+| 3 | Decimals (no fractions by default) | ERC20 `decimals` | Public (`view`) | - Decimals MUST be set to zero unless governing law permits fractions.<br />- The value MUST be readable, since a holder cannot interpret a balance without it.<br />- CMTAT Solidity allows configurable decimals at deployment |  |  |  |
 
 For CMTAT reference implementations, decimals SHOULD be configurable rather than defaulting to zero, to support use cases beyond tokenized shares in Switzerland.
 
@@ -176,8 +173,11 @@ For CMTAT reference implementations, decimals SHOULD be configurable rather than
 #### Optional
 | ID | Requirement | CMTAT Solidity corresponding feature | Access Control (CMTAT Solidity) | Notes | Present in implementation being approved (`y/partial/n`) | Access Control (implementation being approved) | Implementation details |
 |---|---|---|---|---|---|---|---|
+| 4 | Ticker symbol attribute | ERC20 `symbol` | Public (`view`) | Optional in the CMTA framework, which lists the attribute as "Ticker symbol (optional)". |  |  |  |
 | 5 | Token ID attribute | `tokenId` | Public (`view`) | Optional parameter. |  |  |  |
 | 6 | Version attribute | `version()` (`IERC3643Version`, implemented by `VersionModule`) | Public (`view`) | Returns the version of the token implementation, for example `"3.2.0"`. In CMTAT Solidity the value is a constant of the contract code: it changes only through a new deployment or an upgrade, and it is not settable at runtime. |  |  |  |
+
+An official CMTAT implementation SHOULD provide a ticker symbol (criterion 4): every CMTA reference implementation carries one, and a symbol SHOULD be set wherever the token is intended to be held in a wallet or admitted to trading.
 
 For CMTAT reference implementations, `tokenId` and `version` SHOULD both be included.
 
