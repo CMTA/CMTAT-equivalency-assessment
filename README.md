@@ -163,7 +163,7 @@ An implementation SHOULD be considered equivalent to CMTAT only if **no mandator
 | 1 | Name attribute | ERC20 `name` | Public (`view`) |  |  |  |  |
 | 2 | Ticker symbol attribute | ERC20 `symbol` | Public (`view`) |  |  |  |  |
 | 3 | Reference to legally required documentation | `terms` | Public (`view`) |  |  |  |  |
-| 4 | No fractions | ERC20 `decimals` | Public (`view`) | - Decimals must be set to zero unless governing law permits fractions.<br />- CMTAT Solidity allows configurable decimals at deployment |  |  |  |
+| 4 | Decimals (no fractions by default) | ERC20 `decimals` | Public (`view`) | - Decimals MUST be set to zero unless governing law permits fractions.<br />- The value MUST be readable, since a holder cannot interpret a balance without it.<br />- CMTAT Solidity allows configurable decimals at deployment |  |  |  |
 
 For CMTAT reference implementations, decimals SHOULD be configurable rather than defaulting to zero, to support use cases beyond tokenized shares in Switzerland.
 
