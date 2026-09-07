@@ -261,9 +261,9 @@ It SHOULD not, since changing decimals retroactively reinterprets every balance 
 
 ### 6.3 Reconsider the optionality of the ticker symbol
 
-The attributes list marks the ticker symbol as optional. Every reference implementation exposes it, wallets and venues rely on it, and this repository's criteria treat it as mandatory (criterion 2).
+The attributes list marks the ticker symbol as optional, and says nothing more. Every reference implementation exposes it and wallets and venues rely on it, so the attribute is optional in name and universal in practice.
 
-Making the attribute mandatory would be the larger change, and it would bind an issuer that has no use for a symbol — a token that is never held in a wallet nor admitted to trading. The framework SHOULD instead keep the attribute optional and record the practice: state when a symbol is called for, and state that an implementation published or reviewed by CMTA carries one. That leaves the choice with the issuer while removing the impression that the reference implementations exceed the framework by accident.
+Making the attribute mandatory would bind an issuer that has no use for a symbol — a token that is never held in a wallet nor admitted to trading. The framework SHOULD instead keep the attribute optional and record the practice: state when a symbol is called for, and state that an implementation published or reviewed by CMTA carries one. That leaves the choice with the issuer while removing the impression that the reference implementations exceed the framework by accident. The criteria in this repository take that position, as criterion 4.
 
 **Draft text** — in the attributes applicable to all CMTAT tokens, page 8, keep "Ticker symbol (optional)" and add beneath the list:
 
@@ -322,7 +322,6 @@ These are places where the framework and the CMTAT Equivalency Assessment Criter
 
 | Point | Framework (June 2026) | This repository's criteria | Resolution |
 |---|---|---|---|
-| Ticker symbol | Optional attribute (page 8) | Mandatory, criterion 2 | Open, framework side: keep the attribute optional but record the practice, as drafted in § 6.3. The criteria are stricter than the framework here rather than in conflict with it — an implementation satisfying criterion 2 satisfies the framework either way — so criterion 2 stays mandatory |
 | Version | Not a functionality | Optional, criterion 6 | Open, framework side: add the "know version" functionality drafted in § 1 |
 | Self-cancellation | Part of functionality 41 (page 12), unconditionally | Criterion 12 covers the functionality itself — the holder authorises, the issuer or an address it has authorised performs. Cancellation by the holder alone is reserved to the Self-Burn section, which permits it where the legal or business context allows | Open, framework side: adopt the § 3.2 replacement of functionality 41. What diverges is its trailing sentence, which attaches self-cancellation to the functionality with no condition |
 | Enforced cancellation | No functionality; only "enforce a transfer" (37) | Documented in Forced Burn and Forced Transfer, and in the Implementation Details table | Open, framework side: add the "enforce a cancellation" functionality drafted in § 3.1 |

@@ -23,7 +23,7 @@ Custom changelog tag: `Dependencies`, `Documentation`, `Testing`
 
 ### Summary
 
-- Seven criteria added — the version attribute, user-approved cancellation, and the five reads for the pause, deactivate, frozen, active-balance and frozen-balance states — taking the document from 54 criteria to 61, and from 17 mandatory / 37 optional to 20 / 41.
+- Seven criteria added — the version attribute, user-approved cancellation, and the five reads for the pause, deactivate, frozen, active-balance and frozen-balance states — taking the document from 54 criteria to 61. With the ticker symbol moved to the optional table, the counts go from 17 mandatory / 37 optional to 19 / 42.
 - **Every criterion above ID 5 was renumbered**, so an assessment filled against `0.2.0` MUST be re-read against this version before being reused.
 - Two sections for the author of an assessment: `Summary`, which aggregates the answers into a compliance table, and `Metadata`, which identifies the implementation being assessed.
 - Three reference sections outside the equivalency count: Cross-Chain Bridge Support (ERC-7802, Chainlink CCIP and the LayerZero adapter), a catalogue of the thirteen transfer restrictions, and Privacy and Confidentiality for implementations on a confidential ledger.
@@ -67,7 +67,7 @@ Custom changelog tag: `Dependencies`, `Documentation`, `Testing`
 - Criteria renumbered, from 54 items in `0.2.0` to 61: IDs 1–5 are unaffected, 6–10 become 7–11, 11–13 become 13–15, 14 becomes 17, 15–16 become 19–20, 17–18 become 22–23, and 19–54 become 26–61
   - **This breaks every assessment already filled against `0.2.0`**: an answer given against an ID in the old numbering does not designate the same criterion here, so such an assessment MUST be re-read against this version before being reused
   - Six criteria were inserted, which is what causes the shift: 6, 12, 16, 18, 21, 24 and 25 are new
-  - Counts go from 17 mandatory / 37 optional to **20 mandatory / 41 optional**; the four places that state them — the scope table, the compliance-table headers, the sum rule and the example filled table — were updated together
+  - Counts go from 17 mandatory / 37 optional to **19 mandatory / 42 optional**; the four places that state them — the scope table, the compliance-table headers, the sum rule and the example filled table — were updated together
   - The ID references in the prose were updated with it: the compliance-table example cites criterion 17 for *Deactivate contract*, the Credit Events note cites ID 44, and the Restriction section cites criteria 26–28
 - Criterion 4 retitled from *No fractions* to *Decimals (no fractions by default)*, and given a second requirement: the value MUST be readable
   - The criterion always mapped to the public `decimals` getter, but its title named only the constraint on the value, so an implementation could have answered `y` on the ground that it has no fractions while exposing no way to read the number of decimals
@@ -76,7 +76,11 @@ Custom changelog tag: `Dependencies`, `Documentation`, `Testing`
 - Conclusion section: replaced the free-form guideline with a list of the technical points the conclusion MUST cover (token model, architecture, access control model, transfer control flow, issuance and cancellation, data and metadata storage, main differences with CMTAT Solidity, known limitations)
 - How to Use This Document: added the filling order (equivalency table, then summary, then conclusion) and the `y` / `partial` / `n` answer values
 - Table of Contents: added Summary and Conclusion entries
-- Token Attributes: a sentence recording why the ticker symbol (criterion 2) is mandatory here although the CMTA framework lists it as an optional attribute — a symbol SHOULD be set where the token is intended to be held in a wallet or admitted to trading, and every CMTA reference implementation carries one
+- **The ticker symbol is no longer a mandatory criterion.** It moves to the optional Token Attributes table as criterion 4, matching the CMTA framework, which lists the attribute as "Ticker symbol (optional)"
+  - A note under the table records that an official CMTAT implementation SHOULD provide one, since every CMTA reference implementation carries a symbol and a symbol is needed wherever the token is held in a wallet or admitted to trading
+  - Within Token Attributes, the mandatory rows become 1 name, 2 documentation reference, 3 decimals, and the optional rows 4 ticker symbol, 5 token ID, 6 version; IDs 7 and above are unaffected
+  - Counts become **19 mandatory / 42 optional**, the total staying at 61
+  - Closes the last divergence on the criteria side: the framework and the criteria now agree that the attribute is optional and recommended in practice
 - Self-Burn: the permission to offer self-burn is now grounded in the CMTA framework rather than presented as a local departure — functionality 41, *user-approved cancel*, states that it "also allows token holders to cancel their own tokens" — and the section distinguishes it from criterion 12, which is the holder-authorized cancellation the issuer performs
 - Self-Burn: an implementation that offers self-burn SHOULD now state it, together with the legal basis on which it is offered, so that an assessment records which of the two arrangements was adopted instead of leaving it to be inferred from the absence of a remark
 - Cross-Chain Bridge Support: added the LayerZero arrangement alongside ERC-7802 and the Chainlink CCIP hooks
