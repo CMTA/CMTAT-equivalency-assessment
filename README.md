@@ -505,11 +505,13 @@ An implementation that does **not** provide dedicated cross-chain entry points, 
 | Advertise ERC-7802 support | `supportsInterface(type(IERC7802).interfaceId)` | Public (`view`) | ERC-165 discovery so bridges can detect ERC-7802 compatibility. |  |  |  |
 | Set CCIP admin | `setCCIPAdmin(address newAdmin)` | Role-restricted (`DEFAULT_ADMIN_ROLE`) | Chainlink CCIP (CCT) integration. The CCIP admin only registers the token with the CCIP token admin registry and has no other powers; 1-step transfer, `address(0)` revokes. |  |  |  |
 | Get CCIP admin | `getCCIPAdmin()` | Public (`view`) | Returns the current CCIP admin. |  |  |  |
+| Bridge burn against an allowance | `burnFrom(address account, uint256 value)` | Role-restricted (`BURNER_FROM_ROLE`); blocked while paused; **and** an ERC-20 allowance granted by `account` | Declared by the same `ERC20CrossChainModule` as the ERC-7802 entry points, and usable by a Chainlink CCIP token pool — the interface notes it carries no `data` parameter for that reason. Spends the allowance and emits `Spend` alongside `BurnFrom`. Same function as criterion 12; see the note below on when to prefer it to `crosschainBurn`. |  |  |  |
 
 ##### Note
 
 > - The trusted bridge holds `CROSS_CHAIN_ROLE`. A bridge MAY `renounceRole` to drop its privileges; this only deprives it of cross-chain mint/burn and has no other effect, but such a bridge should then be considered compromised and not reused.
-> - CMTAT Solidity also exposes related dedicated burn paths used alongside bridging — `burnFrom` (guarded by `BURNER_FROM_ROLE`) and self-`burn` (guarded by `BURNER_SELF_ROLE`) — which are likewise role-restricted and blocked while paused.
+> - `burnFrom` and `crosschainBurn` bound the bridge's authority differently, and the choice between them is a trust decision rather than a matter of style. `crosschainBurn` deliberately requires no allowance, so a bridge holding `CROSS_CHAIN_ROLE` can cancel the tokens of **any** address; `burnFrom` spends an allowance, so the amount a bridge can cancel is capped per holder by what that holder has approved, and a compromised bridge cannot reach a holder who has approved nothing. The cost is that the holder MUST approve first, which adds a transaction to the bridge flow and does not suit a design in which the bridge burns without the holder acting.
+> - CMTAT Solidity also exposes self-`burn` (guarded by `BURNER_SELF_ROLE`) alongside bridging, likewise role-restricted and blocked while paused.
 > - This subsection can be used to detail whether and how the implementation being approved supports bridging, which standard(s) or bridge(s) it targets, and the trust/role model applied to the bridge on the target chain. For non-EVM blockchains, ERC-7802 and CCIP may not be directly applicable; an equivalent burn-and-mint bridge model MAY be documented instead.
 
 
