@@ -189,7 +189,12 @@ Functionality 9, "deactivate contract", requires tokens to be destroyed before o
 
 > After deactivation, no token may be transferred, created or cancelled, and any person may know that the token has been deactivated. Deactivation cannot be reversed. Where the ledger does not permit the account or the code to be removed, a state satisfying these conditions is sufficient.
 >
-> Where the code that operates the token can be upgraded, deactivation is not irreversible by itself, since an upgrade can restore the functions that deactivation disabled. The issuer MUST therefore also remove the ability to upgrade the code, at the latest when the token is deactivated. Depending on the ledger, this may be done on the ledger, by transferring the right to upgrade to an address from which it cannot be exercised — the address zero on Ethereum and other EVM ledgers — or outside the ledger, by destroying the key that controls that right. The measure taken MUST be documented, and where it is taken outside the ledger the issuer MUST be able to evidence it, since a person examining the ledger cannot verify it.
+> Where the code that operates the token can be upgraded, deactivation is not irreversible by itself, since an upgrade can restore the functions that deactivation disabled. The issuer MUST therefore also remove the ability to upgrade the code, at the latest when the token is deactivated. Depending on the ledger, that is done in one of two ways:
+>
+> - on the ledger, by transferring the right to upgrade to an address from which it cannot be exercised — the address zero on Ethereum and other EVM ledgers;
+> - outside the ledger, by destroying the key that controls that right.
+>
+> The measure taken MUST be documented, and where it is taken outside the ledger the issuer MUST be able to evidence it, since a person examining the ledger cannot verify it.
 
 ## 5. Authorization module
 
