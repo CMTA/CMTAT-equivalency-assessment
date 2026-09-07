@@ -181,7 +181,7 @@ That is a reasonable degree of freedom, but it makes the pause status uninterpre
 - Cross-chain creation and cancellation MUST be blocked while paused (see `CMTAT_SUGGESTION_CROSSCHAIN`).
 - A pause that does not block creation lets the issuer dilute holders while they cannot transfer, which SHOULD be called out as a consequence the issuer accepts.
 
-Functionality 9, "deactivate contract", requires tokens to be destroyed before or during deactivation, and states that the issuer can no longer create or cancel tokens afterwards. On ledgers where an account or contract cannot be removed, and in upgradeable deployments, "permanently and irreversibly" needs qualification: the framework SHOULD state what MUST be true after deactivation rather than how it is achieved. In an upgradeable deployment it MUST also say that deactivating the token is not sufficient on its own, since an upgrade can restore the functions it disabled — the ability to upgrade has to go with it.
+Functionality 9, "deactivate contract", requires tokens to be destroyed before or during deactivation, and states that the issuer can no longer create or cancel tokens afterwards. On ledgers where an account or contract cannot be removed, and in upgradeable deployments, "permanently and irreversibly" needs qualification: the framework SHOULD state what MUST be true after deactivation rather than how it is achieved. In an upgradeable deployment it MUST also say that deactivating the token is not sufficient on its own, since an upgrade can restore the functions it disabled — the ability to upgrade has to go with it. The prohibition is also not uniform: creation and transfer have to stop outright, whereas cancellation and enforced transfer are better left available, since the functionality requires the tokens to be destroyed first and a balance that survives that step would otherwise be stranded.
 
 **Draft text** — an addition to functionality 6:
 
@@ -189,7 +189,14 @@ Functionality 9, "deactivate contract", requires tokens to be destroyed before o
 
 **Draft text** — an addition to functionality 9:
 
-> After deactivation, no token may be transferred, created or cancelled, and any person may know that the token has been deactivated. Deactivation cannot be reversed. Where the ledger does not permit the account or the code to be removed, a state satisfying these conditions is sufficient.
+> After deactivation, any person may know that the token has been deactivated, and deactivation cannot be reversed. As to the operations on the tokens:
+>
+> - tokens MUST NOT be transferred and MUST NOT be created;
+> - tokens SHOULD NOT be cancelled, and a transfer SHOULD NOT be enforced under functionality 37.
+>
+> The second is a recommendation and not a prohibition because this functionality requires the tokens to be destroyed before or during deactivation: no balance should remain afterwards, and where one nevertheless does, those two paths are the only means of clearing it.
+>
+> Where the ledger does not permit the account or the code to be removed, a state satisfying these conditions is sufficient.
 >
 > Where the code that operates the token can be upgraded, deactivation is not irreversible by itself, since an upgrade can restore the functions that deactivation disabled. The issuer MUST therefore also remove the ability to upgrade the code, at the latest when the token is deactivated. Depending on the ledger, that is done in one of two ways:
 >
