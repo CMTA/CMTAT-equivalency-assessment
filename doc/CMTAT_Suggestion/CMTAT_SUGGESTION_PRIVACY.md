@@ -19,7 +19,7 @@ The framework SHOULD generalize the note under functionality 14 into its own sec
 | Balance of an address | The holder of that address, and the issuer |
 | Transfer amount | The parties to the transfer, and the issuer |
 | Total supply | The issuer, and every token holder unless the issuer restricts it for the reason set out below, since a holder cannot otherwise determine the extent of a proportional right; publicly if the ledger is public |
-| Decimals | Everyone, since it is display metadata and reveals nothing about holdings |
+| Decimals | Every token holder and the issuer; the framework SHOULD recommend, rather than require, a reading by any person with access to the ledger, since the value is display information and reveals nothing about holdings |
 | Frozen status | The affected holder and the issuer (as already stated in functionality 14) |
 | Whitelist membership | The affected holder and the issuer |
 
@@ -38,7 +38,7 @@ It SHOULD also state the consequences for the optional modules, since these are 
 
 ## Draft text for the framework
 
-The text below is a draft that could be inserted in the framework as a new sub-section of Section 2, followed by an amendment to the wording of the functionalities that assume a public ledger. It is written in the framework's own register — lowercase "must", "may" and "should" — rather than in the RFC 2119 style used elsewhere in this repository, so that it can be pasted in without rewriting.
+The text below is a draft that could be inserted in the framework as a new sub-section of Section 2, followed by an amendment to the wording of the functionalities that assume a public ledger. It is written in the framework's own register — numbered functionalities, a rationale followed by a list — so that it can be pasted in without rewriting, and its normative keywords use the RFC 2119 and RFC 8174 uppercase forms, as explained in `CMTAT_SUGGESTION.md`.
 
 ---
 
@@ -48,26 +48,26 @@ The functionalities described in Section 3 are worded on the assumption that the
 
 For each item of data, the framework therefore distinguishes two things:
 
-- the minimum set of persons who must be able to read it, which is a requirement of this framework; and
+- the minimum set of persons who MUST be able to read it, which is a requirement of this framework; and
 - publication to any person, which is the ordinary consequence of using a public ledger, and is not in itself a requirement.
 
-| Data | Persons who must be able to read it | Persons who may also be entitled to read it |
+| Data | Persons who MUST be able to read it | Persons who may also be entitled to read it |
 |---|---|---|
 | Number of tokens in circulation | the issuer; and every token holder, unless the issuer has restricted that reading under the paragraph on inference below | a person auditing the issuer or the instrument; a supervisory authority; a trading or settlement venue on which the instrument is admitted |
 | Balance of an address | the holder of that address, and the issuer | a person auditing the issuer; a person auditing that holder; a supervisory authority; a court or an officer appointed by it; a tax authority |
 | Amount of a transfer | the parties to the transfer, and the issuer | the persons listed for a balance; the venue that settles the transaction |
-| Decimals | any person, since the value is display information and reveals nothing about holdings | — |
+| Decimals | the issuer, and every token holder | any person having access to the ledger, as recommended below |
 | Frozen status of an address | the holder of that address, and the issuer; the status is in any event disclosed to a counterparty whose transfer is rejected, as set out below | a person auditing the issuer; a supervisory authority; a court or an officer appointed by it |
 | Membership of a whitelist | the holder of that address, and the issuer | a person auditing the issuer; a supervisory authority; the operator of a venue verifying the eligibility of a counterparty |
 | Snapshot total supply and snapshot balances | the same persons as for the corresponding current data | the same persons as for the corresponding current data |
 
 The second column is a requirement: an implementation that does not provide those readings does not satisfy this framework. The third column is not. It lists the readings that the applicable law, the terms of the instrument or a contract may call for, and which the implementation has to be capable of providing when they are called for.
 
-The following table states the same allocation by person rather than by item of data. The implementation must provide for the readings that apply to it; a reading that the implementation cannot provide cannot be granted afterwards.
+The following table states the same allocation by person rather than by item of data. The implementation MUST provide for the readings that apply to it; a reading that the implementation cannot provide cannot be granted afterwards.
 
-| Person | Data that person must be able to read |
+| Person | Data that person MUST be able to read |
 |---|---|
-| The holder of an address | the balance of that address, the transfers to and from it, its frozen status, its membership of a whitelist, and the number of tokens in circulation |
+| The holder of an address | the balance of that address, the transfers to and from it, its frozen status, its membership of a whitelist, the number of decimals, and the number of tokens in circulation |
 | The issuer, and the persons authorised by it | every item in the table above, for every address |
 | The other party to a transfer | the amount of that transfer |
 | A person auditing the issuer, or auditing the instrument | every item in the table above, for the periods covered by the audit |
@@ -76,21 +76,23 @@ The following table states the same allocation by person rather than by item of 
 | A court, or an officer appointed by it, such as an insolvency administrator or an executor | the balances and the transfers of the addresses concerned by the order or the appointment |
 | A tax authority | the data required by the applicable tax legislation |
 | An operator of a trading or settlement venue on which the instrument is admitted | the data required to settle the transactions it processes |
-| The operator of the ledger, and the nodes that validate the transactions | whatever the ledger requires them to process, which is a consequence of the technology chosen and must be documented as such |
+| The operator of the ledger, and the nodes that validate the transactions | whatever the ledger requires them to process, which is a consequence of the technology chosen and MUST be documented as such |
 
-The number of tokens in circulation requires particular care, since it is an aggregate of every balance. Where the ledger is confidential, an observer who obtains that figure at two points in time can determine the net number of tokens created or cancelled between them, and where a single such operation occurred in that interval, its amount is revealed in full. A holder who knows the figure and its own balance also knows the aggregate held by all the other holders, which, where the holders are few, narrows their individual balances. An implementation may therefore restrict the reading of that figure, including as against holders, where the confidentiality of individual operations is to be preserved; it must then state how a holder determines the extent of a right expressed as a proportion of the tokens in issue. Where the figure is disclosed periodically, the disclosures should cover several operations rather than each one.
+The number of tokens in circulation requires particular care, since it is an aggregate of every balance. Where the ledger is confidential, an observer who obtains that figure at two points in time can determine the net number of tokens created or cancelled between them, and where a single such operation occurred in that interval, its amount is revealed in full. A holder who knows the figure and its own balance also knows the aggregate held by all the other holders, which, where the holders are few, narrows their individual balances. An implementation MAY therefore restrict the reading of that figure, including as against holders, where the confidentiality of individual operations is to be preserved; it MUST then state how a holder determines the extent of a right expressed as a proportion of the tokens in issue. Where the figure is disclosed periodically, the disclosures SHOULD cover several operations rather than each one.
 
-The frozen status of an address is subject to a comparable limit. A freeze takes effect by causing the transfer to be rejected, so any person who attempts a transfer to or from a frozen address learns that the transfer is not permitted, and where that person knows that the other conditions of the transfer are satisfied, the freeze is disclosed to them by the rejection alone. Restricting the reading of that status accordingly prevents it from being enumerated for addresses at large, and prevents a person who attempts no transfer from obtaining it, but it does not conceal it from a counterparty who attempts one; and where the ledger publishes the fact that a transaction was rejected, even without its contents, that counterparty is not the only person who learns it. The same applies to the membership of a whitelist. An implementation must state whether a rejection distinguishes its reason, since a rejection that names the freeze discloses more than one that reports only that the transfer is not permitted.
+The frozen status of an address is subject to a comparable limit. A freeze takes effect by causing the transfer to be rejected, so any person who attempts a transfer to or from a frozen address learns that the transfer is not permitted, and where that person knows that the other conditions of the transfer are satisfied, the freeze is disclosed to them by the rejection alone. Restricting the reading of that status accordingly prevents it from being enumerated for addresses at large, and prevents a person who attempts no transfer from obtaining it, but it does not conceal it from a counterparty who attempts one; and where the ledger publishes the fact that a transaction was rejected, even without its contents, that counterparty is not the only person who learns it. The same applies to the membership of a whitelist. An implementation MUST state whether a rejection distinguishes its reason, since a rejection that names the freeze discloses more than one that reports only that the transfer is not permitted.
 
-For each of these persons, the implementation must state whether the reading is available permanently or on request, and who grants it. A reading that depends on the co-operation of a person having an interest in withholding it does not satisfy this requirement.
+The number of decimals is treated differently from the other items, since it is display information: it states how a balance is to be presented, and reveals nothing about any holding, any transfer or the number of tokens in issue. Its reading SHOULD therefore be open to any person having access to the ledger, and an implementation on a confidential ledger has no reason to protect it. That reading is a recommendation and not a requirement, since a ledger may restrict access at its own level, and an implementation is not to be treated as non-compliant because the ledger it uses is permissioned. What is required is that the issuer and every token holder be able to read the value, without which a holder cannot interpret its own balance.
 
-An implementation must document, for each item of data: whether it is public, confidential, or partially confidential; the mechanism by which confidentiality is obtained; and how a person entitled to read the data obtains it, for example a viewing key, a decryption share, an observer node, or a disclosure made by the issuer.
+For each of these persons, the implementation MUST state whether the reading is available permanently or on request, and who grants it. A reading that depends on the co-operation of a person having an interest in withholding it does not satisfy this requirement.
 
-The issuer must retain the ability to read whatever data is necessary to perform the functionalities that the token implements. In particular, the issuer must be able to determine the balances at a record time where the Snapshot module (§ 3.2.1) or the Distribution module (§ 3.2.4) is used, and the balance of an address that is subject to a freeze (functionality 12) or to an enforced transfer (functionality 37).
+An implementation MUST document, for each item of data: whether it is public, confidential, or partially confidential; the mechanism by which confidentiality is obtained; and how a person entitled to read the data obtains it, for example a viewing key, a decryption share, an observer node, or a disclosure made by the issuer.
 
-Where the applicable law, or a competent authority, requires a third party such as an auditor, a regulator or a court-appointed representative to obtain a reading of confidential data, the implementation must provide a means of disclosure to that third party, and the issuer must document it.
+The issuer MUST retain the ability to read whatever data is necessary to perform the functionalities that the token implements. In particular, the issuer MUST be able to determine the balances at a record time where the Snapshot module (§ 3.2.1) or the Distribution module (§ 3.2.4) is used, and the balance of an address that is subject to a freeze (functionality 12) or to an enforced transfer (functionality 37).
 
-Confidentiality does not remove any mandatory functionality. Where an item of data is not readable by any person, the implementation must state how the operations that depend on it are performed nonetheless.
+Where the applicable law, or a competent authority, requires a third party such as an auditor, a regulator or a court-appointed representative to obtain a reading of confidential data, the implementation MUST provide a means of disclosure to that third party, and the issuer MUST document it.
+
+Confidentiality does not remove any mandatory functionality. Where an item of data is not readable by any person, the implementation MUST state how the operations that depend on it are performed nonetheless.
 
 ### Consequential amendment to the functionalities
 

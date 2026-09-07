@@ -6,7 +6,7 @@ This document lists potential improvements to the **CMTAT Framework functional s
 
 It is written from the work on the CMTAT Equivalency Assessment Criteria (`README.md`): every criterion in that document had to be mapped from the framework to a concrete implementation, and the points below are the places where that mapping was ambiguous, incomplete, or contradicted by the reference implementation. It is a suggestion list produced by this repository, not a CMTA publication.
 
-Each suggestion gives the current wording (with its section and page in the PDF), the gap, and a proposed change. Where the change is a change of wording, a **Draft text** block gives it in the framework's own register — lowercase "must", "may" and "should", numbered functionalities — so that it can be pasted in without rewriting.
+Each suggestion gives the current wording (with its section and page in the PDF), the gap, and a proposed change. Where the change is a change of wording, a **Draft text** block gives it in the framework's own register — numbered functionalities, a rationale followed by a list — so that it can be pasted in without rewriting. The normative keywords in those blocks are written in the uppercase forms of [RFC 2119](https://www.rfc-editor.org/info/rfc2119) and [RFC 8174](https://www.rfc-editor.org/info/rfc8174), consistently with the keyword paragraph proposed in `CMTAT_SUGGESTION_EDITORIAL.md`; where a word is used descriptively rather than to state a requirement level, it stays in lowercase, as RFC 8174 requires.
 
 New functionalities are numbered from 43 onward, continuing the current list of 42, in the order in which they appear in this document; the cross-chain companion continues the same numbering at 53.
 
@@ -48,7 +48,7 @@ The framework SHOULD add an optional functionality, worded chain-agnostically, a
 
 > 43. **Know version**: for a particular CMTAT token, any person may know the version of the implementation of the token. This is the version of the code that operates the token; it is neither the version of the tokenised instrument nor the version of this framework.
 >
-> The version may be exposed as a constant returned by a read-only function, as part of the metadata that the ledger keeps for the deployed code, or as a value recorded in the state of the token and modifiable by the issuer. Where the value is modifiable, the implementation must ensure that it cannot become inconsistent with the code in force, for example by writing it only when the token is created or upgraded. Where the implementation is upgradeable, the version should be updated by the upgrade itself, so that any person can determine which code is in force.
+> The version may be exposed as a constant returned by a read-only function, as part of the metadata that the ledger keeps for the deployed code, or as a value recorded in the state of the token and modifiable by the issuer. Where the value is modifiable, the implementation MUST ensure that it cannot become inconsistent with the code in force, for example by writing it only when the token is created or upgraded. Where the implementation is upgradeable, the version SHOULD be updated by the upgrade itself, so that any person can determine which code is in force.
 
 ## 2. Validation module and transfer restrictions
 
@@ -64,7 +64,7 @@ The framework SHOULD add an optional functionality, and SHOULD require it to ans
 
 > 44. **Know transfer restriction**: for a proposed transfer, any person may know whether that transfer would be rejected, and for which reason.
 >
-> This function must not prevent or alter any transfer, and must return an answer rather than fail, so that it can be called before a transfer is submitted. The reason should be returned in a form that a machine can interpret, together with a description that can be displayed to a person.
+> This function MUST NOT prevent or alter any transfer, and MUST return an answer rather than fail, so that it can be called before a transfer is submitted. The reason SHOULD be returned in a form that a machine can interpret, together with a description that can be displayed to a person.
 
 ### 2.2 State whether restrictions apply to creation and cancellation
 
@@ -74,7 +74,7 @@ The framework SHOULD require each restriction to state its behaviour on creation
 
 **Draft text** — an addition to the Validation module, § 3.2.2:
 
-> Each restriction must state whether it applies to the creation of tokens (functionality 4) and to their cancellation (functionality 5), in addition to transfers. A restriction that screens the parties to a transfer does not necessarily screen the account creating tokens or the address whose tokens are cancelled, and the arrangement adopted must be documented for each restriction used.
+> Each restriction MUST state whether it applies to the creation of tokens (functionality 4) and to their cancellation (functionality 5), in addition to transfers. A restriction that screens the parties to a transfer does not necessarily screen the account creating tokens or the address whose tokens are cancelled, and the arrangement adopted MUST be documented for each restriction used.
 
 ### 2.3 Add the restriction families that exist in practice
 
@@ -112,7 +112,7 @@ The second is **preventive**: a blacklist records the addresses that must never 
 > - an allowance granted to each account authorised to create tokens;
 > - the approval of each transfer, as provided by functionalities 21 and 22.
 >
-> Freezing, under functionalities 12 and 13, is the means by which the issuer blocks the tokens recorded on an address of a given token, and should be used for that purpose: it is an enforcement measure directed at an address that already holds tokens.
+> Freezing, under functionalities 12 and 13, is the means by which the issuer blocks the tokens recorded on an address of a given token, and SHOULD be used for that purpose: it is an enforcement measure directed at an address that already holds tokens.
 >
 > A blacklist is appropriate in two cases. The first is where the list is held outside the token and shared by several tokens, so that a single decision applies to all of them; the record of a blocked address then lies outside the token, and the person who administers the list can block transfers on every token that consults it. The second is where the issuer wishes to prevent addresses from acquiring the tokens before they hold any: such a list is maintained in advance and may concern addresses that never interact with the token.
 
@@ -124,7 +124,7 @@ The framework SHOULD require the policy to be stated per restriction, since the 
 
 **Draft text** — an addition to the Validation module, § 3.2.2:
 
-> Where a restriction relies on information held outside the token, such as a sanctions list, a register of identities or a figure for reserves, the implementation must state how the restriction behaves where that source is not set, is unavailable, or returns information that is out of date. Rejecting every operation and allowing every operation are both acceptable, provided that the arrangement adopted is documented.
+> Where a restriction relies on information held outside the token, such as a sanctions list, a register of identities or a figure for reserves, the implementation MUST state how the restriction behaves where that source is not set, is unavailable, or returns information that is out of date. Rejecting every operation and allowing every operation are both acceptable, provided that the arrangement adopted is documented.
 
 ### 2.5 Define the composition of several restrictions
 
@@ -134,7 +134,7 @@ The framework SHOULD require an implementation to document the order and the rep
 
 **Draft text** — an addition to the Validation module, § 3.2.2:
 
-> Where several restrictions apply to the same transfer, the implementation must document the order in which they are evaluated, and which reason is reported where more than one restriction would reject the transfer.
+> Where several restrictions apply to the same transfer, the implementation MUST document the order in which they are evaluated, and which reason is reported where more than one restriction would reject the transfer.
 
 ### 2.6 Add a "know whitelist status" functionality
 
@@ -168,7 +168,7 @@ The framework SHOULD separate the two capabilities it currently merges: a cancel
 
 > 41. **User-approved cancellation**: cancel tokens recorded on the address of a holder who has authorised that cancellation. The cancellation is performed by the issuer.
 >
-> Where the law governing the tokenised instrument permits it, an implementation may also allow a holder to cancel its own tokens without the involvement of the issuer. Where it does not, only the issuer and the persons authorised by it may cancel tokens, since a security may be cancelled only by its issuer. The arrangement adopted must be documented.
+> Where the law governing the tokenised instrument permits it, an implementation MAY also allow a holder to cancel its own tokens without the involvement of the issuer. Where it does not, only the issuer and the persons authorised by it may cancel tokens, since a security may be cancelled only by its issuer. The arrangement adopted MUST be documented.
 
 ## 4. Pause and deactivation semantics
 
@@ -183,13 +183,13 @@ Functionality 9, "deactivate contract", requires tokens to be destroyed before o
 
 **Draft text** — an addition to functionality 6:
 
-> The issuer must document whether the creation and the cancellation of tokens remain possible while transfers are paused, and any person must be able to determine which of the two arrangements applies. Where creation remains possible, the issuer accepts that the number of tokens in circulation may increase while holders are unable to transfer them. Where the token can be transferred to another ledger, the operations described in the Cross-chain module must be blocked while transfers are paused.
+> The issuer MUST document whether the creation and the cancellation of tokens remain possible while transfers are paused, and any person MUST be able to determine which of the two arrangements applies. Where creation remains possible, the issuer accepts that the number of tokens in circulation may increase while holders are unable to transfer them. Where the token can be transferred to another ledger, the operations described in the Cross-chain module MUST be blocked while transfers are paused.
 
 **Draft text** — an addition to functionality 9:
 
 > After deactivation, no token may be transferred, created or cancelled, and any person may know that the token has been deactivated. Deactivation cannot be reversed. Where the ledger does not permit the account or the code to be removed, a state satisfying these conditions is sufficient.
 >
-> Where the code that operates the token can be upgraded, deactivation is not irreversible by itself, since an upgrade can restore the functions that deactivation disabled. The issuer must therefore also remove the ability to upgrade the code, at the latest when the token is deactivated. Depending on the ledger, this may be done on the ledger, by transferring the right to upgrade to an address from which it cannot be exercised — the address zero on Ethereum and other EVM ledgers — or outside the ledger, by destroying the key that controls that right. The measure taken must be documented, and where it is taken outside the ledger the issuer must be able to evidence it, since a person examining the ledger cannot verify it.
+> Where the code that operates the token can be upgraded, deactivation is not irreversible by itself, since an upgrade can restore the functions that deactivation disabled. The issuer MUST therefore also remove the ability to upgrade the code, at the latest when the token is deactivated. Depending on the ledger, this may be done on the ledger, by transferring the right to upgrade to an address from which it cannot be exercised — the address zero on Ethereum and other EVM ledgers — or outside the ledger, by destroying the key that controls that right. The measure taken MUST be documented, and where it is taken outside the ledger the issuer MUST be able to evidence it, since a person examining the ledger cannot verify it.
 
 ## 5. Authorization module
 
@@ -207,7 +207,7 @@ The framework SHOULD also recommend a **two-step transfer of the administrator r
 >
 > 48. **Renounce a role**: an account may renounce a role that it holds.
 >
-> Where an account holds a role by virtue of holding another one — for instance where an administrator is treated as holding every role — the implementation must document it, since the roles granted would otherwise give an incomplete picture of who may call a given function. The transfer of the administrator role should require the new holder to accept it before the previous holder loses it, as an administrator role transferred to an address that cannot use it cannot be recovered, and every issuer functionality would then be permanently unavailable.
+> Where an account holds a role by virtue of holding another one — for instance where an administrator is treated as holding every role — the implementation MUST document it, since the roles granted would otherwise give an incomplete picture of who may call a given function. The transfer of the administrator role SHOULD require the new holder to accept it before the previous holder loses it, as an administrator role transferred to an address that cannot use it cannot be recovered, and every issuer functionality would then be permanently unavailable.
 
 ## 6. Attributes and documents
 
@@ -223,7 +223,7 @@ The attributes list (page 8) requires a "reference to any legally required docum
 >
 > The hash allows a reader to verify that the document obtained is the document that the issuer associated with the token. These functionalities may be used for the documentation referred to in the attributes applicable to all CMTAT tokens.
 >
-> A separate hash is not required where the document is held in a store in which the reference is itself derived from the content, such as a content-addressed system of the IPFS kind or a decentralised storage network of the Walrus kind. In that case the reference identifies one content and no other, and a document that has been altered is no longer obtainable under that reference. The issuer must still ensure that the document remains obtainable for as long as the instrument exists, since a reference of that kind establishes what the document is, not that a copy of it is still available.
+> A separate hash is not required where the document is held in a store in which the reference is itself derived from the content, such as a content-addressed system of the IPFS kind or a decentralised storage network of the Walrus kind. In that case the reference identifies one content and no other, and a document that has been altered is no longer obtainable under that reference. The issuer MUST still ensure that the document remains obtainable for as long as the instrument exists, since a reference of that kind establishes what the document is, not that a copy of it is still available.
 
 ### 6.2 State whether decimals may change after issuance
 
@@ -233,9 +233,9 @@ It SHOULD not, since changing decimals retroactively reinterprets every balance 
 
 **Draft text** — an addition to functionality 11:
 
-> The number of decimals is set when the token is created and should not change thereafter, as a change alters the meaning of every balance already recorded without any token being transferred, created or cancelled.
+> The number of decimals is set when the token is created and SHOULD NOT change thereafter, as a change alters the meaning of every balance already recorded without any token being transferred, created or cancelled.
 >
-> Where a change is nevertheless required, it must be made with the knowledge of the token holders: the issuer must inform them before the change takes effect, so that no holder acts on a figure whose meaning has changed, and must record the change as it records a corporate action. A change of denomination may also be carried out by cancelling the tokens and creating new ones, which leaves the meaning of the existing balances untouched.
+> Where a change is nevertheless required, it MUST be made with the knowledge of the token holders: the issuer MUST inform them before the change takes effect, so that no holder acts on a figure whose meaning has changed, and MUST record the change as it records a corporate action. A change of denomination may also be carried out by cancelling the tokens and creating new ones, which leaves the meaning of the existing balances untouched.
 
 ### 6.3 Reconsider the optionality of the ticker symbol
 
@@ -247,7 +247,7 @@ The attributes list marks the ticker symbol as optional. Every reference impleme
 
 If the attribute is to remain optional, the following sentence would at least record the practice:
 
-> Where the token is intended to be held in a wallet or admitted to trading, a ticker symbol should be set.
+> Where the token is intended to be held in a wallet or admitted to trading, a ticker symbol SHOULD be set.
 
 ## 7. Batch operations and atomicity
 
@@ -261,7 +261,7 @@ The framework SHOULD add optional functionalities for **batch creation, batch ca
 >
 > 52. **Atomic cancellation and creation**: cancel tokens and create tokens in a single operation, so that neither takes effect without the other.
 >
-> Where the ledger allows several operations to be grouped in a single transaction, as described in § 2.1, these functionalities may be satisfied by that mechanism rather than by functions of the token.
+> Where the ledger allows several operations to be grouped in a single transaction, as described in § 2.1, these functionalities MAY be satisfied by that mechanism rather than by functions of the token.
 
 ## 8. Events and auditability
 
@@ -271,7 +271,7 @@ The framework SHOULD require that every issuer functionality records an entry id
 
 **Draft text** — an addition to § 3, before the list of mandatory functionalities:
 
-> Every functionality exercised by the issuer must leave a record on the ledger identifying the operation performed, the account that called it, the address affected and, where applicable, the number of tokens concerned. Where the ledger provides a mechanism for events or logs, that mechanism should be used. Where the data recorded is confidential, the record must remain available to the persons who are entitled to read that data.
+> Every functionality exercised by the issuer MUST leave a record on the ledger identifying the operation performed, the account that called it, the address affected and, where applicable, the number of tokens concerned. Where the ledger provides a mechanism for events or logs, that mechanism SHOULD be used. Where the data recorded is confidential, the record MUST remain available to the persons who are entitled to read that data.
 
 ## 9. Reference implementations
 
