@@ -176,7 +176,7 @@ The same functionality speaks of a cancellation "made to carry out a court order
 >
 > This functionality MAY also be used to allow token holders to cancel their own tokens, where the law governing the tokenised instrument allows them to do so. Where it does not, only the issuer and the persons authorised by it may cancel tokens, since a security may be cancelled only by its issuer. The arrangement adopted MUST be documented.
 
-**Resolving the divergence with the criteria (§ 10).** The correction belongs on the framework side. The criteria hold the position drafted above — criterion 12 covers the holder-authorised cancellation performed by the issuer or an address it has authorised, and the Self-Burn section permits self-burn where the legal or business context allows it — so adopting the replacement closes the divergence without the criteria moving further. What the criteria lack is the last sentence of the draft: they permit the choice but do not ask for it to be recorded. The Self-Burn section SHOULD therefore ask an implementation that offers self-burn to state it, and to state the legal basis on which it is offered, so that an assessment shows which of the two arrangements was adopted rather than leaving it to be inferred from the absence of a remark.
+**Resolving the divergence with the criteria (§ 11).** The correction belongs on the framework side. The criteria hold the position drafted above — criterion 12 covers the holder-authorised cancellation performed by the issuer or an address it has authorised, and the Self-Burn section permits self-burn where the legal or business context allows it — so adopting the replacement closes the divergence without the criteria moving further. What the criteria lack is the last sentence of the draft: they permit the choice but do not ask for it to be recorded. The Self-Burn section SHOULD therefore ask an implementation that offers self-burn to state it, and to state the legal basis on which it is offered, so that an assessment shows which of the two arrangements was adopted rather than leaving it to be inferred from the absence of a remark.
 
 ## 4. Pause and deactivation semantics
 
@@ -293,7 +293,30 @@ The framework SHOULD require that every issuer functionality records an entry id
 
 > Every functionality exercised by the issuer MUST leave a record on the ledger identifying the operation performed, the account that called it, the address affected and, where applicable, the number of tokens concerned. Where the ledger provides a mechanism for events or logs, that mechanism SHOULD be used. Where the data recorded is confidential, the record MUST remain available to the persons who are entitled to read that data.
 
-## 9. Reference implementations
+## 9. Split the Base module into the concerns it actually contains
+
+§ 3.1.1, "Base module mandatory functions", carries eleven functionalities covering four unrelated concerns: the identity of the token (1–2 and 11, with the attributes list on page 8), its movement (3), changes to the number of tokens in issue (4–5), and its lifecycle (6–10). They are grouped only by being mandatory.
+
+That grouping costs the framework three things:
+
+- **It does not match the reference implementation.** § 4.1 already names `BaseModule`, `ERC20BaseModule` and `PauseModule` as separate contracts, and the Solidity implementation goes further still, with `TokenAttributeModule`, `ERC20MintModule`, `ERC20BurnModule`, `DocumentERC1643Module` and `VersionModule`. A reader moving from § 3.1.1 to § 4.1 has to work out the correspondence unaided.
+- **It obscures where a role or a restriction attaches.** The bridge authorisation, the pause check on the issuance path and the enforcement powers all attach to the supply-change functions and to nothing else in the module. Stated against a Base module of eleven functionalities, each of those rules has to name its targets one by one.
+- **It makes "mandatory" all or nothing.** § 2.6 presents modularity as a defining feature, and the optional functionalities are grouped by module in § 3.2. The mandatory ones are not, so an assessment cannot report that an implementation covers the token identity and its movement but handles supply changes differently.
+
+The framework SHOULD divide § 3.1.1 into modules named for what they do, keeping every functionality mandatory and its number unchanged:
+
+| Suggested module | Functionalities | Concern |
+|---|---|---|
+| Base module | the attributes list of page 8 — name, ticker symbol, token ID, reference to the legally required documentation | what the token is, and what instrument it stands for |
+| Token module | 1 know total supply, 2 know balance, 3 transfer tokens, 11 know decimals | how holdings are recorded, read and moved |
+| Supply module | 4 create tokens, 5 cancel tokens | changes to the number of tokens in issue |
+| Pause module | 6 pause, 7 unpause, 8 know pause status, 9 deactivate contract, 10 know deactivate status | the lifecycle of the token |
+
+The reference to the legally required documentation SHOULD move to a module of its own if the document functionalities suggested in § 6.1 are adopted, since the reference, the document and its hash then belong together.
+
+The criteria in this repository already read this way — `Token Attributes`, `Token module`, `Pause module` and `Enforcement` are separate sections with their own tables — so this is a suggestion to bring the framework into line with both its own reference implementation and the assessment instrument built on it, rather than a new idea.
+
+## 10. Reference implementations
 
 §4 (pages 12–14) lists the Ethereum, Tezos, Aztec and Solana implementations. Three improvements:
 
@@ -307,7 +330,7 @@ The framework SHOULD require that every issuer functionality records an entry id
 >
 > An implementation of this framework on another ledger may be assessed against the CMTAT Equivalency Assessment Criteria, published by CMTA alongside this framework, which set out the functionalities to be mapped and the form in which the result is recorded.
 
-## 10. Divergences with this repository's criteria
+## 11. Divergences with this repository's criteria
 
 These are places where the framework and the CMTAT Equivalency Assessment Criteria (`README.md`) `v0.3.0` differ. The last column names the side that resolves each.
 
