@@ -309,7 +309,7 @@ These are places where the framework and the CMTAT Equivalency Assessment Criter
 |---|---|---|---|
 | Ticker symbol | Optional attribute (page 8) | Mandatory, criterion 2 | Open, framework side: keep the attribute optional but record the practice, as drafted in § 6.3. The criteria are stricter than the framework here rather than in conflict with it — an implementation satisfying criterion 2 satisfies the framework either way — so criterion 2 stays mandatory |
 | Version | Not a functionality | Optional, criterion 6 | Open, framework side: add the "know version" functionality drafted in § 1 |
-| Self-cancellation | Part of functionality 41 (page 12), unconditionally | Criterion 12 covers the functionality itself — the holder authorises, the issuer or an address it has authorised performs. Cancellation by the holder alone is reserved to the Self-Burn section, which permits it where the legal or business context allows | Open, framework side: adopt the § 3.2 replacement of functionality 41. The coverage gap closed in `v0.3.0` with criterion 12; what remains is the trailing sentence of functionality 41, which attaches self-cancellation to the functionality with no condition |
+| Self-cancellation | Part of functionality 41 (page 12), unconditionally | Criterion 12 covers the functionality itself — the holder authorises, the issuer or an address it has authorised performs. Cancellation by the holder alone is reserved to the Self-Burn section, which permits it where the legal or business context allows | Open, framework side: adopt the § 3.2 replacement of functionality 41. What diverges is its trailing sentence, which attaches self-cancellation to the functionality with no condition |
 | Enforced cancellation | No functionality; only "enforce a transfer" (37) | Documented in Forced Burn and Forced Transfer, and in the Implementation Details table | Open, framework side: add the "enforce a cancellation" functionality drafted in § 3.1 |
 | Cross-chain | Absent | Documented as a non-criterion reference section | Open, framework side: add the Cross-chain module drafted in `CMTAT_SUGGESTION_CROSSCHAIN` |
 | Restrictions beyond whitelisting | Absent | Documented as a non-criterion reference catalogue | Open, framework side: list the restriction families as proposed in § 2.3 |
@@ -332,11 +332,3 @@ These criteria, criterion 12 and the Self-Burn section of `README.md`. Criterion
 > An implementation that does offer self-burn SHOULD state it here, together with the legal basis on which it is offered, so that an assessment records which of the two arrangements was adopted rather than leaving it to be inferred.
 
 The two texts diverge in their third sentence, and only there. The framework attaches self-cancellation to functionality 41 with no condition, so an implementation of 41 carries it; the criteria make it a separate choice, subject to the legal or business context and to be recorded. Neither forbids it. They disagree on whether it arrives with the functionality or has to be opted into, which is why the § 3.2 replacement splits the functionality in two rather than reversing its position.
-
-Five points listed here in earlier drafts have been closed on the criteria side and no longer appear above. They were gaps in the criteria rather than in the framework: the criteria covered the operations that change a state but never required the state to be readable, so an implementation could pass every mandatory criterion while offering no way to find out whether the token was paused, whether it had been deactivated, or whether an address was frozen.
-
-- Functionalities 8, 10 and 14 — know pause status, know deactivate status, know frozen status — became mandatory criteria 15, 17 and 20.
-- Functionalities 39 and 40 — know active balance, know frozen balance — became optional criteria 23 and 24.
-- Functionality 11, know decimals, was met by retitling criterion 4 and requiring the value to be readable, criterion 4 having already mapped to the public `decimals` getter.
-
-Closing them took the mandatory count from 17 to 20 and the optional count from 38 to 40, and renumbered every criterion above 14.
