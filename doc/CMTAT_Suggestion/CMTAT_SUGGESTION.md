@@ -172,6 +172,8 @@ The framework SHOULD separate the two capabilities it currently merges: a cancel
 >
 > Where the law governing the tokenised instrument permits it, an implementation MAY also allow a holder to cancel its own tokens without the involvement of the issuer. Where it does not, only the issuer and the persons authorised by it may cancel tokens, since a security may be cancelled only by its issuer. The arrangement adopted MUST be documented.
 
+**Resolving the divergence with the criteria (§ 10).** The correction belongs on the framework side. The criteria already hold the position drafted above — issuer-only by default, self-burn permitted where the legal or business context allows it — so adopting the replacement closes the divergence without the criteria moving. What the criteria lack is the last sentence of the draft: they permit the choice but do not ask for it to be recorded. The Self-Burn section SHOULD therefore ask an implementation that offers self-burn to state it, and to state the legal basis on which it is offered, so that an assessment shows which of the two arrangements was adopted rather than leaving it to be inferred from the absence of a remark.
+
 ## 4. Pause and deactivation semantics
 
 Functionality 6 (page 7) leaves the interaction between pause and issuance to the issuer: "It is up to the issuer to decide whether token creation and deletion operations are also affected by the pause."
@@ -311,7 +313,7 @@ Three of them have since been resolved on the criteria side. Functionalities 8, 
 |---|---|---|
 | Ticker symbol | Optional attribute (page 8) | Mandatory, criterion 2 |
 | Version | Not a functionality | Optional, criterion 6 |
-| Self-cancellation | Part of functionality 41 (page 12), unconditionally | Issuer-only by default, following the rule that a security is cancelled by its issuer, but the Self-Burn section expressly permits an implementation to add self-burn where its legal or business context allows. The divergence is the default and the condition, not the permission: the criteria already take the position that § 3.2 proposes for the framework |
+| Self-cancellation | Part of functionality 41 (page 12), unconditionally | Issuer-only by default, following the rule that a security is cancelled by its issuer, but the Self-Burn section expressly permits an implementation to add self-burn where its legal or business context allows. The divergence is the default and the condition, not the permission — **resolved by the framework adopting the § 3.2 replacement**, the criteria already holding that position |
 | Enforced cancellation | No functionality; only "enforce a transfer" (37) | Documented in Forced Burn and Forced Transfer, and in the Implementation Details table |
 | Know decimals | Mandatory functionality 11 where decimals are permitted | Criterion 4, worded as "no fractions" |
 | Cross-chain | Absent | Documented as a non-criterion reference section |

@@ -464,6 +464,8 @@ In the table below, the CMTAT framework extended features are mapped to Solidity
 > Once issued, a security can only be cancelled by its issuer, not its holder. Since the token represents the security, the same rule applies. An investor who wants to exit should transfer to the issuer, who can then cancel when legally permitted.
 >
 > You MAY still add self-burn in your version if it fits your legal or business context.
+>
+> An implementation that does offer self-burn SHOULD state it here, together with the legal basis on which it is offered, so that an assessment records which of the two arrangements was adopted rather than leaving it to be inferred.
 
 
 
