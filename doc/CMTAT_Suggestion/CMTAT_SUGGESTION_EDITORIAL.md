@@ -31,7 +31,7 @@ The framework SHOULD adopt the standard formulation, as this repository's criter
 
 > The key words "MUST", "MUST NOT", "REQUIRED", "SHOULD", and "MAY" in this document are to be interpreted as described in [RFC 2119](https://www.rfc-editor.org/info/rfc2119) and [RFC 8174](https://www.rfc-editor.org/info/rfc8174).
 
-RFC 8174 restricts that meaning to the **uppercase** forms, so adopting the paragraph means a pass over the document to capitalise each keyword that is normative and leave in lowercase those that are descriptive — "the issuer may wish to delegate", in § 2.7, describes a practice rather than granting a permission. That pass is worth making on its own account: it forces, sentence by sentence, the question a reader of a standard has to answer, which is whether a given statement is a requirement or an explanation.
+RFC 8174 restricts that meaning to the **uppercase** forms, so adopting the paragraph means a pass over the document to capitalise each keyword that is normative and leave in lowercase those that are descriptive — "the issuer may wish to delegate", in § 2.7, describes a practice rather than granting a permission. That pass also forces, sentence by sentence, the question a reader of a standard has to answer, which is whether a given statement is a requirement or an explanation.
 
 The draft wording proposed in `CMTAT_SUGGESTION` and in its companions already uses the uppercase forms, so that it can be adopted together with the paragraph above without a further pass. If the framework prefers to keep its present lowercase register, those keywords can be lowercased when the drafts are pasted in, at the cost of the distinction RFC 8174 draws between a requirement and an ordinary use of the same word.
 
