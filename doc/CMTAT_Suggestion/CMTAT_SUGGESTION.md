@@ -172,7 +172,7 @@ The framework SHOULD separate the two capabilities it currently merges: a cancel
 >
 > Where the law governing the tokenised instrument permits it, an implementation MAY also allow a holder to cancel its own tokens without the involvement of the issuer. Where it does not, only the issuer and the persons authorised by it may cancel tokens, since a security may be cancelled only by its issuer. The arrangement adopted MUST be documented.
 
-**Resolving the divergence with the criteria (§ 10).** The correction belongs on the framework side. The criteria already hold the position drafted above — cancellation by the issuer and the addresses it authorises by default, self-burn permitted where the legal or business context allows it — so adopting the replacement closes the divergence without the criteria moving. What the criteria lack is the last sentence of the draft: they permit the choice but do not ask for it to be recorded. The Self-Burn section SHOULD therefore ask an implementation that offers self-burn to state it, and to state the legal basis on which it is offered, so that an assessment shows which of the two arrangements was adopted rather than leaving it to be inferred from the absence of a remark.
+**Resolving the divergence with the criteria (§ 10).** The correction belongs on the framework side. The criteria hold the position drafted above — criterion 12 covers the holder-authorised cancellation performed by the issuer or an address it has authorised, and the Self-Burn section permits self-burn where the legal or business context allows it — so adopting the replacement closes the divergence without the criteria moving further. What the criteria lack is the last sentence of the draft: they permit the choice but do not ask for it to be recorded. The Self-Burn section SHOULD therefore ask an implementation that offers self-burn to state it, and to state the legal basis on which it is offered, so that an assessment shows which of the two arrangements was adopted rather than leaving it to be inferred from the absence of a remark.
 
 ## 4. Pause and deactivation semantics
 
@@ -309,7 +309,7 @@ These are places where the framework and the CMTAT Equivalency Assessment Criter
 |---|---|---|---|
 | Ticker symbol | Optional attribute (page 8) | Mandatory, criterion 2 | Open, framework side: keep the attribute optional but record the practice, as drafted in § 6.3. The criteria are stricter than the framework here rather than in conflict with it — an implementation satisfying criterion 2 satisfies the framework either way — so criterion 2 stays mandatory |
 | Version | Not a functionality | Optional, criterion 6 | Open, framework side: add the "know version" functionality drafted in § 1 |
-| Self-cancellation | Part of functionality 41 (page 12), unconditionally | Reserved by default to the issuer and the addresses it authorises, but the Self-Burn section expressly permits an implementation to add self-burn where its legal or business context allows | Open, framework side: adopt the § 3.2 replacement of functionality 41. The divergence is the default and the condition, not the permission — the criteria already hold that position |
+| Self-cancellation | Part of functionality 41 (page 12), unconditionally | Criterion 12 covers the functionality itself — the holder authorises, the issuer or an address it has authorised performs. Cancellation by the holder alone is reserved to the Self-Burn section, which permits it where the legal or business context allows | Open, framework side: adopt the § 3.2 replacement of functionality 41. The coverage gap closed in `v0.3.0` with criterion 12; what remains is the trailing sentence of functionality 41, which attaches self-cancellation to the functionality with no condition |
 | Enforced cancellation | No functionality; only "enforce a transfer" (37) | Documented in Forced Burn and Forced Transfer, and in the Implementation Details table | Open, framework side: add the "enforce a cancellation" functionality drafted in § 3.1 |
 | Cross-chain | Absent | Documented as a non-criterion reference section | Open, framework side: add the Cross-chain module drafted in `CMTAT_SUGGESTION_CROSSCHAIN` |
 | Restrictions beyond whitelisting | Absent | Documented as a non-criterion reference catalogue | Open, framework side: list the restriction families as proposed in § 2.3 |
@@ -321,7 +321,7 @@ Framework, functionality 41 (page 12), quoted in full:
 
 > 41. User-approved cancel: This cancellation function requires authorization from the token holder. It can be implemented if the issuer wishes to distinguish between cancellations to manage supply and those made to carry out a court order. This functionality also allows token holders to cancel their own tokens.
 
-These criteria, the Self-Burn section of `README.md`, quoted in full:
+These criteria, criterion 12 and the Self-Burn section of `README.md`. Criterion 12 requires an allowance granted by the token holder together with a burner role, so the holder authorises and the issuer or an address it has authorised performs. The Self-Burn section, quoted in full, covers the remainder:
 
 > Only the issuer and authorized addresses (not the token holder) can burn a token in CMTAT Solidity, which reflects legal requirements in several jurisdictions.
 >

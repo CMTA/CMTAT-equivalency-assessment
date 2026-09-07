@@ -23,8 +23,8 @@ This repository is **documentation only**. It defines the *CMTAT Equivalency Ass
 - `README.md` **is** the document. Changing the criteria means editing `README.md` and recording it in `CHANGELOG.md` — nothing else is generated from them automatically.
 - Two audiences share the file: columns 1–5 of every criteria table are pre-filled reference data about CMTAT Solidity, columns 6–8 are left blank for the implementation being approved to fill.
 - Every criteria row has the same 8 columns: `ID | Requirement | CMTAT Solidity corresponding feature | Access Control (CMTAT Solidity) | Notes | Present in implementation being approved (y/partial/n) | Access Control (implementation being approved) | Implementation details`. New rows MUST keep that column count and order.
-- The document currently holds **60 numbered criteria**: **20 mandatory** (IDs 1–4, 7–11, 13–20, 28–30) and **40 optional** (IDs 5–6, 12, 21–27, 31–60).
-- Those figures appear in four places that must always agree: the `Scope of the count` table, the `Compliance table` column headers `Mandatory (20)` / `Optional (40)`, the sum rule underneath it, and the example filled table. Update all four together.
+- The document currently holds **61 numbered criteria**: **20 mandatory** (IDs 1–4, 7–11, 14–21, 29–31) and **41 optional** (IDs 5–6, 12–13, 22–28, 32–61).
+- Those figures appear in four places that must always agree: the `Scope of the count` table, the `Compliance table` column headers `Mandatory (20)` / `Optional (41)`, the sum rule underneath it, and the example filled table. Update all four together.
 - IDs are sequential over the whole document, so inserting or deleting a criterion renumbers every following row. It also invalidates the ID ranges in `Summary` and any ID quoted inside a `Notes` cell — grep for stale references after renumbering.
 - Answers are `y` (present), `partial`, or `n` (absent). Every `partial` and every mandatory `n` MUST be explained in the note under the compliance table.
 - The tables with no ID column — `CMTAT Extended`, `Implementation Details`, `Restriction`, `Cross-Chain Bridge Support`, `Privacy and Confidentiality` — are deliberately outside the count and are commented in the `Conclusion` instead.
@@ -54,8 +54,8 @@ This repository is **documentation only**. It defines the *CMTAT Equivalency Ass
 │       └── CMTAT_SUGGESTION_EDITORIAL.md  # its typographical and consistency corrections
 └── submodules/       # the CMTA reference repositories, all pinned
     ├── CMTAT/            # submodule — CMTAT Solidity reference implementation
-    ├── SnapshotEngine/   # submodule — snapshot engine behind the Snapshot criteria (31–36)
-    ├── RuleEngine/       # submodule — transfer-hook engine behind the Transfer restriction criteria (25–27)
+    ├── SnapshotEngine/   # submodule — snapshot engine behind the Snapshot criteria (32–37)
+    ├── RuleEngine/       # submodule — transfer-hook engine behind the Transfer restriction criteria (26–28)
     ├── Rules/            # submodule — individual rules (whitelist, conditional transfer)
     ├── CMTAT-Confidential/  # submodule — cited by Privacy and Confidentiality, outside the count
     ├── CMTAT-LayerZero/     # submodule — LayerZero OFT adapter, cited by Cross-Chain Bridge Support
