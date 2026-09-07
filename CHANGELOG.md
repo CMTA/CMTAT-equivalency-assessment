@@ -6,6 +6,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## Type of changes
 
+- `Summary`: main new features/change with a description (keep it short) (not a changelog tag)
+
 - `Added` for new features.
 - `Changed` for changes in existing functionality.
 - `Deprecated` for soon-to-be removed features.
@@ -18,6 +20,14 @@ Reference: [keepachangelog.com/en/1.1.0/](https://keepachangelog.com/en/1.1.0/)
 Custom changelog tag: `Dependencies`, `Documentation`, `Testing`
 
 ## [0.3.0] - 2026-09-07
+
+### Summary
+
+- Seven criteria added — the version attribute, user-approved cancellation, and the five reads for the pause, deactivate, frozen, active-balance and frozen-balance states — taking the document from 54 criteria to 61, and from 17 mandatory / 37 optional to 20 / 41.
+- **Every criterion above ID 5 was renumbered**, so an assessment filled against `0.2.0` MUST be re-read against this version before being reused.
+- Two sections for the author of an assessment: `Summary`, which aggregates the answers into a compliance table, and `Metadata`, which identifies the implementation being assessed.
+- Three reference sections outside the equivalency count: Cross-Chain Bridge Support (ERC-7802, Chainlink CCIP and the LayerZero adapter), a catalogue of the thirteen transfer restrictions, and Privacy and Confidentiality for implementations on a confidential ledger.
+- Four companion documents in `doc/CMTAT_Suggestion/`, collecting the improvements to the CMTA framework specifications that the mapping work turned up.
 
 ### Added
 
