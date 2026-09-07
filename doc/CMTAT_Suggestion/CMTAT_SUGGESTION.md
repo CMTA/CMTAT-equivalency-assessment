@@ -166,11 +166,15 @@ Functionality 41 (page 12) states that "this functionality also allows token hol
 
 The framework SHOULD separate the two capabilities it currently merges: a cancellation that the holder **authorizes** but the issuer, or an address the issuer has authorised, **performs**, and a cancellation that the holder performs alone. It SHOULD note that the second is available only where the applicable law permits it.
 
+The same functionality speaks of a cancellation "made to carry out a court order" without saying what such an order directs. One or two examples would tell an implementer what the path has to support, since the cases differ in ways that reach the implementation: whether replacement tokens are issued alongside the cancellation, whether a payment accompanies it, and who is entitled to instruct it.
+
 **Draft text** — a replacement for functionality 41:
 
 > 41. **User-approved cancellation**: cancel tokens recorded on the address of a holder who has authorised that cancellation. The cancellation is performed by the issuer, or by an address the issuer has authorised for that purpose — a bridge cancelling the tokens on the source ledger under the Cross-chain module, for instance. It is not performed by the holder.
 >
-> Where the law governing the tokenised instrument permits it, an implementation MAY also allow a holder to cancel its own tokens without the involvement of the issuer. Where it does not, only the issuer and the persons authorised by it may cancel tokens, since a security may be cancelled only by its issuer. The arrangement adopted MUST be documented.
+> The functionality allows the issuer to distinguish a cancellation made to manage the number of tokens in circulation from one made to carry out an order of a judicial authority. Such an order may, for example, direct the issuer to annul the tokens recorded on an address that the holder can no longer use and to issue replacement tokens to that holder; to cancel tokens issued under a subscription that has been rescinded or declared void, against repayment of the price; or to cancel tokens on the instruction of an officer appointed in enforcement or insolvency proceedings.
+>
+> This functionality MAY also be used to allow token holders to cancel their own tokens, where the law governing the tokenised instrument allows them to do so. Where it does not, only the issuer and the persons authorised by it may cancel tokens, since a security may be cancelled only by its issuer. The arrangement adopted MUST be documented.
 
 **Resolving the divergence with the criteria (§ 10).** The correction belongs on the framework side. The criteria hold the position drafted above — criterion 12 covers the holder-authorised cancellation performed by the issuer or an address it has authorised, and the Self-Burn section permits self-burn where the legal or business context allows it — so adopting the replacement closes the divergence without the criteria moving further. What the criteria lack is the last sentence of the draft: they permit the choice but do not ask for it to be recorded. The Self-Burn section SHOULD therefore ask an implementation that offers self-burn to state it, and to state the legal basis on which it is offered, so that an assessment shows which of the two arrangements was adopted rather than leaving it to be inferred from the absence of a remark.
 
