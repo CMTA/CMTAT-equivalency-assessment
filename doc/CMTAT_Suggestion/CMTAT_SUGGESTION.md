@@ -50,7 +50,7 @@ The framework SHOULD add an optional functionality, worded chain-agnostically, a
 
 > 43. **Know version**: for a particular CMTAT token, any person may know the version of the implementation of the token. This is the version of the code that operates the token; it is neither the version of the tokenised instrument nor the version of this framework.
 >
-> The version may be exposed as a constant returned by a read-only function, as part of the metadata that the ledger keeps for the deployed code, or as a value recorded in the state of the token and modifiable by the issuer. Where the value is modifiable, the implementation MUST ensure that it cannot become inconsistent with the code in force, for example by writing it only when the token is created or upgraded. Where the implementation is upgradeable, the version SHOULD be updated by the upgrade itself, so that any person can determine which code is in force.
+> The version MAY be exposed as a constant returned by a read-only function, as part of the metadata that the ledger keeps for the deployed code, or as a value recorded in the state of the token and modifiable by the issuer. Where the value is modifiable, the implementation MUST ensure that it cannot become inconsistent with the code in force, for example by writing it only when the token is created or upgraded. Where the implementation is upgradeable, the version SHOULD be updated by the upgrade itself, so that any person can determine which code is in force.
 
 ## 2. Validation module and transfer restrictions
 
@@ -158,7 +158,7 @@ In the Solidity implementation the standard cancellation path refuses a frozen a
 
 > 46. **Enforce a cancellation**: cancel a given number of tokens recorded on a given ledger address without the consent of the holder, including where that address is frozen.
 >
-> This function may be used to comply with an order of a judicial authority, and where the tokens to be cancelled are recorded on an address frozen under functionality 12. Unless the implementation states otherwise, the cancellation under functionality 5 does not apply to a frozen address.
+> This function MAY be used to comply with an order of a judicial authority, and where the tokens to be cancelled are recorded on an address frozen under functionality 12. Unless the implementation states otherwise, the cancellation under functionality 5 does not apply to a frozen address.
 
 ### 3.2 Reconcile "user-approved cancel" with issuer-only cancellation
 
@@ -228,7 +228,7 @@ The attributes list (page 8) requires a "reference to any legally required docum
 >
 > 50. **Know document**: for a particular CMTAT token, any person may know the documents associated with the token, their reference and their hash.
 >
-> The hash allows a reader to verify that the document obtained is the document that the issuer associated with the token. These functionalities may be used for the documentation referred to in the attributes applicable to all CMTAT tokens.
+> The hash allows a reader to verify that the document obtained is the document that the issuer associated with the token. These functionalities MAY be used for the documentation referred to in the attributes applicable to all CMTAT tokens.
 >
 > A separate hash is not required where the document is held in a store in which the reference is itself derived from the content, such as a content-addressed system of the IPFS kind or a decentralised storage network of the Walrus kind. In that case the reference identifies one content and no other, and a document that has been altered is no longer obtainable under that reference. The issuer MUST still ensure that the document remains obtainable for as long as the instrument exists, since a reference of that kind establishes what the document is, not that a copy of it is still available.
 
