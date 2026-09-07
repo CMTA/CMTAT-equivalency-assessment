@@ -464,9 +464,9 @@ In the table below, the CMTAT framework extended features are mapped to Solidity
 
 > Only the issuer and authorized addresses (not the token holder) can burn a token in CMTAT Solidity, which reflects legal requirements in several jurisdictions.
 >
-> You MAY still add self-burn in your version if it fits your legal or business context.
+> The CMTA framework permits it: functionality 41, *user-approved cancel*, states that the functionality "also allows token holders to cancel their own tokens". An implementation MAY therefore offer self-burn where its legal or business context allows. The holder-authorized cancellation that the issuer performs is criterion 12; what is described here is the cancellation the holder performs alone.
 >
-> An implementation that does offer self-burn SHOULD state it here, together with the legal basis on which it is offered, so that an assessment records which of the two arrangements was adopted rather than leaving it to be inferred.
+> An implementation that does offer self-burn SHOULD state so here, together with the legal basis on which it is offered, so that an assessment records which of the two arrangements was adopted rather than leaving it to be inferred.
 
 
 
