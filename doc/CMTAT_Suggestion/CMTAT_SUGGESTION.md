@@ -314,8 +314,6 @@ The framework SHOULD divide § 3.1.1 into modules named for what they do, keepin
 
 The reference to the legally required documentation SHOULD move to a module of its own if the document functionalities suggested in § 6.1 are adopted, since the reference, the document and its hash then belong together.
 
-The names above are **functional names, not contract names**. § 3 currently writes "Base module" while § 4.1 writes "BaseModule" and "ERC20BaseModule", which are Solidity identifiers, and a reader cannot tell from the two spellings whether they denote the same thing. Splitting § 3.1.1 makes the two lists correspond more closely, which makes the distinction more important rather than less: the chain-agnostic sections SHOULD keep the functional names, and leave the contract names to § 4, so that a module of the framework is not read as a contract that an implementation on another ledger is expected to reproduce.
-
 The criteria in this repository already read this way — `Token Attributes`, `Token module`, `Pause module` and `Enforcement` are separate sections with their own tables — so this is a suggestion to bring the framework into line with both its own reference implementation and the assessment instrument built on it, rather than a new idea.
 
 ## 10. Reference implementations
