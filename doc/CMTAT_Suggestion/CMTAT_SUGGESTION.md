@@ -329,10 +329,8 @@ These criteria, criterion 12 and the Self-Burn section of `README.md`. Criterion
 
 > Only the issuer and authorized addresses (not the token holder) can burn a token in CMTAT Solidity, which reflects legal requirements in several jurisdictions.
 >
-> Once issued, a security can only be cancelled by its issuer, not its holder. Since the token represents the security, the same rule applies. An investor who wants to exit should transfer to the issuer, who can then cancel when legally permitted.
->
 > You MAY still add self-burn in your version if it fits your legal or business context.
 >
 > An implementation that does offer self-burn SHOULD state it here, together with the legal basis on which it is offered, so that an assessment records which of the two arrangements was adopted rather than leaving it to be inferred.
 
-The two texts diverge in their third sentence, and only there. The framework attaches self-cancellation to functionality 41 with no condition, so an implementation of 41 carries it; the criteria make it a separate choice, subject to the legal or business context and to be recorded. Neither forbids it. They disagree on whether it arrives with the functionality or has to be opted into, which is why the § 3.2 replacement splits the functionality in two rather than reversing its position.
+The two texts diverge on one point only. The framework attaches self-cancellation to functionality 41 with no condition, so an implementation of 41 carries it; the criteria make it a separate choice, subject to the legal or business context and to be recorded. Neither forbids it. They disagree on whether it arrives with the functionality or has to be opted into, which is why the § 3.2 replacement splits the functionality in two rather than reversing its position.
