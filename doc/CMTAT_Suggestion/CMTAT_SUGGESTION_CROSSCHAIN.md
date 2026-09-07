@@ -8,7 +8,12 @@ It is a companion to `CMTAT_SUGGESTION.md`, which carries the other suggestions,
 
 ## The gap
 
-The framework does not mention cross-chain transfers at all, while the Solidity implementation ships an optional cross-chain module implementing [ERC-7802](https://eips.ethereum.org/EIPS/eip-7802) and the Chainlink CCIP administrative hooks. Multi-chain issuance is common enough that implementers are making these decisions today with no framework guidance.
+The framework does not mention cross-chain transfers at all, while the Solidity implementation already supports two arrangements, placed on either side of the token boundary:
+
+- **In the token.** An optional cross-chain module implementing [ERC-7802](https://eips.ethereum.org/EIPS/eip-7802) — `crosschainMint` and `crosschainBurn`, reserved to a bridge role and blocked while transfers are paused — together with the [Chainlink CCIP](https://chain.link/cross-chain) administrative hooks, which register the token with the CCIP token admin registry and carry no other power.
+- **Outside the token.** [CMTAT-LayerZero](https://github.com/CMTA/CMTAT-LayerZero), an adapter built on the LayerZero V2 OFT standard which holds the bridge authorisation itself and calls the token to cancel on the source ledger and create on the destination. It ships in two forms: `LayerZeroAdapterERC7802`, which calls the ERC-7802 entry points, and `LayerZeroAdapter`, which calls the ERC-3643 `mint` and `burn` where the token does not implement ERC-7802.
+
+The second form of the adapter is a deployed instance of the case the module below addresses: the standard issuance functions used for cross-chain operations, by a bridge that is a contract outside the control of the issuer. Multi-chain issuance is common enough that implementers are making these decisions today with no framework guidance.
 
 The framework SHOULD add an optional **Cross-chain module**, stating at least:
 

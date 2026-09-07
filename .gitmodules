@@ -16,3 +16,6 @@
 [submodule "submodules/private-CMTAT-aztec"]
 	path = submodules/private-CMTAT-aztec
 	url = https://github.com/taurushq-io/private-CMTAT-aztec
+[submodule "submodules/CMTAT-LayerZero"]
+	path = submodules/CMTAT-LayerZero
+	url = https://github.com/CMTA/CMTAT-LayerZero
