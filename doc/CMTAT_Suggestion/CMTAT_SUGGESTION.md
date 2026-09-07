@@ -1,0 +1,347 @@
+# CMTAT Framework — suggested improvements
+
+## Purpose
+
+This document lists potential improvements to the **CMTAT Framework functional specifications** (`cmtat-framework-functional-specifications-june-2026.pdf`, first published January 2022, updated November 2024, September 2025 and June 2026).
+
+It is written from the work on the CMTAT Equivalency Assessment Criteria (`README.md`): every criterion in that document had to be mapped from the framework to a concrete implementation, and the points below are the places where that mapping was ambiguous, incomplete, or contradicted by the reference implementation. It is a suggestion list produced by this repository, not a CMTA publication.
+
+Each suggestion gives the current wording (with its section and page in the PDF), the gap, and a proposed change. Where the change is a change of wording, a **Draft text** block gives it in the framework's own register — numbered functionalities, a rationale followed by a list — so that it can be pasted in without rewriting. 
+
+The normative keywords in those blocks are written in the uppercase forms of [RFC 2119](https://www.rfc-editor.org/info/rfc2119) and [RFC 8174](https://www.rfc-editor.org/info/rfc8174), consistently with the keyword paragraph proposed in `CMTAT_SUGGESTION_EDITORIAL`; where a word is used descriptively rather than to state a requirement level, it stays in lowercase, as RFC 8174 requires.
+
+New functionalities are numbered from 43 onward, continuing the current list of 42, in the order in which they appear in this document; the cross-chain companion continues the same numbering at 53.
+
+Three subjects have their own companion documents: `CMTAT_SUGGESTION_CROSSCHAIN` for cross-chain transferability, `CMTAT_SUGGESTION_PRIVACY` for privacy and confidentiality, and `CMTAT_SUGGESTION_EDITORIAL` for the typographical and consistency corrections.
+
+### What this was checked against
+
+| Source | Version |
+|---|---|
+| CMTAT Framework functional specifications | June 2026 |
+| CMTAT Equivalency Assessment Criteria (this repository) | `v0.3.0` |
+| CMTAT Solidity | `v3.3.0-rc3` |
+| RuleEngine | `v3.0.0-rc6` |
+| Rules | `v0.6.0` |
+| SnapshotEngine | `v0.5.0` |
+
+## Table of Contents
+
+- [1. Versioning](#1-versioning)
+- [2. Validation module and transfer restrictions](#2-validation-module-and-transfer-restrictions)
+- [3. Enforcement, cancellation and frozen addresses](#3-enforcement-cancellation-and-frozen-addresses)
+- [4. Pause and deactivation semantics](#4-pause-and-deactivation-semantics)
+- [5. Authorization module](#5-authorization-module)
+- [6. Attributes and documents](#6-attributes-and-documents)
+- [7. Batch operations and atomicity](#7-batch-operations-and-atomicity)
+- [8. Events and auditability](#8-events-and-auditability)
+- [9. Reference implementations](#9-reference-implementations)
+- [10. Divergences with this repository's criteria](#10-divergences-with-this-repositorys-criteria)
+
+## 1. Versioning
+
+The numbered list of functionalities has no version functionality, yet §4.1 (page 13) states that the Solidity implementation has a "BaseModule which contains the smart contract version", and that implementation exposes `version()` through `IERC3643Version`.
+
+An implementer reading only the framework has no reason to expose a version, and an assessor has no criterion to check. This repository had to add it as optional criterion 6 without a framework functionality to map it to.
+
+The framework SHOULD add an optional functionality, worded chain-agnostically, and SHOULD state the acceptable forms, since they differ per ledger.
+
+**Draft text** — a new functionality in § 3.2, optional functionalities:
+
+> 43. **Know version**: for a particular CMTAT token, any person may know the version of the implementation of the token. This is the version of the code that operates the token; it is neither the version of the tokenised instrument nor the version of this framework.
+>
+> The version MAY be exposed as a constant returned by a read-only function, as part of the metadata that the ledger keeps for the deployed code, or as a value recorded in the state of the token and modifiable by the issuer. Where the value is modifiable, the implementation MUST ensure that it cannot become inconsistent with the code in force, for example by writing it only when the token is created or upgraded. Where the implementation is upgradeable, the version SHOULD be updated by the upgrade itself, so that any person can determine which code is in force.
+
+## 2. Validation module and transfer restrictions
+
+The Validation module (§3.2.2, page 10) has three functionalities: conditional transfer request, conditional transfer approve, and assign to whitelist. The reference stack offers considerably more, and the framework's silence leaves each of the following undefined.
+
+### 2.1 Add a pre-flight "may this transfer proceed" query
+
+Nothing in the framework lets a holder, a wallet, or a trading venue ask whether a transfer would be accepted before submitting it. The reference implementation exposes exactly that through ERC-1404 (`detectTransferRestriction`, `canTransfer` and their `…From` variants), and it is what a venue needs in order to avoid submitting a transaction that will revert.
+
+The framework SHOULD add an optional functionality, and SHOULD require it to answer rather than fail, since a query that reverts cannot be used to avoid a failing transaction.
+
+**Draft text** — a new functionality in the Validation module, § 3.2.2:
+
+> 44. **Know transfer restriction**: for a proposed transfer, any person may know whether that transfer would be rejected, and for which reason.
+>
+> This function MUST NOT prevent or alter any transfer, and MUST return an answer rather than fail, so that it can be called before a transfer is submitted. The reason SHOULD be returned in a form that a machine can interpret, together with a description that can be displayed to a person.
+
+### 2.2 State whether restrictions apply to creation and cancellation
+
+The module speaks only of transfers. In practice a restriction may or may not screen the minter and the burner, and the rules in the reference stack differ from one another on precisely this point: some exempt creation and cancellation entirely, some block a blacklisted or sanctioned minter, and some (supply caps, per-minter quotas) act on creation only.
+
+The framework SHOULD require each restriction to state its behaviour on creation and cancellation explicitly, rather than leaving it implied by the word "transfer".
+
+**Draft text** — an addition to the Validation module, § 3.2.2:
+
+> Each restriction MUST state whether it applies to the creation of tokens (functionality 4) and to their cancellation (functionality 5), in addition to transfers. A restriction that screens the parties to a transfer does not necessarily screen the account creating tokens or the address whose tokens are cancelled, and the arrangement adopted MUST be documented for each restriction used.
+
+### 2.3 Add the restriction families that exist in practice
+
+"Assign to whitelist" is one restriction among many. The framework SHOULD list the families an implementer may need, without mandating any:
+
+| Family | What it restricts |
+|---|---|
+| Whitelist / allowlist | Only listed addresses may send and receive; variants screen the receiver only, or the delegate of a delegated transfer only |
+| Blacklist | Listed addresses may not participate |
+| Sanctions screening | Participants are checked against an external sanctions source |
+| Identity verification | Participants must be verified in an identity registry |
+| Maximum total supply | Creation is capped at an issued amount |
+| Reserve-backed cap | Creation is capped at reserves published by an external source |
+| Maximum balance per address | No address may hold more than a set amount |
+| Per-issuer creation quota | Each authorized minter has its own allowance |
+| Conditional transfer | Each transfer must be approved beforehand (functionalities 21–22) |
+
+**Blacklist and freeze are not interchangeable, and the framework SHOULD say which to use.** Freezing an address is already mandatory in the Enforcement module (functionalities 12–14), and it is the mechanism an issuer SHOULD use to block the funds recorded on an address: it lives in the token, the issuer controls it directly, and the frozen status is readable per address. A blacklist rule that reproduces the same decision inside the Validation module creates a second record of it, and the two can disagree — an address frozen on the token but absent from the list, or the reverse.
+
+A blacklist earns its place in two cases. The first is when the list is a **contract shared by several tokens**: one listing decision then applies to every token that consults the list, so an issuer with a range of instruments, or several issuers sharing a compliance provider, does not have to repeat the freeze on each token and keep the copies in step. The trade-off is that the record of a blocked address then lives outside the token, and whoever administers the shared list can block transfers on every token pointing at it.
+
+The second is **preventive**: a blacklist records the addresses that must never come to hold the tokens, and is maintained in advance of any relationship with them, while a freeze is an enforcement measure taken against an address that already holds tokens, on a suspicion or an order concerning that holder. A freeze does block incoming transfers as well, so the two overlap in effect; they differ in what they are for, and therefore in how many addresses each is expected to carry and in how the decision to list is taken.
+
+**Draft text** — an addition to the Validation module, § 3.2.2:
+
+> The rules referred to in functionality 23 may take various forms, of which the following are the most common. This list is informative: an issuer may use one of them, several of them, or others.
+>
+> - a whitelist, under which only the listed addresses may send and receive tokens; variants screen the recipient only, or the account authorised to transfer the tokens of another;
+> - a blacklist, under which the listed addresses may not participate in a transfer;
+> - the screening of the parties against a sanctions list maintained outside the token;
+> - the verification of the parties in a register of identities;
+> - a maximum number of tokens in circulation, which limits the creation of tokens;
+> - a maximum number of tokens in circulation determined by reserves published outside the token;
+> - a maximum number of tokens that a single address may hold;
+> - an allowance granted to each account authorised to create tokens;
+> - the approval of each transfer, as provided by functionalities 21 and 22.
+>
+> Freezing, under functionalities 12 and 13, is the means by which the issuer blocks the tokens recorded on an address of a given token, and SHOULD be used for that purpose: it is an enforcement measure directed at an address that already holds tokens.
+>
+> A blacklist is appropriate in two cases. The first is where the list is held outside the token and shared by several tokens, so that a single decision applies to all of them; the record of a blocked address then lies outside the token, and the person who administers the list can block transfers on every token that consults it. The second is where the issuer wishes to prevent addresses from acquiring the tokens before they hold any: such a list is maintained in advance and may concern addresses that never interact with the token.
+
+### 2.4 Require an explicit fail-open or fail-closed policy
+
+A restriction backed by an external source (a sanctions oracle, an identity registry, a reserve feed) has to behave somehow when that source is unset, unavailable or stale. Both answers are defensible — reject every operation, or allow every operation — and the reference rules differ: an unset sanctions oracle allows everything, an empty aggregated whitelist rejects everything.
+
+The framework SHOULD require the policy to be stated per restriction, since the legal consequence of guessing wrong is asymmetric.
+
+**Draft text** — an addition to the Validation module, § 3.2.2:
+
+> Where a restriction relies on information held outside the token, such as a sanctions list, a register of identities or a figure for reserves, the implementation MUST state how the restriction behaves where that source is not set, is unavailable, or returns information that is out of date. Rejecting every operation and allowing every operation are both acceptable, provided that the arrangement adopted is documented.
+
+### 2.5 Define the composition of several restrictions
+
+When several restrictions apply to the same transfer, the framework says nothing about evaluation order or about which reason is reported. The reference engine returns the first non-zero code, so the order of the rules determines what a rejected holder is told.
+
+The framework SHOULD require an implementation to document the order and the reported reason.
+
+**Draft text** — an addition to the Validation module, § 3.2.2:
+
+> Where several restrictions apply to the same transfer, the implementation SHOULD document the order in which they are evaluated, and which reason is reported where more than one restriction would reject the transfer.
+
+### 2.6 Add a "know whitelist status" functionality
+
+The framework has "know pause status" (8) and "know frozen status" (14), but no equivalent for the whitelist, even though the same operational need exists: a holder needs to know whether they are listed before attempting a transfer. The reference implementations all expose it.
+
+**Draft text** — a new functionality in the Validation module, § 3.2.2:
+
+> 45. **Know whitelist status**: for a particular address, the issuer and the holder of that address may know whether the address is included in a whitelist. On a public ledger, that information is available to any person.
+
+## 3. Enforcement, cancellation and frozen addresses
+
+### 3.1 Say whether a frozen address can be cancelled from
+
+Functionality 12 (page 9) prevents any token from being transferred to or from a frozen address. Functionality 5, "cancel tokens", is not qualified. Whether the issuer can cancel tokens held on a frozen address is therefore undefined — and it is precisely the case that matters, since an address is frozen exactly when a court order or a suspicion is being acted upon.
+
+In the Solidity implementation the standard cancellation path refuses a frozen address, and a dedicated enforcement function is required instead. The framework currently has "enforce a transfer" (37) but no enforced cancellation, so the only documented way to cancel from a frozen address is to enforce a transfer to the issuer and cancel there — a workaround worth either endorsing explicitly or replacing.
+
+**Draft text** — a new functionality in the optional functionalities of the Enforcement module, § 3.2.6:
+
+> 46. **Enforce a cancellation**: cancel a given number of tokens recorded on a given ledger address without the consent of the holder, including where that address is frozen.
+>
+> This function MAY be used to comply with an order of a judicial authority, and where the tokens to be cancelled are recorded on an address frozen under functionality 12. Unless the implementation states otherwise, the cancellation under functionality 5 does not apply to a frozen address.
+
+### 3.2 Reconcile "user-approved cancel" with issuer-only cancellation
+
+Functionality 41 (page 12) states that "this functionality also allows token holders to cancel their own tokens". That is a substantive legal position — under several jurisdictions a security can only be cancelled by its issuer, not by its holder — and it is the opposite of the position taken by the Solidity implementation, where self-cancellation is not permitted by default.
+
+The framework SHOULD separate the two capabilities it currently merges: a cancellation that the holder **authorizes** but the issuer, or an address the issuer has authorised, **performs**, and a cancellation that the holder performs alone. It SHOULD note that the second is available only where the applicable law permits it.
+
+The same functionality speaks of a cancellation "made to carry out a court order" without saying what such an order directs. One or two examples would tell an implementer what the path has to support, since the cases differ in ways that reach the implementation: whether replacement tokens are issued alongside the cancellation, whether a payment accompanies it, and who is entitled to instruct it.
+
+**Draft text** — a replacement for functionality 41:
+
+> 41. **User-approved cancellation**: cancel tokens recorded on the address of a holder who has authorised that cancellation. The cancellation is performed by the issuer, or by an address the issuer has authorised for that purpose — a bridge cancelling the tokens on the source ledger under the Cross-chain module, for instance. It is not performed by the holder.
+>
+> The functionality allows the issuer to distinguish a cancellation made to manage the number of tokens in circulation from one made to carry out an order of a judicial authority. Such an order may, for example, direct the issuer to annul the tokens recorded on an address that the holder can no longer use and to issue replacement tokens to that holder; to cancel tokens issued under a subscription that has been rescinded or declared void, against repayment of the price; or to cancel tokens on the instruction of an officer appointed in enforcement or insolvency proceedings.
+>
+> This functionality MAY also be used to allow token holders to cancel their own tokens, where the law governing the tokenised instrument allows them to do so. Where it does not, only the issuer and the persons authorised by it may cancel tokens, since a security may be cancelled only by its issuer. The arrangement adopted MUST be documented.
+
+**Resolving the divergence with the criteria (§ 10).** The correction belongs on the framework side. The criteria hold the position drafted above — criterion 12 covers the holder-authorised cancellation performed by the issuer or an address it has authorised, and the Self-Burn section permits self-burn where the legal or business context allows it — so adopting the replacement closes the divergence without the criteria moving further. What the criteria lack is the last sentence of the draft: they permit the choice but do not ask for it to be recorded. The Self-Burn section SHOULD therefore ask an implementation that offers self-burn to state it, and to state the legal basis on which it is offered, so that an assessment shows which of the two arrangements was adopted rather than leaving it to be inferred from the absence of a remark.
+
+## 4. Pause and deactivation semantics
+
+Functionality 6 (page 7) leaves the interaction between pause and issuance to the issuer: "It is up to the issuer to decide whether token creation and deletion operations are also affected by the pause."
+
+That is a reasonable degree of freedom, but it makes the pause status uninterpretable to a third party: a holder seeing a paused token cannot tell whether supply can still change. The framework SHOULD require the choice to be **documented and readable**, and SHOULD state the two cases where the answer is not free:
+
+- Cross-chain creation and cancellation MUST be blocked while paused (see `CMTAT_SUGGESTION_CROSSCHAIN`).
+- A pause that does not block creation lets the issuer dilute holders while they cannot transfer, which SHOULD be called out as a consequence the issuer accepts.
+
+Functionality 9, "deactivate contract", requires tokens to be destroyed before or during deactivation, and states that the issuer can no longer create or cancel tokens afterwards. On ledgers where an account or contract cannot be removed, and in upgradeable deployments, "permanently and irreversibly" needs qualification: the framework SHOULD state what MUST be true after deactivation rather than how it is achieved. In an upgradeable deployment it MUST also say that deactivating the token is not sufficient on its own, since an upgrade can restore the functions it disabled — the ability to upgrade has to go with it.
+
+The prohibition is also not uniform. Creation and transfer have to stop outright, whereas cancellation and enforced transfer are better left available: the functionality requires the tokens to be destroyed first, so a balance that survives that step would otherwise be stranded.
+
+**Draft text** — an addition to functionality 6:
+
+> The issuer MUST document whether the creation and the cancellation of tokens remain possible while transfers are paused, and any person MUST be able to determine which of the two arrangements applies. Where creation remains possible, the issuer accepts that the number of tokens in circulation may increase while holders are unable to transfer them. Where the token can be transferred to another ledger, the operations described in the Cross-chain module MUST be blocked while transfers are paused.
+
+**Draft text** — an addition to functionality 9:
+
+> After deactivation, any person may know that the token has been deactivated, and deactivation cannot be reversed. As to the operations on the tokens:
+>
+> - tokens MUST NOT be transferred and MUST NOT be created;
+> - tokens SHOULD NOT be cancelled, and a transfer SHOULD NOT be enforced under functionality 37.
+>
+> The second is a recommendation and not a prohibition because this functionality requires the tokens to be destroyed before or during deactivation: no balance should remain afterwards, and where one nevertheless does, those two paths are the only means of clearing it.
+>
+> Where the ledger does not permit the account or the code to be removed, a state satisfying these conditions is sufficient.
+>
+> Where the code that operates the token can be upgraded, deactivation is not irreversible by itself, since an upgrade can restore the functions that deactivation disabled. The issuer MUST therefore also remove the ability to upgrade the code, at the latest when the token is deactivated. Depending on the ledger, that is done in one of two ways:
+>
+> - on the ledger, by transferring the right to upgrade to an address from which it cannot be exercised — the address zero on Ethereum and other EVM ledgers;
+> - outside the ledger, by destroying the key that controls that right.
+>
+> The measure taken MUST be documented, and where it is taken outside the ledger the issuer MUST be able to evidence it, since a person examining the ledger cannot verify it.
+
+## 5. Authorization module
+
+The Authorization module (§3.2.3, page 10) has grant role, revoke role, and role attribution. Three additions would reflect what implementations need:
+
+- **Know role admin**: which role or account may grant and revoke a given role. Without it, "grant role" does not say who may call it.
+- **Renounce a role**: an account dropping its own privileges. This matters for a bridge or a service account whose key is being retired, and it is the only role operation an account can perform on itself.
+- A caution on **implicit super-roles**: in the Solidity implementation the default administrator is treated as holding every role. Any such arrangement MUST be documented, because a reader checking "who may freeze an address" will otherwise get an incomplete answer from the role assignments alone.
+
+The framework SHOULD also recommend a **two-step transfer of the administrator role** (the new holder accepts before the old one loses control), since a one-step transfer to a wrong address is unrecoverable and permanently disables every issuer functionality.
+
+**Draft text** — two new functionalities in the Authorization module, § 3.2.3:
+
+> 47. **Know role administration**: for a given role, the issuer, the persons it has authorised and the account holding that role may know which role or which account may grant and revoke it. On a public ledger, that information is available to any person.
+>
+> 48. **Renounce a role**: an account may renounce a role that it holds.
+>
+> Where an account holds a role by virtue of holding another one — for instance where an administrator is treated as holding every role — the implementation MUST document it, since the roles granted would otherwise give an incomplete picture of who may call a given function. The transfer of the administrator role SHOULD require the new holder to accept it before the previous holder loses it, as an administrator role transferred to an address that cannot use it cannot be recovered, and every issuer functionality would then be permanently unavailable.
+
+## 6. Attributes and documents
+
+### 6.1 Add document functionalities to the numbered list
+
+The attributes list (page 8) requires a "reference to any legally required documentation", and §4.1 mentions a Document module calling an ERC-1643 document engine, but no numbered functionality covers documents. Since the legal link between the token and the instrument runs through those documents, they deserve the same treatment as the other attributes:
+
+**Draft text** — two new functionalities in § 3.2, optional functionalities:
+
+> 49. **Set document**: associate a document with the token, by a name, a reference allowing the document to be obtained, and a hash of its content.
+>
+> 50. **Know document**: for a particular CMTAT token, any person may know the documents associated with the token, their reference and their hash.
+>
+> The hash allows a reader to verify that the document obtained is the document that the issuer associated with the token. These functionalities MAY be used for the documentation referred to in the attributes applicable to all CMTAT tokens.
+>
+> A separate hash is not required where the document is held in a store in which the reference is itself derived from the content, such as a content-addressed system of the IPFS kind or a decentralised storage network of the Walrus kind. In that case the reference identifies one content and no other, and a document that has been altered is no longer obtainable under that reference. The issuer MUST still ensure that the document remains obtainable for as long as the instrument exists, since a reference of that kind establishes what the document is, not that a copy of it is still available.
+
+### 6.2 State whether decimals may change after issuance
+
+The framework requires decimals to be zero unless the applicable law allows fractions, and functionality 11 explains their display role. It does not say whether the value may change after issuance.
+
+It SHOULD not, since changing decimals retroactively reinterprets every balance already recorded. The framework SHOULD state that decimals are set at issuance and SHOULD NOT change afterwards, that where a change is nevertheless required the holders MUST be informed before it takes effect, and that a change of denomination MAY instead be carried out through cancellation and re-issuance.
+
+**Draft text** — an addition to functionality 11:
+
+> The number of decimals is set when the token is created and SHOULD NOT change thereafter, as a change alters the meaning of every balance already recorded without any token being transferred, created or cancelled.
+>
+> Where a change is nevertheless required, it MUST be made with the knowledge of the token holders: the issuer MUST inform them before the change takes effect, so that no holder acts on a figure whose meaning has changed, and MUST record the change as it records a corporate action. A change of denomination may also be carried out by cancelling the tokens and creating new ones, which leaves the meaning of the existing balances untouched.
+
+### 6.3 Reconsider the optionality of the ticker symbol
+
+The attributes list marks the ticker symbol as optional. Every reference implementation exposes it, wallets and venues rely on it, and this repository's criteria treat it as mandatory (criterion 2).
+
+Making the attribute mandatory would be the larger change, and it would bind an issuer that has no use for a symbol — a token that is never held in a wallet nor admitted to trading. The framework SHOULD instead keep the attribute optional and record the practice: state when a symbol is called for, and state that an implementation published or reviewed by CMTA carries one. That leaves the choice with the issuer while removing the impression that the reference implementations exceed the framework by accident.
+
+**Draft text** — in the attributes applicable to all CMTAT tokens, page 8, keep "Ticker symbol (optional)" and add beneath the list:
+
+> Where the token is intended to be held in a wallet or admitted to trading, a ticker symbol SHOULD be set. An implementation published by CMTA, or reviewed by CMTA for compliance with this framework, SHOULD carry one.
+
+## 7. Batch operations and atomicity
+
+§2.1 (page 3) discusses the issuer's need to burn and mint atomically, and mentions a multicall function or a dedicated `burnAndMint` function. Nothing in the numbered list reflects this, so a conformant implementation may offer no way to do it.
+
+The framework SHOULD add optional functionalities for **batch creation, batch cancellation and batch transfer**, and for an **atomic cancel-and-create**. Both are already present in the Solidity implementation, and on ledgers that batch natively the requirement is satisfied by the ledger rather than by the token — which is worth stating, since it is the kind of difference an assessment has to record.
+
+**Draft text** — two new functionalities in § 3.2, optional functionalities:
+
+> 51. **Batch operations**: create, cancel or transfer tokens for several ledger addresses in a single operation.
+>
+> 52. **Atomic cancellation and creation**: cancel tokens and create tokens in a single operation, so that neither takes effect without the other.
+>
+> Where the ledger allows several operations to be grouped in a single transaction, as described in § 2.1, these functionalities MAY be satisfied by that mechanism rather than by functions of the token.
+
+## 8. Events and auditability
+
+The framework describes readable state ("know total supply", "know frozen status") but never requires the token to **record who did what**. An audit trail is a legal requirement in most of the contexts the framework addresses, and on some ledgers it is not obtainable after the fact if the implementation did not emit it.
+
+The framework SHOULD require that every issuer functionality records an entry identifying the operation, the acting account, the affected address, and the amount where applicable — as ledger events, logs, or whatever mechanism the target ledger provides.
+
+**Draft text** — an addition to § 3, before the list of mandatory functionalities:
+
+> Every functionality exercised by the issuer MUST leave a record on the ledger identifying the operation performed, the account that called it, the address affected and, where applicable, the number of tokens concerned. Where the ledger provides a mechanism for events or logs, that mechanism SHOULD be used. Where the data recorded is confidential, the record MUST remain available to the persons who are entitled to read that data.
+
+## 9. Split the Base module into the concerns it actually contains
+
+§ 3.1.1, "Base module mandatory functions", carries eleven functionalities covering four unrelated concerns: the identity of the token (1–2 and 11, with the attributes list on page 8), its movement (3), changes to the number of tokens in issue (4–5), and its lifecycle (6–10). They are grouped only by being mandatory.
+
+That grouping costs the framework three things:
+
+- **It does not match the reference implementation.** § 4.1 already names `BaseModule`, `ERC20BaseModule` and `PauseModule` as separate contracts, and the Solidity implementation goes further still, with `TokenAttributeModule`, `ERC20MintModule`, `ERC20BurnModule`, `DocumentERC1643Module` and `VersionModule`. A reader moving from § 3.1.1 to § 4.1 has to work out the correspondence unaided.
+- **It obscures where a role or a restriction attaches.** The bridge authorisation, the pause check on the issuance path and the enforcement powers all attach to the supply-change functions and to nothing else in the module. Stated against a Base module of eleven functionalities, each of those rules has to name its targets one by one.
+- **It makes "mandatory" all or nothing.** § 2.6 presents modularity as a defining feature, and the optional functionalities are grouped by module in § 3.2. The mandatory ones are not, so an assessment cannot report that an implementation covers the token identity and its movement but handles supply changes differently.
+
+The framework SHOULD divide § 3.1.1 into modules named for what they do, keeping every functionality mandatory and its number unchanged:
+
+| Suggested module | Functionalities | Concern |
+|---|---|---|
+| Base module | the attributes list of page 8 — name, ticker symbol, token ID, reference to the legally required documentation | what the token is, and what instrument it stands for |
+| Token module | 1 know total supply, 2 know balance, 3 transfer tokens, 11 know decimals | how holdings are recorded, read and moved |
+| Supply module | 4 create tokens, 5 cancel tokens | changes to the number of tokens in issue |
+| Pause module | 6 pause, 7 unpause, 8 know pause status, 9 deactivate contract, 10 know deactivate status | the lifecycle of the token |
+
+The reference to the legally required documentation SHOULD move to a module of its own if the document functionalities suggested in § 6.1 are adopted, since the reference, the document and its hash then belong together.
+
+The criteria in this repository already read this way — `Token Attributes`, `Token module`, `Pause module` and `Enforcement` are separate sections with their own tables — so this is a suggestion to bring the framework into line with both its own reference implementation and the assessment instrument built on it, rather than a new idea.
+
+## 10. Divergences with this repository's criteria
+
+These are places where the framework and the CMTAT Equivalency Assessment Criteria (`README.md`) `v0.3.0` differ. The last column names the side that resolves each.
+
+| Point | Framework (June 2026) | This repository's criteria | Resolution |
+|---|---|---|---|
+| Ticker symbol | Optional attribute (page 8) | Mandatory, criterion 2 | Open, framework side: keep the attribute optional but record the practice, as drafted in § 6.3. The criteria are stricter than the framework here rather than in conflict with it — an implementation satisfying criterion 2 satisfies the framework either way — so criterion 2 stays mandatory |
+| Version | Not a functionality | Optional, criterion 6 | Open, framework side: add the "know version" functionality drafted in § 1 |
+| Self-cancellation | Part of functionality 41 (page 12), unconditionally | Criterion 12 covers the functionality itself — the holder authorises, the issuer or an address it has authorised performs. Cancellation by the holder alone is reserved to the Self-Burn section, which permits it where the legal or business context allows | Open, framework side: adopt the § 3.2 replacement of functionality 41. What diverges is its trailing sentence, which attaches self-cancellation to the functionality with no condition |
+| Enforced cancellation | No functionality; only "enforce a transfer" (37) | Documented in Forced Burn and Forced Transfer, and in the Implementation Details table | Open, framework side: add the "enforce a cancellation" functionality drafted in § 3.1 |
+| Cross-chain | Absent | Documented as a non-criterion reference section | Open, framework side: add the Cross-chain module drafted in `CMTAT_SUGGESTION_CROSSCHAIN` |
+| Restrictions beyond whitelisting | Absent | Documented as a non-criterion reference catalogue | Open, framework side: list the restriction families as proposed in § 2.3 |
+| Privacy | One note under functionality 14 | Documented as a non-criterion reference section | Open, framework side: add the visibility sub-section drafted in `CMTAT_SUGGESTION_PRIVACY` |
+
+**Self-cancellation — the two wordings side by side.** The row above is easiest to judge against the text of each document.
+
+Framework, functionality 41 (page 12), quoted in full:
+
+> 41. User-approved cancel: This cancellation function requires authorization from the token holder. It can be implemented if the issuer wishes to distinguish between cancellations to manage supply and those made to carry out a court order. This functionality also allows token holders to cancel their own tokens.
+
+These criteria, criterion 12 and the Self-Burn section of `README.md`. Criterion 12 requires an allowance granted by the token holder together with a burner role, so the holder authorises and the issuer or an address it has authorised performs. The Self-Burn section, quoted in full, covers the remainder:
+
+> Only the issuer and authorized addresses (not the token holder) can burn a token in CMTAT Solidity, which reflects legal requirements in several jurisdictions.
+>
+> The CMTA framework permits it: functionality 41, *user-approved cancel*, states that the functionality "also allows token holders to cancel their own tokens". An implementation MAY therefore offer self-burn where its legal or business context allows. The holder-authorized cancellation that the issuer performs is criterion 12; what is described here is the cancellation the holder performs alone.
+>
+> An implementation that does offer self-burn SHOULD state so here, together with the legal basis on which it is offered, so that an assessment records which of the two arrangements was adopted rather than leaving it to be inferred.
+
+The two texts diverge on one point only. The framework attaches self-cancellation to functionality 41 with no condition, so an implementation of 41 carries it; the criteria make it a separate choice, subject to the legal or business context and to be recorded. Neither forbids it. They disagree on whether it arrives with the functionality or has to be opted into, which is why the § 3.2 replacement splits the functionality in two rather than reversing its position.
