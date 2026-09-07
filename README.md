@@ -45,18 +45,18 @@ Two distinct versions MUST be distinguished: the version of **this template**, a
 | Template version — this document, as published by CMTA; pre-filled, MUST NOT be modified by the author of an assessment | `v0.3.0` |
 | Assessment version — the filled document, set by its author |  |
 
-Every assessment MUST fill this table, so that it records both the template it originates from and its own version. Only the second row is for the author to complete: the template version above is pre-filled and MUST be carried over unchanged, since an assessment is produced by filling a copy of this document and the value above **is** the version it was filled from.
-
-An assessment written as a separate report, which reproduces the criteria instead of filling this file, MUST reproduce this table with it.
-
-The two numbers are independent: a filled assessment MAY be revised — for example after a new release of the implementation being approved — without any change to the template, and a new template version MAY be published without the existing assessments being refilled.
-
-Note:
-
-- versions with the `rc` suffix are draft versions.
-- version before `1.0` are also draft versions
-- both notes above apply to the template version and to the assessment version.
-- the template version MUST always be recorded next to the assessment version: criteria IDs are sequential over the whole document and MAY be renumbered from one template version to the next, so an answer given against an earlier template cannot be read against a later one without checking the [changelog](CHANGELOG.md).
+> Every assessment MUST fill this table, so that it records both the template it originates from and its own version. Only the second row is for the author to complete: the template version above is pre-filled and MUST be carried over unchanged, since an assessment is produced by filling a copy of this document and the value above **is** the version it was filled from.
+>
+> An assessment written as a separate report, which reproduces the criteria instead of filling this file, MUST reproduce this table with it.
+>
+>  The two numbers are independent: a filled assessment MAY be revised — for example after a new release of the implementation being approved — without any change to the template, and a new template version MAY be published without the existing assessments being refilled.
+>
+> Note:
+>
+> - versions with the `rc` suffix are draft versions.
+> - version before `1.0` are also draft versions
+> - both notes above apply to the template version and to the assessment version.
+> - the template version MUST always be recorded next to the assessment version: criteria IDs are sequential over the whole document and MAY be renumbered from one template version to the next, so an answer given against an earlier template cannot be read against a later one without checking the [changelog](CHANGELOG.md).
 
 ## Metadata
 
