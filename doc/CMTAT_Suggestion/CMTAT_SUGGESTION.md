@@ -305,7 +305,7 @@ The framework SHOULD require that every issuer functionality records an entry id
 
 ## 10. Divergences with this repository's criteria
 
-These are places where the framework and the CMTAT Equivalency Assessment Criteria (`README.md`) `v0.3.0` differ. The last column names the side that resolves each, and records those already closed.
+These are places where the framework and the CMTAT Equivalency Assessment Criteria (`README.md`) `v0.3.0` differ. The last column names the side that resolves each.
 
 | Point | Framework (June 2026) | This repository's criteria | Resolution |
 |---|---|---|---|
@@ -313,13 +313,14 @@ These are places where the framework and the CMTAT Equivalency Assessment Criter
 | Version | Not a functionality | Optional, criterion 6 | Open, framework side: add the "know version" functionality drafted in § 1 |
 | Self-cancellation | Part of functionality 41 (page 12), unconditionally | Reserved by default to the issuer and the addresses it authorises, but the Self-Burn section expressly permits an implementation to add self-burn where its legal or business context allows | Open, framework side: adopt the § 3.2 replacement of functionality 41. The divergence is the default and the condition, not the permission — the criteria already hold that position |
 | Enforced cancellation | No functionality; only "enforce a transfer" (37) | Documented in Forced Burn and Forced Transfer, and in the Implementation Details table | Open, framework side: add the "enforce a cancellation" functionality drafted in § 3.1 |
-| Know pause status | **Mandatory** functionality 8 | Criterion 15, mandatory | **Closed in `v0.3.0`**, criteria side |
-| Know deactivate status | **Mandatory** functionality 10 | Criterion 17, mandatory | **Closed in `v0.3.0`**, criteria side |
-| Know frozen status | **Mandatory** functionality 14 | Criterion 20, mandatory | **Closed in `v0.3.0`**, criteria side |
-| Know active balance / frozen balance | Optional functionalities 39–40 | Criteria 23 and 24, optional | **Closed in `v0.3.0`**, criteria side |
-| Know decimals | Mandatory functionality 11 where decimals are permitted | Criterion 4, which requires the value to be zero unless the law permits fractions **and** to be readable | **Closed in `v0.3.0`**, criteria side: criterion 4 already mapped to the public `decimals` getter, so it was retitled and given the readability requirement rather than split in two |
 | Cross-chain | Absent | Documented as a non-criterion reference section | Open, framework side: add the Cross-chain module drafted in `CMTAT_SUGGESTION_CROSSCHAIN` |
 | Restrictions beyond whitelisting | Absent | Documented as a non-criterion reference catalogue | Open, framework side: list the restriction families as proposed in § 2.3 |
 | Privacy | One note under functionality 14 | Documented as a non-criterion reference section | Open, framework side: add the visibility sub-section drafted in `CMTAT_SUGGESTION_PRIVACY` |
 
-The five closed rows were gaps in the criteria rather than in the framework: the criteria covered the operations that change a state but never required the state to be readable, so an implementation could pass every mandatory criterion while offering no way to find out whether the token was paused, whether it had been deactivated, or whether an address was frozen. Closing them took the mandatory count from 17 to 20 and the optional count from 38 to 40, and renumbered every criterion above 14.
+Five points listed here in earlier drafts have been closed on the criteria side and no longer appear above. They were gaps in the criteria rather than in the framework: the criteria covered the operations that change a state but never required the state to be readable, so an implementation could pass every mandatory criterion while offering no way to find out whether the token was paused, whether it had been deactivated, or whether an address was frozen.
+
+- Functionalities 8, 10 and 14 — know pause status, know deactivate status, know frozen status — became mandatory criteria 15, 17 and 20.
+- Functionalities 39 and 40 — know active balance, know frozen balance — became optional criteria 23 and 24.
+- Functionality 11, know decimals, was met by retitling criterion 4 and requiring the value to be readable, criterion 4 having already mapped to the public `decimals` getter.
+
+Closing them took the mandatory count from 17 to 20 and the optional count from 38 to 40, and renumbered every criterion above 14.
