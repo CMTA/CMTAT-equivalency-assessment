@@ -305,16 +305,21 @@ The framework SHOULD require that every issuer functionality records an entry id
 
 ## 10. Divergences with this repository's criteria
 
-These are places where the framework and the CMTAT Equivalency Assessment Criteria (`README.md`) `v0.3.0` currently disagree. Each needs resolving on one side or the other.
+These are places where the framework and the CMTAT Equivalency Assessment Criteria (`README.md`) `v0.3.0` differ. The last column names the side that resolves each, and records those already closed.
 
-Three of them have since been resolved on the criteria side. Functionalities 8, 10 and 14 — know pause status, know deactivate status, know frozen status — are **mandatory** in the framework and had no criterion at all, so an implementation could pass every mandatory criterion while offering no way to find out whether the token was paused, deactivated, or an address frozen. They became criteria 15, 17 and 20 in `v0.3.0`, which took the mandatory count from 17 to 20 and renumbered every following criterion. The optional functionalities 39 and 40 — know active balance, know frozen balance — were added in the same release, as criteria 23 and 24, taking the optional count from 38 to 40. Functionality 11, know decimals, was resolved differently: criterion 4 already mapped to the public `decimals` getter, so only its wording was at fault, and it was retitled and given an explicit readability requirement rather than split into a second criterion.
+| Point | Framework (June 2026) | This repository's criteria | Resolution |
+|---|---|---|---|
+| Ticker symbol | Optional attribute (page 8) | Mandatory, criterion 2 | Open, either side: the framework makes the attribute mandatory (§ 6.3), or the criteria relax criterion 2 |
+| Version | Not a functionality | Optional, criterion 6 | Open, framework side: add the "know version" functionality drafted in § 1 |
+| Self-cancellation | Part of functionality 41 (page 12), unconditionally | Reserved by default to the issuer and the addresses it authorises, but the Self-Burn section expressly permits an implementation to add self-burn where its legal or business context allows | Open, framework side: adopt the § 3.2 replacement of functionality 41. The divergence is the default and the condition, not the permission — the criteria already hold that position |
+| Enforced cancellation | No functionality; only "enforce a transfer" (37) | Documented in Forced Burn and Forced Transfer, and in the Implementation Details table | Open, framework side: add the "enforce a cancellation" functionality drafted in § 3.1 |
+| Know pause status | **Mandatory** functionality 8 | Criterion 15, mandatory | **Closed in `v0.3.0`**, criteria side |
+| Know deactivate status | **Mandatory** functionality 10 | Criterion 17, mandatory | **Closed in `v0.3.0`**, criteria side |
+| Know frozen status | **Mandatory** functionality 14 | Criterion 20, mandatory | **Closed in `v0.3.0`**, criteria side |
+| Know active balance / frozen balance | Optional functionalities 39–40 | Criteria 23 and 24, optional | **Closed in `v0.3.0`**, criteria side |
+| Know decimals | Mandatory functionality 11 where decimals are permitted | Criterion 4, which requires the value to be zero unless the law permits fractions **and** to be readable | **Closed in `v0.3.0`**, criteria side: criterion 4 already mapped to the public `decimals` getter, so it was retitled and given the readability requirement rather than split in two |
+| Cross-chain | Absent | Documented as a non-criterion reference section | Open, framework side: add the Cross-chain module drafted in `CMTAT_SUGGESTION_CROSSCHAIN` |
+| Restrictions beyond whitelisting | Absent | Documented as a non-criterion reference catalogue | Open, framework side: list the restriction families as proposed in § 2.3 |
+| Privacy | One note under functionality 14 | Documented as a non-criterion reference section | Open, framework side: add the visibility sub-section drafted in `CMTAT_SUGGESTION_PRIVACY` |
 
-| Point | Framework (June 2026) | This repository's criteria |
-|---|---|---|
-| Ticker symbol | Optional attribute (page 8) | Mandatory, criterion 2 |
-| Version | Not a functionality | Optional, criterion 6 |
-| Self-cancellation | Part of functionality 41 (page 12), unconditionally | Reserved by default to the issuer and the addresses it authorises, following the rule that a security is cancelled by its issuer, but the Self-Burn section expressly permits an implementation to add self-burn where its legal or business context allows. The divergence is the default and the condition, not the permission — **resolved by the framework adopting the § 3.2 replacement**, the criteria already holding that position |
-| Enforced cancellation | No functionality; only "enforce a transfer" (37) | Documented in Forced Burn and Forced Transfer, and in the Implementation Details table |
-| Cross-chain | Absent | Documented as a non-criterion reference section |
-| Restrictions beyond whitelisting | Absent | Documented as a non-criterion reference catalogue |
-| Privacy | One note under functionality 14 | Documented as a non-criterion reference section |
+The five closed rows were gaps in the criteria rather than in the framework: the criteria covered the operations that change a state but never required the state to be readable, so an implementation could pass every mandatory criterion while offering no way to find out whether the token was paused, whether it had been deactivated, or whether an address was frozen. Closing them took the mandatory count from 17 to 20 and the optional count from 38 to 40, and renumbered every criterion above 14.
