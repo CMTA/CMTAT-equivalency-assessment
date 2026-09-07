@@ -136,7 +136,7 @@ The framework SHOULD require an implementation to document the order and the rep
 
 **Draft text** — an addition to the Validation module, § 3.2.2:
 
-> Where several restrictions apply to the same transfer, the implementation MUST document the order in which they are evaluated, and which reason is reported where more than one restriction would reject the transfer.
+> Where several restrictions apply to the same transfer, the implementation SHOULD document the order in which they are evaluated, and which reason is reported where more than one restriction would reject the transfer.
 
 ### 2.6 Add a "know whitelist status" functionality
 
