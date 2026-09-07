@@ -8,6 +8,10 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 
+- Two optional criteria for reading the amounts behind a partial freeze: **23 Know active balance** (`getActiveBalanceOf(address)`) and **24 Know frozen balance** (`getFrozenTokens(address)`, declared by the draft `IERC7943` interface), both public reads in CMTAT Solidity
+  - The criteria previously covered the partial freeze setters alone, so an implementation could freeze part of a balance while leaving a holder no way to read how much of its own balance was still transferable
+  - Criterion 24 records that on a confidential ledger the reading MAY be restricted in the same way as the frozen status
+  - Optional count goes from 38 to 40, total from 58 to 60; the mandatory count is unchanged at 20
 - Three mandatory criteria for reading the states the existing criteria only let an issuer change: **15 Know pause status** (`paused()`), **17 Know deactivate status** (`deactivated()`, declared by the draft `IERC8343` interface) and **20 Know frozen status** (`isFrozen(address)`), all public reads in CMTAT Solidity
   - Closes a gap in which an implementation could pass every mandatory criterion while offering no way to find out whether the token was paused, whether it had been deactivated, or whether an address was frozen — the criteria covered the operations that change those states but never required the states to be readable
   - Criterion 20 records that on a ledger providing confidentiality the reading MAY be restricted to the issuer, the holder concerned and the third parties the issuer authorizes, cross-referencing the Privacy and Confidentiality section
@@ -61,7 +65,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Criteria renumbered from 55 items: former IDs 6–54 shifted to 7–55 to insert the Version attribute as ID 6. Optional criteria count goes from 37 to 38 (mandatory stays at 17)
   - This breaks every assessment already filled against `0.2.0`: an answer given against an ID in the old numbering does not designate the same criterion in `0.3.0`, so such an assessment MUST be re-read against this version before being reused
 - Credit Events table: stale reference to the pre-0.2.0 ID `1.29` replaced by ID 38
-- Criteria renumbered a second time in this release, to insert the three status-reading criteria: former IDs 15 to 55 shift to 16, 18–19 and 21–58 (IDs 1–14 are unaffected)
+- Criteria renumbered again in this release, to insert the three status-reading criteria and the two balance-reading criteria: relative to `0.2.0`, IDs 1–14 are unaffected, former ID 15 becomes 16, 16–17 become 18–19, 18–19 become 21–22, and 20–55 become 25–60
   - **This breaks every assessment already filled against `0.2.0` and against any earlier draft of `0.3.0`**: an answer given against an ID in the previous numbering does not designate the same criterion here, so such an assessment MUST be re-read against this version before being reused
   - The stale ID references were updated with it: the compliance-table example now cites criterion 16 for *Deactivate contract*, the Credit Events note cites ID 41, and the Restriction section cites criteria 23–25
 - Cross-Chain Bridge Support: added the LayerZero arrangement alongside ERC-7802 and the Chainlink CCIP hooks
