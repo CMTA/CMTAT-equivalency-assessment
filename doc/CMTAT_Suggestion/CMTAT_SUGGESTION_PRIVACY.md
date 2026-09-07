@@ -4,7 +4,7 @@
 
 This document suggests how the **CMTAT Framework functional specifications** (`cmtat-framework-functional-specifications-june-2026.pdf`, June 2026 edition) could address privacy and confidentiality.
 
-It is a companion to `CMTAT_SUGGESTION.md`, which carries the other suggestions, and comes from the same mapping work behind the CMTAT Equivalency Assessment Criteria (`README.md`), whose own Privacy and Confidentiality section covers the implementation side of the same question. It is a suggestion list produced by this repository, not a CMTA publication.
+It is a companion to `CMTAT_SUGGESTION`, which carries the other suggestions, and comes from the same mapping work behind the CMTAT Equivalency Assessment Criteria (`README.md`), whose own Privacy and Confidentiality section covers the implementation side of the same question. It is a suggestion list produced by this repository, not a CMTA publication.
 
 ## The gap
 
@@ -42,7 +42,7 @@ It SHOULD also state the consequences for the optional modules, since these are 
 
 ## Draft text for the framework
 
-The text below is a draft that could be inserted in the framework as a new sub-section of Section 2, followed by an amendment to the wording of the functionalities that assume a public ledger. It is written in the framework's own register — numbered functionalities, a rationale followed by a list — so that it can be pasted in without rewriting, and its normative keywords use the RFC 2119 and RFC 8174 uppercase forms, as explained in `CMTAT_SUGGESTION.md`.
+The text below is a draft that could be inserted in the framework as a new sub-section of Section 2, followed by an amendment to the wording of the functionalities that assume a public ledger. It is written in the framework's own register — numbered functionalities, a rationale followed by a list — so that it can be pasted in without rewriting, and its normative keywords use the RFC 2119 and RFC 8174 uppercase forms, as explained in `CMTAT_SUGGESTION`.
 
 ---
 

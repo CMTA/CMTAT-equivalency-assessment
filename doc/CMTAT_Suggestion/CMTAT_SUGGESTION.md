@@ -8,11 +8,11 @@ It is written from the work on the CMTAT Equivalency Assessment Criteria (`READM
 
 Each suggestion gives the current wording (with its section and page in the PDF), the gap, and a proposed change. Where the change is a change of wording, a **Draft text** block gives it in the framework's own register — numbered functionalities, a rationale followed by a list — so that it can be pasted in without rewriting. 
 
-The normative keywords in those blocks are written in the uppercase forms of [RFC 2119](https://www.rfc-editor.org/info/rfc2119) and [RFC 8174](https://www.rfc-editor.org/info/rfc8174), consistently with the keyword paragraph proposed in `CMTAT_SUGGESTION_EDITORIAL.md`; where a word is used descriptively rather than to state a requirement level, it stays in lowercase, as RFC 8174 requires.
+The normative keywords in those blocks are written in the uppercase forms of [RFC 2119](https://www.rfc-editor.org/info/rfc2119) and [RFC 8174](https://www.rfc-editor.org/info/rfc8174), consistently with the keyword paragraph proposed in `CMTAT_SUGGESTION_EDITORIAL`; where a word is used descriptively rather than to state a requirement level, it stays in lowercase, as RFC 8174 requires.
 
 New functionalities are numbered from 43 onward, continuing the current list of 42, in the order in which they appear in this document; the cross-chain companion continues the same numbering at 53.
 
-Three subjects have their own companion documents: `CMTAT_SUGGESTION_CROSSCHAIN.md` for cross-chain transferability, `CMTAT_SUGGESTION_PRIVACY.md` for privacy and confidentiality, and `CMTAT_SUGGESTION_EDITORIAL.md` for the typographical and consistency corrections.
+Three subjects have their own companion documents: `CMTAT_SUGGESTION_CROSSCHAIN` for cross-chain transferability, `CMTAT_SUGGESTION_PRIVACY` for privacy and confidentiality, and `CMTAT_SUGGESTION_EDITORIAL` for the typographical and consistency corrections.
 
 ### What this was checked against
 
@@ -178,7 +178,7 @@ Functionality 6 (page 7) leaves the interaction between pause and issuance to th
 
 That is a reasonable degree of freedom, but it makes the pause status uninterpretable to a third party: a holder seeing a paused token cannot tell whether supply can still change. The framework SHOULD require the choice to be **documented and readable**, and SHOULD state the two cases where the answer is not free:
 
-- Cross-chain creation and cancellation MUST be blocked while paused (see `CMTAT_SUGGESTION_CROSSCHAIN.md`).
+- Cross-chain creation and cancellation MUST be blocked while paused (see `CMTAT_SUGGESTION_CROSSCHAIN`).
 - A pause that does not block creation lets the issuer dilute holders while they cannot transfer, which SHOULD be called out as a consequence the issuer accepts.
 
 Functionality 9, "deactivate contract", requires tokens to be destroyed before or during deactivation, and states that the issuer can no longer create or cancel tokens afterwards. On ledgers where an account or contract cannot be removed, and in upgradeable deployments, "permanently and irreversibly" needs qualification: the framework SHOULD state what MUST be true after deactivation rather than how it is achieved. In an upgradeable deployment it MUST also say that deactivating the token is not sufficient on its own, since an upgrade can restore the functions it disabled — the ability to upgrade has to go with it.
