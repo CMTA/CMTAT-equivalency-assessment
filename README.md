@@ -45,7 +45,9 @@ Two distinct versions MUST be distinguished: the version of **this template**, a
 | Template version — this document, as published by CMTA; pre-filled, MUST NOT be modified by the author of an assessment | `v0.3.0` |
 | Assessment version — the filled document, set by its author |  |
 
-The template version is not a second value to fill in. An assessment is produced by filling a copy of this document, so the value above **is** the template version that assessment was filled from, and it MUST be carried over unchanged. Only an assessment written in a separate document — a report that reproduces the criteria instead of filling this file — has to reproduce the table above, or record the two values in some equivalent form.
+Every assessment MUST fill this table, so that it records both the template it originates from and its own version. Only the second row is for the author to complete: the template version above is pre-filled and MUST be carried over unchanged, since an assessment is produced by filling a copy of this document and the value above **is** the version it was filled from.
+
+An assessment written as a separate report, which reproduces the criteria instead of filling this file, MUST reproduce this table with it.
 
 The two numbers are independent: a filled assessment MAY be revised — for example after a new release of the implementation being approved — without any change to the template, and a new template version MAY be published without the existing assessments being refilled.
 
