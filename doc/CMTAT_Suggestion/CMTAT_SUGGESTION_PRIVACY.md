@@ -8,9 +8,21 @@ It is a companion to `CMTAT_SUGGESTION`, which carries the other suggestions, an
 
 ## The gap
 
-Functionalities 1, 2, 11 and 18–20 are worded as "any person may know" — total supply, decimals, snapshot time, snapshot total supply, snapshot balance. On a confidential ledger, none of these is necessarily public. The framework already acknowledges this once, for the frozen status only, in functionality 14 (page 9): "On private blockchains, such as Aztec, the issuer may want to restrict access to the issuer, the relevant token holder, and possibly any third parties explicitly authorized by the issuer." §4.3 (page 14) then lists a privacy-preserving Aztec implementation as a reference implementation.
+Functionalities 1, 8, 10 and 11 are worded as "any person may know" — total supply, pause status, deactivate status, decimals — and functionalities 18 to 20 as "anyone may know" — snapshot time, snapshot total supply, snapshot balance. On a confidential ledger, none of these is necessarily public.
 
-The wording and the reference implementations are therefore inconsistent: an implementation on a confidential ledger cannot satisfy "any person may know" for balances, and it is not clear whether it thereby fails the mandatory Base module.
+The framework handles the question explicitly in two places, and the wording it uses there is the wording the others lack.
+
+**Functionality 2, know balance** names its readers instead of assuming everyone:
+
+> Each token holder may know the number of tokens currently recorded on their address. The issuer or any third-party appointed by the issuer may also know the number of tokens recorded on an address.
+
+**Functionality 14, know frozen status** (page 9) goes further and addresses confidentiality directly:
+
+> This function must be accessible, at a minimum, to the issuer and the target token holder. On public blockchains, the function should generally be available to everyone, since all data is publicly visible. On private blockchains, such as Aztec, the issuer may want to restrict access to the issuer, the relevant token holder, and possibly any third parties explicitly authorized by the issuer.
+
+§ 4.3 (page 14) then lists a privacy-preserving Aztec implementation as a reference implementation. What is missing is therefore not the idea but its generalisation: two functionalities out of forty-two name their readers, and the other forty assume a public ledger.
+
+The wording and the reference implementations are therefore inconsistent: an implementation on a confidential ledger cannot satisfy "any person may know" for the total supply, and it is not clear whether it thereby fails the mandatory Base module.
 
 The framework SHOULD generalize the note under functionality 14 into its own section, stating for each data item whether public readability is a **requirement** or merely the **default on a public ledger**:
 
@@ -123,4 +135,4 @@ The functionalities that presently read "any person may know" would be qualified
 
 > 1. **Know total supply**: for a particular CMTAT token, the persons designated in § 2.8 may know the total number of tokens in circulation at any point in time. On a public ledger, that information is available to any person.
 
-The same qualification applies to functionality 2 (know balance), functionality 11 (know decimals), and functionalities 18 to 20 (snapshot time, snapshot total supply and snapshot balance). Functionality 14 (know frozen status) already contains a note to this effect, which would be replaced by the reference to § 2.8.
+The same qualification applies to functionality 8 (know pause status), functionality 10 (know deactivate status), functionality 11 (know decimals), and functionalities 18 to 20 (snapshot time, snapshot total supply and snapshot balance). Functionality 2 (know balance) already names its readers and needs no change beyond a cross-reference, and functionality 14 (know frozen status) already contains a note to this effect, which would be replaced by the reference to § 2.8.

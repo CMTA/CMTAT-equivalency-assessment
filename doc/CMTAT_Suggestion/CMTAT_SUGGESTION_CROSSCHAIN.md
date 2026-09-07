@@ -36,7 +36,7 @@ The framework SHOULD state that, where the same instrument is issued across seve
 
 ## Draft text for the framework
 
-The text below is a draft that could be inserted in the framework as a new module. It is written in the framework's own register — numbered functionalities, a rationale followed by a list — so that it can be pasted in without rewriting, and its normative keywords use the RFC 2119 and RFC 8174 uppercase forms, as explained in `CMTAT_SUGGESTION`. The numbers 53 to 55 continue the numbering used in `CMTAT_SUGGESTION`, which proposes functionalities 43 to 52; if this module is adopted on its own, they become 43 to 46.
+The text below is a draft that could be inserted in the framework as a new module. It is written in the framework's own register — numbered functionalities, a rationale followed by a list — so that it can be pasted in without rewriting, and its normative keywords use the RFC 2119 and RFC 8174 uppercase forms, as explained in `CMTAT_SUGGESTION`. The numbers 53 to 56 continue the numbering used in `CMTAT_SUGGESTION`, which proposes functionalities 43 to 52; if this module is adopted on its own, they become 43 to 46.
 
 ---
 
