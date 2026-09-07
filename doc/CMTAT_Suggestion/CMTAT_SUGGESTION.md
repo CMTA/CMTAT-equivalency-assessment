@@ -176,7 +176,7 @@ The same functionality speaks of a cancellation "made to carry out a court order
 >
 > This functionality MAY also be used to allow token holders to cancel their own tokens, where the law governing the tokenised instrument allows them to do so. Where it does not, only the issuer and the persons authorised by it may cancel tokens, since a security may be cancelled only by its issuer. The arrangement adopted MUST be documented.
 
-**Resolving the divergence with the criteria (§ 11).** The correction belongs on the framework side. The criteria hold the position drafted above — criterion 12 covers the holder-authorised cancellation performed by the issuer or an address it has authorised, and the Self-Burn section permits self-burn where the legal or business context allows it — so adopting the replacement closes the divergence without the criteria moving further. What the criteria lack is the last sentence of the draft: they permit the choice but do not ask for it to be recorded. The Self-Burn section SHOULD therefore ask an implementation that offers self-burn to state it, and to state the legal basis on which it is offered, so that an assessment shows which of the two arrangements was adopted rather than leaving it to be inferred from the absence of a remark.
+**Resolving the divergence with the criteria (§ 10).** The correction belongs on the framework side. The criteria hold the position drafted above — criterion 12 covers the holder-authorised cancellation performed by the issuer or an address it has authorised, and the Self-Burn section permits self-burn where the legal or business context allows it — so adopting the replacement closes the divergence without the criteria moving further. What the criteria lack is the last sentence of the draft: they permit the choice but do not ask for it to be recorded. The Self-Burn section SHOULD therefore ask an implementation that offers self-burn to state it, and to state the legal basis on which it is offered, so that an assessment shows which of the two arrangements was adopted rather than leaving it to be inferred from the absence of a remark.
 
 ## 4. Pause and deactivation semantics
 
@@ -316,21 +316,7 @@ The reference to the legally required documentation SHOULD move to a module of i
 
 The criteria in this repository already read this way — `Token Attributes`, `Token module`, `Pause module` and `Enforcement` are separate sections with their own tables — so this is a suggestion to bring the framework into line with both its own reference implementation and the assessment instrument built on it, rather than a new idea.
 
-## 10. Reference implementations
-
-§4 (pages 12–14) lists the Ethereum, Tezos, Aztec and Solana implementations. Three improvements:
-
-- **Add the engines and their versions.** The Solidity implementation is not one repository but five that are versioned separately (CMTAT, RuleEngine, Rules, SnapshotEngine, and the document and debt engines). A reader cannot tell which combination was validated together. A compatibility table would fix this, and each implementation already publishes the information.
-- **Point to the equivalency assessment criteria.** The framework says that "additional implementations are encouraged" but gives no procedure for showing that a new implementation matches the framework. The criteria in this repository are that procedure, and §4 is where an implementer would look for it.
-- **State the review status per implementation.** §4.2 notes that CMTA reviewed the Tezos FA2 implementation for compliance with the standard only, and that CMTA was not involved in the Ligo implementation. The other entries say nothing, so the absence of a statement cannot be distinguished from an endorsement. A one-line status for each entry (reviewed, audited, contributed, third-party) would make the list readable.
-
-**Draft text** — an addition to § 4, before § 4.1:
-
-> Each implementation listed below is identified by the version of its components, since an implementation may consist of several elements published separately, and by its status: whether it was developed by CMTA, reviewed by CMTA for compliance with this framework, or referred to without CMTA having been involved in its development.
->
-> An implementation of this framework on another ledger may be assessed against the CMTAT Equivalency Assessment Criteria, published by CMTA alongside this framework, which set out the functionalities to be mapped and the form in which the result is recorded.
-
-## 11. Divergences with this repository's criteria
+## 10. Divergences with this repository's criteria
 
 These are places where the framework and the CMTAT Equivalency Assessment Criteria (`README.md`) `v0.3.0` differ. The last column names the side that resolves each.
 
