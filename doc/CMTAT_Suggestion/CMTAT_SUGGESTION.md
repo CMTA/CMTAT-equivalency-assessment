@@ -48,7 +48,7 @@ The framework SHOULD add an optional functionality, worded chain-agnostically, a
 
 > 43. **Know version**: for a particular CMTAT token, any person may know the version of the implementation of the token. This is the version of the code that operates the token; it is neither the version of the tokenised instrument nor the version of this framework.
 >
-> The version may be exposed as a constant returned by a read-only function, as part of the metadata that the ledger keeps for the deployed code, or as a value recorded in the state of the token and modifiable by the issuer. Where the value is modifiable, the implementation must ensure that it cannot become inconsistent with the code actually in force, for example by writing it only when the token is created or upgraded. Where the implementation is upgradeable, the version should be updated by the upgrade itself, so that any person can determine which code is in force.
+> The version may be exposed as a constant returned by a read-only function, as part of the metadata that the ledger keeps for the deployed code, or as a value recorded in the state of the token and modifiable by the issuer. Where the value is modifiable, the implementation must ensure that it cannot become inconsistent with the code in force, for example by writing it only when the token is created or upgraded. Where the implementation is upgradeable, the version should be updated by the upgrade itself, so that any person can determine which code is in force.
 
 ## 2. Validation module and transfer restrictions
 
@@ -118,7 +118,7 @@ The second is **preventive**: a blacklist records the addresses that must never 
 
 ### 2.4 Require an explicit fail-open or fail-closed policy
 
-A restriction backed by an external source (a sanctions oracle, an identity registry, a reserve feed) has to behave somehow when that source is unset, unavailable or stale. Both answers are defensible — reject every operation, or allow every operation — and the reference rules genuinely differ: an unset sanctions oracle allows everything, an empty aggregated whitelist rejects everything.
+A restriction backed by an external source (a sanctions oracle, an identity registry, a reserve feed) has to behave somehow when that source is unset, unavailable or stale. Both answers are defensible — reject every operation, or allow every operation — and the reference rules differ: an unset sanctions oracle allows everything, an empty aggregated whitelist rejects everything.
 
 The framework SHOULD require the policy to be stated per restriction, since the legal consequence of guessing wrong is asymmetric.
 
@@ -193,7 +193,7 @@ Functionality 9, "deactivate contract", requires tokens to be destroyed before o
 
 ## 5. Authorization module
 
-The Authorization module (§3.2.3, page 10) has grant role, revoke role, and role attribution. Three additions would reflect what implementations actually need:
+The Authorization module (§3.2.3, page 10) has grant role, revoke role, and role attribution. Three additions would reflect what implementations need:
 
 - **Know role admin**: which role or account may grant and revoke a given role. Without it, "grant role" does not say who may call it.
 - **Renounce a role**: an account dropping its own privileges. This matters for a bridge or a service account whose key is being retired, and it is the only role operation an account can perform on itself.
