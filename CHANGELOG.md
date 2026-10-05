@@ -31,6 +31,11 @@ Custom changelog tag: `Dependencies`, `Documentation`, `Testing`
 
 ### Changed
 
+- The cross-chain suggestion (`doc/CMTAT_Suggestion/CMTAT_SUGGESTION_CROSSCHAIN.md`) no longer requires the valid tokens across all ledgers to equal the issued amount at all times, which no bridge can meet.
+  - Impact: the cancellation or lock on the source ledger and the creation on the destination ledger are not atomic, so while a transfer is in transit the tokens are valid on no ledger and the total falls below the issued amount.
+  - Fix: the total MUST never exceed the issued amount, any shortfall MUST equal the tokens in transit, and a transfer that does not complete MUST be resolvable by completing it on the destination or restoring the tokens on the source.
+  - Tokens in transit stay attributed to their holder for any distribution or snapshot entitlement determined during the transit.
+  - The gap list gains a matching bullet.
 - The documented fill order now starts with `Architecture`, and `How to Use This Document` points to it.
 - The `Conclusion` no longer asks for a full description of the token model and architecture, only a short recap of the `Architecture` section.
 
