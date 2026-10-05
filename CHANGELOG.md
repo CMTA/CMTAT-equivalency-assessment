@@ -26,6 +26,7 @@ Custom changelog tag: `Dependencies`, `Documentation`, `Testing`
 - An `Architecture` section, placed before the CMTAT Function Equivalency Table, in which the author of an assessment describes the platform the implementation being approved runs on.
   - `Underlying ledger` — the main point and always required: ledger type and governance, consensus and finality, state model, native asset support, native compliance features, identity and addresses, transactions and fees, time source, data visibility.
   - `Smart contract layer` — required when the implementation relies on smart contracts, otherwise stated as absent: execution environment, components, token state location, external dependencies, deployment and ownership, upgradeability.
+  - Each of the two layers opens with a general description in prose: for the ledger, how transactions are submitted, validated and recorded, how a token exists on it and the path of a transfer; for the smart contracts, how they are deployed and called, which contracts make up the token, and which checks a call goes through. The table of details follows it.
   - `Layer of each CMTAT module` — whether each CMTAT module is implemented natively by the ledger, by a smart contract, off-chain or not at all, with the CMTAT Solidity layer pre-filled for comparison.
   - The section is context for reading the criteria and is outside the equivalency count; the 61 criteria and their IDs are unchanged.
 

@@ -105,11 +105,28 @@ An implementation MAY satisfy the CMTAT standard while still failing to meet the
 >
 > The **underlying ledger** is the main point of this section and MUST always be described. The **smart contract layer** MUST be described when the implementation being approved relies on smart contracts, and MUST otherwise be stated as absent.
 >
+> Each of the two is described twice: first in a general description written as prose, which explains how the layer works as a whole, then in a table, which records the specific aspects the criteria depend on. The description gives the reader the overall picture; the table is the reference to come back to while reading the criteria.
+>
 > An architecture diagram SHOULD be included, showing the ledger, the smart contracts (if any), the external components, and the actors holding the CMTAT roles.
 
 ### Underlying ledger
 
-> Describe how the ledger on which the token is issued works, insofar as it affects the CMTAT criteria. Each aspect below SHOULD be answered; an aspect that does not apply MUST be stated as such rather than left blank.
+> Describe how the ledger on which the token is issued works, insofar as it affects the CMTAT criteria.
+
+**General description**
+
+> One to three paragraphs, written for a reader who knows CMTAT Solidity but not the target blockchain. They MUST explain how the ledger works as a whole, and SHOULD cover:
+>
+> - who runs the ledger, and how a transaction is submitted, ordered, validated and recorded;
+> - what an account, an address or a holder is on this ledger, and where the state of the ledger is kept;
+> - how a token exists on this ledger: as a native asset, as the state of a smart contract, or as both;
+> - the path of a token transfer, from the holder signing it to its final recording.
+>
+> The description SHOULD point out where the ledger differs most from an EVM ledger, since these are the differences the reader will meet in the criteria.
+
+**Details**
+
+> Each aspect below SHOULD be answered; an aspect that does not apply MUST be stated as such rather than left blank.
 
 | Aspect | What to describe | Implementation being approved |
 |---|---|---|
@@ -126,6 +143,19 @@ An implementation MAY satisfy the CMTAT standard while still failing to meet the
 ### Smart contract layer
 
 > Describe how the token logic runs on the ledger described above. If the implementation being approved uses no smart contract — for example a native asset configured through ledger operations only — state it here and describe instead how the token is configured and administered.
+
+**General description**
+
+> One to three paragraphs explaining how the smart contracts of the implementation being approved work on that ledger. They SHOULD cover:
+>
+> - how a contract is deployed, called and executed, and how its state is stored;
+> - which contracts make up the token, and the role of each;
+> - how a call made by a holder or by the issuer reaches the token logic, and which checks it goes through before the state changes;
+> - how the contracts use the native features of the ledger, where they rely on them rather than reimplementing them.
+>
+> The description SHOULD compare the design with CMTAT Solidity, where a single contract holds the balances and enforces the roles, and the rule engine and snapshot engine are optional external contracts.
+
+**Details**
 
 | Aspect | What to describe | Implementation being approved |
 |---|---|---|
