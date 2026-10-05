@@ -28,7 +28,8 @@ This repository is **documentation only**. It defines the *CMTAT Equivalency Ass
 - IDs are sequential over the whole document, so inserting or deleting a criterion renumbers every following row. It also invalidates the ID ranges in `Summary` and any ID quoted inside a `Notes` cell — grep for stale references after renumbering.
 - Answers are `y` (present), `partial`, or `n` (absent). Every `partial` and every mandatory `n` MUST be explained in the note under the compliance table.
 - The tables with no ID column — `CMTAT Extended`, `Implementation Details`, `Restriction`, `Cross-Chain Bridge Support`, `Privacy and Confidentiality` — are deliberately outside the count and are commented in the `Conclusion` instead.
-- Documented fill order for users: equivalency table first, then `Summary` (the counts), then `Conclusion` (how the implementation works technically).
+- The `Architecture` section, placed before the equivalency table, holds three descriptive tables (`Underlying ledger`, `Smart contract layer`, `Layer of each CMTAT module`). They are context for reading the criteria, not criteria, and are outside the count.
+- Documented fill order for users: `Architecture` first (the underlying ledger and, if any, the smart contract layer), then the equivalency table, then `Summary` (the counts), then `Conclusion` (how the implementation works technically).
 - Normative language follows [RFC 2119](https://www.rfc-editor.org/info/rfc2119) / [RFC 8174](https://www.rfc-editor.org/info/rfc8174): use MUST, MUST NOT, SHOULD, MAY rather than "has to" or "needs to".
 - The Table of Contents at the top of `README.md` is maintained by hand. Add an entry whenever you add a heading, and match GitHub's anchor slug.
 - Cross-chain bridging is explicitly **not** an equivalency requirement; it is documented only as an optional CMTAT Solidity module so that other chains can map it if they want it.
