@@ -19,7 +19,13 @@ Reference: [keepachangelog.com/en/1.1.0/](https://keepachangelog.com/en/1.1.0/)
 
 Custom changelog tag: `Dependencies`, `Documentation`, `Testing`
 
-## [Unreleased]
+## [0.4.0] - 2026-10-05
+
+### Summary
+
+- A new `Architecture` section, filled before the equivalency table, describes the underlying ledger and, if any, the smart contract layer of the implementation being approved, each in prose and in a table, and records which layer implements each CMTAT module.
+- No criterion was added, removed or renumbered: the document still holds 61 criteria, 19 mandatory and 42 optional, so an assessment filled against `0.3.0` keeps its answers.
+- The cross-chain suggestion replaces an unreachable supply invariant with one that accounts for tokens in transit.
 
 ### Added
 
@@ -32,16 +38,21 @@ Custom changelog tag: `Dependencies`, `Documentation`, `Testing`
 
 ### Changed
 
-- The cross-chain suggestion (`doc/CMTAT_Suggestion/CMTAT_SUGGESTION_CROSSCHAIN.md`) no longer requires the valid tokens across all ledgers to equal the issued amount at all times, which no bridge can meet.
+- Template version bumped from `0.3.0` to `0.4.0`; it stays a draft, since it is below `1.0`. The criteria and their IDs are unchanged, so an assessment filled against `0.3.0` keeps its answers, but it SHOULD add the new `Architecture` section.
+- The documented fill order now starts with `Architecture`, and `How to Use This Document` points to it.
+- The `Conclusion` no longer asks for a full description of the token model and architecture, only a short recap of the `Architecture` section.
+
+### CMTAT Suggestion documents
+
+Changes to the suggested improvements to the CMTA framework specifications, in `doc/CMTAT_Suggestion/`. They are not part of the criteria.
+
+- `CMTAT_SUGGESTION_CROSSCHAIN.md` no longer requires the valid tokens across all ledgers to equal the issued amount at all times, which no bridge can meet.
   - Impact: the cancellation or lock on the source ledger and the creation on the destination ledger are not atomic, so while a transfer is in transit the tokens are valid on no ledger and the total falls below the issued amount.
   - Fix: the total MUST never exceed the issued amount, any shortfall MUST equal the tokens in transit, and a transfer that does not complete MUST be resolvable by completing it on the destination or restoring the tokens on the source.
   - Tokens in transit stay attributed to their holder for any distribution or snapshot entitlement determined during the transit.
   - The gap list gains a matching bullet.
-- The cross-chain suggestion goes from thirteen mid-sentence dashes to four: the others were rewritten as commas, colons or separate sentences, and the four kept are spread across the document, never in consecutive sentences. The meaning is unchanged.
-- The privacy suggestion (`doc/CMTAT_Suggestion/CMTAT_SUGGESTION_PRIVACY.md`) goes from ten mid-sentence dashes to three, and three sentences that announced a point without stating it were rewritten, including "the same applies to the membership of a whitelist", which now says that a rejected transfer discloses a missing whitelist entry the same way it discloses a freeze. The meaning is unchanged.
-- Template version bumped from `0.3.0` to `0.4.0`; it stays a draft, since it is below `1.0`. The criteria and their IDs are unchanged, so an assessment filled against `0.3.0` keeps its answers, but it SHOULD add the new `Architecture` section.
-- The documented fill order now starts with `Architecture`, and `How to Use This Document` points to it.
-- The `Conclusion` no longer asks for a full description of the token model and architecture, only a short recap of the `Architecture` section.
+- `CMTAT_SUGGESTION_CROSSCHAIN.md` goes from thirteen mid-sentence dashes to four: the others were rewritten as commas, colons or separate sentences, and the four kept are spread across the document, never in consecutive sentences. The meaning is unchanged.
+- `CMTAT_SUGGESTION_PRIVACY.md` goes from ten mid-sentence dashes to three, and three sentences that announced a point without stating it were rewritten, including "the same applies to the membership of a whitelist", which now says that a rejected transfer discloses a missing whitelist entry the same way it discloses a freeze. The meaning is unchanged.
 
 ## [0.3.0] - 2026-09-07
 
