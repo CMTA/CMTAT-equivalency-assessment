@@ -8,7 +8,7 @@ It is a companion to `CMTAT_SUGGESTION`, which carries the other suggestions, an
 
 ## The gap
 
-Functionalities 1, 8, 10 and 11 are worded as "any person may know" — total supply, pause status, deactivate status, decimals — and functionalities 18 to 20 as "anyone may know" — snapshot time, snapshot total supply, snapshot balance. On a confidential ledger, none of these is necessarily public.
+Functionalities 1, 8, 10 and 11, which cover the total supply, the pause status, the deactivate status and the decimals, are worded as "any person may know". Functionalities 18 to 20, which cover the snapshot time, the snapshot total supply and the snapshot balance, are worded as "anyone may know". On a confidential ledger, none of these is necessarily public.
 
 The framework handles the question explicitly in two places, and the wording it uses there is the wording the others lack.
 
@@ -20,9 +20,9 @@ The framework handles the question explicitly in two places, and the wording it 
 
 > This function must be accessible, at a minimum, to the issuer and the target token holder. On public blockchains, the function should generally be available to everyone, since all data is publicly visible. On private blockchains, such as Aztec, the issuer may want to restrict access to the issuer, the relevant token holder, and possibly any third parties explicitly authorized by the issuer.
 
-§ 4.3 (page 14) then lists a privacy-preserving Aztec implementation as a reference implementation. What is missing is therefore not the idea but its generalisation: two functionalities out of forty-two name their readers, and the other forty assume a public ledger.
+§ 4.3 (page 14) then lists a privacy-preserving Aztec implementation as a reference implementation. The framework therefore already has the idea, but applies it in two places only: two functionalities out of forty-two name their readers, and the other forty assume a public ledger.
 
-The wording and the reference implementations are therefore inconsistent: an implementation on a confidential ledger cannot satisfy "any person may know" for the total supply, and it is not clear whether it thereby fails the mandatory Base module.
+As a result, the wording and the reference implementations are inconsistent: an implementation on a confidential ledger cannot satisfy "any person may know" for the total supply, and it is not clear whether it thereby fails the mandatory Base module.
 
 The framework SHOULD generalize the note under functionality 14 into its own section, stating for each data item whether public readability is a **requirement** or merely the **default on a public ledger**:
 
@@ -37,10 +37,10 @@ The framework SHOULD generalize the note under functionality 14 into its own sec
 
 **A readable total supply leaks balance and transaction information, and the framework SHOULD warn about it.** On a confidential ledger the total supply is the one aggregate that is hard to hide, and both making it public and disclosing it to holders open inference channels:
 
-- **Delta inference across two readings.** An observer who reads the value before and after a period of activity recovers the net amount created or cancelled in between, and where exactly one such operation occurred, that operation's amount is revealed in full. This is documented in [CMTAT-Confidential](https://github.com/CMTA/CMTAT-Confidential) — FAQ "Is the total supply public or private information?" and the Total Supply Visibility section, reported as audit finding `OZ-L-01` — which recommends aggregating several supply-changing operations before publishing rather than publishing after each one.
+- **Delta inference across two readings.** An observer who reads the value before and after a period of activity recovers the net amount created or cancelled in between, and where exactly one such operation occurred, that operation's amount is revealed in full. This is documented in [CMTAT-Confidential](https://github.com/CMTA/CMTAT-Confidential), in its FAQ "Is the total supply public or private information?" and its Total Supply Visibility section, and was reported as audit finding `OZ-L-01`. The project recommends aggregating several supply-changing operations before publishing rather than publishing after each one.
 - **Complement inference within a small holder set.** A holder who knows the total supply and their own balance also knows the aggregate held by everyone else. Where there are two holders, that is the other holder's exact balance, and the fewer the holders, the narrower the range for each of them.
 
-The framework SHOULD therefore present readability by holders as the default rather than an absolute requirement, and allow the issuer to restrict it where the confidentiality of individual operations outweighs the holder's interest in knowing the denominator — stating which of the two it has chosen, and how a holder determines a proportional entitlement if the figure is withheld.
+The framework SHOULD therefore present readability by holders as the default rather than an absolute requirement, and allow the issuer to restrict it where the confidentiality of individual operations outweighs the holder's interest in knowing the denominator. The issuer SHOULD then state which of the two it has chosen, and how a holder determines a proportional entitlement if the figure is withheld.
 
 **A restricted frozen status is still observable by anyone who attempts a transfer, and the framework SHOULD say so.** A freeze takes effect by causing the transfer to be rejected, so the rejection is itself the answer:
 
@@ -50,11 +50,11 @@ The framework SHOULD therefore present readability by holders as the default rat
 
 The same section SHOULD also list the third parties who may be entitled to a reading — the auditor of the issuer, the auditor of a token holder, a supervisory authority, a court or an officer appointed by it — since these are the readings an implementation has to provide for and cannot add after the fact. The draft below gives that list as a second table.
 
-It SHOULD also state the consequences for the optional modules, since these are the operations that break first when balances are hidden: how the total supply is audited, how a snapshot and a distribution are computed on confidential balances, and how a validation rule screens participants without revealing the list. Finally it SHOULD require the disclosure path to be documented — which addresses or roles (auditor, regulator, court-appointed third party) can obtain a reading, and by what mechanism.
+It SHOULD also state the consequences for the optional modules, since these are the operations that break first when balances are hidden: how the total supply is audited, how a snapshot and a distribution are computed on confidential balances, and how a validation rule screens participants without revealing the list. Finally it SHOULD require the disclosure path to be documented: which addresses or roles (auditor, regulator, court-appointed third party) can obtain a reading, and by what mechanism.
 
 ## Draft text for the framework
 
-The text below is a draft that could be inserted in the framework as a new sub-section of Section 2, followed by an amendment to the wording of the functionalities that assume a public ledger. It is written in the framework's own register — numbered functionalities, a rationale followed by a list — so that it can be pasted in without rewriting, and its normative keywords use the RFC 2119 and RFC 8174 uppercase forms, as explained in `CMTAT_SUGGESTION`.
+The text below is a draft that could be inserted in the framework as a new sub-section of Section 2, followed by an amendment to the wording of the functionalities that assume a public ledger. It is written in the framework's own register, with numbered functionalities and a rationale followed by a list, so that it can be pasted in without rewriting, and its normative keywords use the RFC 2119 and RFC 8174 uppercase forms, as explained in `CMTAT_SUGGESTION`.
 
 ---
 
@@ -109,7 +109,7 @@ An implementation MAY therefore restrict the reading of that figure, including a
 - **Third parties may learn it as well.** Where the ledger publishes the fact that a transaction was rejected, even without its contents, that counterparty is not the only person who learns it.
 - **What restricting the reading still achieves.** It prevents the status from being enumerated for addresses at large, and prevents a person who attempts no transfer from obtaining it. It does not conceal the status from a counterparty who attempts a transfer.
 
-The same applies to the membership of a whitelist. An implementation MUST state whether a rejection distinguishes its reason, since a rejection that names the freeze discloses more than one that reports only that the transfer is not permitted.
+Membership of a whitelist is disclosed in the same way, since a transfer to or from an address missing from the whitelist is rejected too. An implementation MUST state whether a rejection distinguishes its reason, since a rejection that names the freeze discloses more than one that reports only that the transfer is not permitted.
 
 **The number of decimals.** It is treated differently from the other items, since it is display information: it states how a balance is to be presented, and reveals nothing about any holding, any transfer or the number of tokens in issue.
 

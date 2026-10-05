@@ -7,6 +7,10 @@
 - [How to Use This Document](#how-to-use-this-document)
 - [General Note](#general-note)
 - [Warning](#warning)
+- [Architecture](#architecture)
+  - [Underlying ledger](#underlying-ledger)
+  - [Smart contract layer](#smart-contract-layer)
+  - [Layer of each CMTAT module](#layer-of-each-cmtat-module)
 - [Summary](#summary)
   - [Scope of the count](#scope-of-the-count)
   - [Answer values](#answer-values)
@@ -42,7 +46,7 @@ Two distinct versions MUST be distinguished: the version of **this template**, a
 
 | Version | Value |
 |---|---|
-| Template version — this document, as published by CMTA; pre-filled, MUST NOT be modified by the author of an assessment | `v0.3.0` |
+| Template version — this document, as published by CMTA; pre-filled, MUST NOT be modified by the author of an assessment | `v0.4.0` |
 | Assessment version — the filled document, set by its author |  |
 
 > Every assessment MUST fill this table, so that it records both the template it originates from and its own version. Only the second row is for the author to complete: the template version above is pre-filled and MUST be carried over unchanged, since an assessment is produced by filling a copy of this document and the value above **is** the version it was filled from.
@@ -76,8 +80,9 @@ The *Implementation version* is the version of the token implementation itself, 
 
 ## How to Use This Document
 
-- Fill the document in this order: **CMTAT Function Equivalency Table** first, then **Summary**, then **Conclusion**.
+- Fill the document in this order: **Architecture** first, then **CMTAT Function Equivalency Table**, then **Summary**, then **Conclusion**.
 - Before starting, fill **[Metadata](#metadata)** — what is being assessed — and the assessment version in **[Document Version](#document-version)**, next to the template version the assessment is filled from.
+- Use the **[Architecture](#architecture)** to describe the underlying ledger and, if any, the smart contract layer, so that the answers in the tables can be read in the context of the target blockchain.
 - Use the **CMTAT Function Equivalency Table** as the fillable assessment checklist. Each criterion MUST be answered with `y`, `partial`, or `n` in the *Present in implementation being approved* column (see [Answer values](#answer-values)).
 - Use the **Summary** to give the aggregated compliance result of the implementation being approved with the CMTAT standard.
 - Use the **Conclusion** to describe, in broad terms, how the implementation being approved works and where it differs from CMTAT.
@@ -92,6 +97,95 @@ The *Implementation version* is the version of the token implementation itself, 
 
 An implementation MAY satisfy the CMTAT standard while still failing to meet the criteria required for tokenized shares under Swiss law at the underlying-ledger level. In particular, compliance with CMTAT does not, by itself, demonstrate that decentralization-related legal criteria are satisfied.
 
+## Architecture
+
+> This section MUST be completed **before** the [CMTAT Function Equivalency Table](#cmtat-function-equivalency-table), right after the [Metadata](#metadata). It describes the platform on which the implementation being approved runs, so that a reader can follow the answers given in the tables without prior knowledge of the target blockchain.
+>
+> CMTAT Solidity assumes an EVM ledger: an account-based state, a token implemented as a single smart contract holding every balance, and roles enforced by that contract. On another ledger, a criterion MAY be satisfied by a different layer — a native feature of the ledger, a smart contract, or an off-chain component — and a reader cannot judge an answer without knowing which. This section records that context once, so that the tables do not have to repeat it criterion by criterion.
+>
+> The **underlying ledger** is the main point of this section and MUST always be described. The **smart contract layer** MUST be described when the implementation being approved relies on smart contracts, and MUST otherwise be stated as absent.
+>
+> Each of the two is described twice: first in a general description written as prose, which explains how the layer works as a whole, then in a table, which records the specific aspects the criteria depend on. The description gives the reader the overall picture; the table is the reference to come back to while reading the criteria.
+>
+> An architecture diagram SHOULD be included, showing the ledger, the smart contracts (if any), the external components, and the actors holding the CMTAT roles.
+
+### Underlying ledger
+
+> Describe how the ledger on which the token is issued works, insofar as it affects the CMTAT criteria.
+
+**General description**
+
+> One to three paragraphs, written for a reader who knows CMTAT Solidity but not the target blockchain. They MUST explain how the ledger works as a whole, and SHOULD cover:
+>
+> - who runs the ledger, and how a transaction is submitted, ordered, validated and recorded;
+> - what an account, an address or a holder is on this ledger, and where the state of the ledger is kept;
+> - how a token exists on this ledger: as a native asset, as the state of a smart contract, or as both;
+> - the path of a token transfer, from the holder signing it to its final recording.
+>
+> The description SHOULD point out where the ledger differs most from an EVM ledger, since these are the differences the reader will meet in the criteria.
+
+**Details**
+
+> Each aspect below SHOULD be answered; an aspect that does not apply MUST be stated as such rather than left blank.
+
+| Aspect | What to describe | Implementation being approved |
+|---|---|---|
+| Ledger type and governance | Public or private, permissionless or permissioned; who operates the nodes or validators, and who can change the ledger rules. |  |
+| Consensus and finality | Consensus mechanism, and whether finality is probabilistic or deterministic; time to finality. |  |
+| State model | Account-based, UTXO, eUTXO, object-based or other; where a holder's balance is recorded. |  |
+| Native asset support | Whether the ledger offers a native token or asset primitive (for example SPL Token, Stellar asset, Algorand ASA, Cardano native asset), and whether the token being approved uses it. |  |
+| Native compliance features | Controls enforced by the ledger itself and available to the issuer (for example freeze, clawback, authorization flags, transfer hooks, issuer-controlled accounts). |  |
+| Identity and addresses | How addresses are derived (public key, script hash, contract address), whether accounts must be created or opted in before receiving the token, and multi-signature or account-abstraction support. |  |
+| Transactions and fees | Transaction structure (single call, batched operations, atomicity), who pays the fees, and any limit relevant to the token (size, compute budget, storage rent or deposit). |  |
+| Time source | How time is exposed to the token logic (block timestamp, ledger close time, slot, block height), relevant to the scheduled criteria such as Snapshot and Debt. |  |
+| Data visibility | Whether balances, transfers and token state are public, or confidential to some parties; see also [Privacy and Confidentiality](#privacy-and-confidentiality). |  |
+
+### Smart contract layer
+
+> Describe how the token logic runs on the ledger described above. If the implementation being approved uses no smart contract — for example a native asset configured through ledger operations only — state it here and describe instead how the token is configured and administered.
+
+**General description**
+
+> One to three paragraphs explaining how the smart contracts of the implementation being approved work on that ledger. They SHOULD cover:
+>
+> - how a contract is deployed, called and executed, and how its state is stored;
+> - which contracts make up the token, and the role of each;
+> - how a call made by a holder or by the issuer reaches the token logic, and which checks it goes through before the state changes;
+> - how the contracts use the native features of the ledger, where they rely on them rather than reimplementing them.
+>
+> The description SHOULD compare the design with CMTAT Solidity, where a single contract holds the balances and enforces the roles, and the rule engine and snapshot engine are optional external contracts.
+
+**Details**
+
+| Aspect | What to describe | Implementation being approved |
+|---|---|---|
+| Execution environment | Virtual machine or runtime (for example SVM, Soroban, Move VM, Plutus, DAML/Canton), and the implementation language. |  |
+| Components | The contracts, programs or modules that make up the token, and how they are linked (single contract, composition, cross-contract calls, on-chain registry). |  |
+| Token state location | Where balances, supply, roles and attributes are stored (contract storage, per-holder accounts, native ledger entries). |  |
+| External dependencies | Libraries, standards and external contracts relied upon (for example a rule engine, a snapshot engine, an oracle, a bridge). |  |
+| Deployment and ownership | How the token is deployed, which account controls it after deployment, and how administrative rights are transferred. |  |
+| Upgradeability | Immutable, proxy, native code upgrade, or redeployment with migration; who can upgrade, and under which control. |  |
+
+### Layer of each CMTAT module
+
+> Indicate which layer implements each CMTAT module in the implementation being approved, so that each table below can be read in context. Use `ledger` (native ledger feature), `contract` (smart contract layer), `off-chain` (component outside the ledger), a combination of them, or `none` when the module is not implemented.
+
+| CMTAT module | CMTAT Solidity | Layer (implementation being approved) | Comment |
+|---|---|---|---|
+| Token attributes | `contract` |  |  |
+| Mint and burn | `contract` |  |  |
+| Pause and deactivation | `contract` |  |  |
+| Enforcement (freeze, partial freeze, forced transfer) | `contract` |  |  |
+| Transfer restriction | `contract` — external rule engine |  |  |
+| Access control | `contract` |  |  |
+| Snapshot | `contract` — external snapshot engine |  |  |
+| Dividend | `none` — no CMTAT Solidity module; prototype in [IncomeVault](https://github.com/CMTA/IncomeVault) |  |  |
+| Credit events and debt | `contract` |  |  |
+
+##### Note
+
+> This subsection MAY describe what the tables above do not capture: the reasons for the architectural choices, the trust assumptions placed on the ledger operators or on the issuer, and the points where the architecture of the implementation being approved differs most from CMTAT Solidity.
+
 ## Summary
 
 > This section MUST be completed **after** the [CMTAT Function Equivalency Table](#cmtat-function-equivalency-table). It summarizes the compliance of the implementation being approved with the CMTAT standard.
@@ -105,7 +199,7 @@ The equivalency table contains **61 numbered criteria**:
 | Mandatory | 19 | 1–3, 7–11, 14–21, 29–31 |
 | Optional | 42 | 4–6, 12–13, 22–28, 32–61 |
 
-Each criterion MUST be counted exactly once. The non-numbered tables ([CMTAT Extended](#cmtat-extended), [Implementation Details](#implementation-details), [Cross-Chain Bridge Support](#cross-chain-bridge-support), [Restriction](#restriction-optional), [Privacy and Confidentiality](#privacy-and-confidentiality)) are **not** part of this count; they SHOULD be commented in the [Conclusion](#conclusion) instead.
+Each criterion MUST be counted exactly once. The tables of the [Architecture](#architecture) section describe the platform and are not criteria. The non-numbered tables ([CMTAT Extended](#cmtat-extended), [Implementation Details](#implementation-details), [Cross-Chain Bridge Support](#cross-chain-bridge-support), [Restriction](#restriction-optional), [Privacy and Confidentiality](#privacy-and-confidentiality)) are **not** part of this count; they SHOULD be commented in the [Conclusion](#conclusion) instead.
 
 ### Answer values
 
@@ -570,8 +664,7 @@ An implementation that does **not** provide dedicated cross-chain entry points, 
 
 > This section MUST describe, in broad terms, **how the implementation being approved works technically**, so that a reader who has not gone through the tables can understand the design and its main differences with the CMTAT specification. It SHOULD cover at least the following points:
 >
-> - **Token model**: the underlying token primitive of the target blockchain (for example ERC-20, SPL token, Soroban token interface, UTXO-based asset), and how balances, total supply, and decimals are represented.
-> - **Architecture**: single contract or several modules/programs, how they are linked (inheritance, composition, external calls, on-chain registry), and the upgradeability strategy (proxy, native chain upgrade, immutable with redeployment).
+> - **Token model and architecture**: a short recap of the [Architecture](#architecture) section — the token primitive used, how balances, total supply and decimals are represented, and how the components are linked — without repeating it in full.
 > - **Access control model**: which roles exist, who holds the administrator role, how roles are granted and revoked, and how these roles map to the CMTAT roles.
 > - **Transfer control flow**: which checks are applied on a transfer (pause, freeze, partial freeze, allowlist, rule engine or transfer hook), in which order, and where this logic lives (inside the token, in an external module, or in the chain runtime).
 > - **Issuance and cancellation**: the mint and burn paths, forced transfer and forced burn, and the behaviour on a frozen address or while the contract is paused.
