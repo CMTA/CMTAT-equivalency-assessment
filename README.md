@@ -46,7 +46,7 @@ Two distinct versions MUST be distinguished: the version of **this template**, a
 
 | Version | Value |
 |---|---|
-| Template version — this document, as published by CMTA; pre-filled, MUST NOT be modified by the author of an assessment | `v0.3.0` |
+| Template version — this document, as published by CMTA; pre-filled, MUST NOT be modified by the author of an assessment | `v0.4.0` |
 | Assessment version — the filled document, set by its author |  |
 
 > Every assessment MUST fill this table, so that it records both the template it originates from and its own version. Only the second row is for the author to complete: the template version above is pre-filled and MUST be carried over unchanged, since an assessment is produced by filling a copy of this document and the value above **is** the version it was filled from.

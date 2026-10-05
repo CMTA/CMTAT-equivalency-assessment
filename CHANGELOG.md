@@ -39,10 +39,13 @@ Custom changelog tag: `Dependencies`, `Documentation`, `Testing`
   - The gap list gains a matching bullet.
 - The cross-chain suggestion goes from thirteen mid-sentence dashes to four: the others were rewritten as commas, colons or separate sentences, and the four kept are spread across the document, never in consecutive sentences. The meaning is unchanged.
 - The privacy suggestion (`doc/CMTAT_Suggestion/CMTAT_SUGGESTION_PRIVACY.md`) goes from ten mid-sentence dashes to three, and three sentences that announced a point without stating it were rewritten, including "the same applies to the membership of a whitelist", which now says that a rejected transfer discloses a missing whitelist entry the same way it discloses a freeze. The meaning is unchanged.
+- Template version bumped from `0.3.0` to `0.4.0`; it stays a draft, since it is below `1.0`. The criteria and their IDs are unchanged, so an assessment filled against `0.3.0` keeps its answers, but it SHOULD add the new `Architecture` section.
 - The documented fill order now starts with `Architecture`, and `How to Use This Document` points to it.
 - The `Conclusion` no longer asks for a full description of the token model and architecture, only a short recap of the `Architecture` section.
 
 ## [0.3.0] - 2026-09-07
+
+Commit: `e2ddb6ee05354311fcf2c00f421f5a4f0fb94944`
 
 ### Summary
 
